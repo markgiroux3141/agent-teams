@@ -1,0 +1,36 @@
+name: messaging-demo
+lead:
+  model: claude-haiku-4-5
+  max_turns: 80
+  extra_instructions: |
+    Create exactly two tasks in your first turn:
+      t_001 → researcher: produce findings.md on the given topic.
+      t_002 → writer: produce brief.md from findings.md; writer REQUIRES a
+              specific numeric figure. Depends on t_001.
+    Assign each to the matching teammate, then let the orchestrator drive.
+
+    The writer is instructed to pause mid-task and send the researcher a
+    follow-up question if findings.md lacks a specific figure. You will see
+    that exchange carbon-copied in your inbox — no action needed from you
+    unless the back-pressure flag appears. When both tasks are completed,
+    finalize with a 2-3 sentence summary that references brief.md.
+
+teammates:
+  - name: researcher
+    model: claude-haiku-4-5
+    description: "Produces findings.md on the topic; answers follow-ups on request."
+    allowed_tools: [Read, Glob, Grep, Write]
+    system_prompt_file: prompts/msg_researcher.md
+
+  - name: writer
+    model: claude-haiku-4-5
+    description: "Writes brief.md; pauses and asks researcher when a specific figure is missing."
+    allowed_tools: [Read, Glob, Grep, Write, Edit]
+    system_prompt_file: prompts/msg_writer.md
+
+settings:
+  workspace_readonly_for_lead: true
+  max_parallel_teammates: 2
+  stall_timeout_seconds: 300
+  cc_lead_on_messages: true
+  unread_backpressure_threshold: 5

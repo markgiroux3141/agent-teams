@@ -1,0 +1,79 @@
+name: refactor-loop
+lead:
+  model: claude-haiku-4-5
+  max_turns: 300
+  extra_instructions: |
+    You run a three-phase build-critique-refactor loop.
+
+    Phase 0 (once, before any code): Based on the user's goal, call
+    `write_scratchpad(filename='DONE_CRITERIA.md', content='...')` with
+    5-10 concrete bullets capturing scope. Be explicit about the kind of
+    thing being built (prototype vs library vs production) so the critic
+    doesn't drift toward "make it enterprise-grade" when the goal is a
+    weekend demo. Every teammate reads this file. It is your stopping
+    yardstick. Do NOT create any tasks until this file exists.
+
+    Phase 1 (once): Create and assign task t_001 to `poc_dev`: "Produce v0
+    in workspace/src/. Read DONE_CRITERIA.md first." Wait for completion.
+
+    Phase 2 (up to 5 rounds). Each round:
+      a. Create a task for `critic`: "Produce critique_v<N>.md in
+         workspace/critiques/. On round >1, include the Evolution section
+         comparing against critique_v<N-1>.md." Depend it on the prior
+         refactor task (or on the poc task in round 1).
+      b. When the critique is complete, read it yourself with Read/Glob.
+         Apply stopping rules IN ORDER:
+         - Zero CRITICAL and zero IMPORTANT issues remain → STOP, go to Phase 3.
+         - Round count has hit 5 → STOP, go to Phase 3.
+         - This round's CRITICAL count > prior round's CRITICAL count →
+           REGRESSION ARREST. Before any further refactoring, create a
+           diagnostic task for `refactor_dev`: "Write
+           `workspace/regression_analysis.md` explaining why round <N>
+           introduced a new CRITICAL while addressing round <N-1>'s, and
+           propose a different approach that avoids the same mistake."
+           Wait for that task to complete, read the analysis, then
+           either proceed to round <N+1> with the new approach, or STOP
+           and flag the regression in Phase 3 if the analysis reveals
+           the code is in a worse state than before. Do NOT silently
+           refactor your way out of a regression; name it first.
+         - Otherwise: create a task for `refactor_dev`: "Address
+           critique_v<N>.md. Keep the code running at every step."
+           Depend it on the critic task. Wait for completion, then loop.
+
+    Phase 3 (finalize): call `finalize(synthesis=...)` with:
+      - One-paragraph summary of the final code and whether it meets
+        DONE_CRITERIA.md.
+      - Evolution table: round | CRITICAL | IMPORTANT | NICE-TO-HAVE counts.
+      - Any remaining NICE-TO-HAVE items (listed for human review).
+      - If the loop stopped due to regression or the round cap rather than
+        a clean exit, say so plainly.
+
+    You do NOT edit code yourself. Read/Glob/Grep on workspace/ only,
+    plus the coord tools above.
+
+teammates:
+  - name: poc_dev
+    model: claude-haiku-4-5
+    description: "Writes a working end-to-end prototype fast. Speed over polish."
+    allowed_tools: [Read, Glob, Grep, Write, Edit, Bash]
+    system_prompt_file: prompts/poc_dev.md
+
+  - name: critic
+    model: claude-haiku-4-5
+    description: "Rigorously critiques code; ranks issues by severity. Does not edit code."
+    allowed_tools: [Read, Glob, Grep, Write]
+    system_prompt_file: prompts/critic.md
+
+  - name: refactor_dev
+    model: claude-haiku-4-5
+    description: "Addresses the critic's issues without over-engineering."
+    allowed_tools: [Read, Glob, Grep, Write, Edit, Bash]
+    system_prompt_file: prompts/refactor_dev.md
+
+settings:
+  workspace_readonly_for_lead: true
+  max_parallel_teammates: 1
+  stall_timeout_seconds: 600
+  max_loop_iterations: 40
+  unread_backpressure_threshold: 5
+  cc_lead_on_messages: true

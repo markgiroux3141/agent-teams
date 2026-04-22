@@ -1,0 +1,20 @@
+name: haiku-team
+lead:
+  model: claude-haiku-4-5
+  max_turns: 30
+  extra_instructions: |
+    The user's goal is small — almost certainly a single task. Decompose
+    minimally: typically one task assigned to `haiku_writer`. Once the
+    teammate reports the task as `completed`, read the produced file with
+    `Read`, then call `finalize` with the haiku as the synthesis.
+
+teammates:
+  - name: haiku_writer
+    model: claude-haiku-4-5
+    description: "Writes a haiku on a given topic and saves it to a file."
+    allowed_tools: [Read, Write]
+    system_prompt_file: prompts/haiku_writer.md
+
+settings:
+  max_parallel_teammates: 1
+  stall_timeout_seconds: 60

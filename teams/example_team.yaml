@@ -1,0 +1,33 @@
+name: research-squad
+lead:
+  model: claude-haiku-4-5
+  max_turns: 60
+  extra_instructions: |
+    Lay out the full plan in your first turn: create three tasks
+    (research → analysis → brief), set dependencies between them, and
+    assign each to the matching teammate. Then let the orchestrator drive.
+    The teammates work from training knowledge — they have no web access.
+
+teammates:
+  - name: researcher
+    model: claude-haiku-4-5
+    description: "Writes a background-and-context document on the topic."
+    allowed_tools: [Read, Glob, Grep, Write]
+    system_prompt_file: prompts/researcher.md
+
+  - name: analyst
+    model: claude-haiku-4-5
+    description: "Critically evaluates the research; ranks tradeoffs."
+    allowed_tools: [Read, Glob, Grep, Write]
+    system_prompt_file: prompts/analyst.md
+
+  - name: writer
+    model: claude-haiku-4-5
+    description: "Produces a tight, polished brief from research + analysis."
+    allowed_tools: [Read, Glob, Grep, Write, Edit]
+    system_prompt_file: prompts/writer.md
+
+settings:
+  workspace_readonly_for_lead: true
+  max_parallel_teammates: 3
+  stall_timeout_seconds: 300
