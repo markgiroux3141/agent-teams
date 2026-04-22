@@ -1,8 +1,13 @@
 # Secrets
 .env
 
-# Generated run artifacts (traces, workspace output, reports)
-runs/
+# Generated run artifacts (traces, workspace output, reports) — ignore
+# each entry under runs/ by default, then whitelist specific showcase
+# runs we want committed. (Using runs/* instead of runs/ because git
+# won't recurse into a fully-ignored directory to apply negations.)
+runs/*
+!runs/20260422_154916/
+!runs/20260422_160700_inlined/
 
 # Python
 __pycache__/

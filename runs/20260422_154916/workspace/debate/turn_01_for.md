@@ -1,0 +1,3 @@
+# Turn 01 — FOR
+
+Every regulation kills speed. Every bureaucratic review is a competitor moving ahead. You want the smartest humans solving AGI, not paperwork departments. ASI solves aging, disease, energy scarcity—existential wins nobody gets *if we're too slow*. Regulatory bodies move in decades; frontier labs move in quarters. You're betting humanity's future on committees that can't even agree on definitions. The market already incentivizes safety: a company's AI going rogue is a *business disaster*. Fear of regulation doesn't create better safety—it creates legal teams writing disclaimers. Zero friction. Maximum speed. That's how you win the race to the technology that changes everything.

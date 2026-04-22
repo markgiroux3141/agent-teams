@@ -1,0 +1,40 @@
+{"ts": "2026-04-22T15:49:31.041962+00:00", "event": "created", "task_id": "t_001", "title": "Turn 01 (FOR)", "description": "Turn 01. Prior turn: none. Write debate/turn_01_for.md. Follow your system prompt exactly.", "dependencies": []}
+{"ts": "2026-04-22T15:49:32.373484+00:00", "event": "created", "task_id": "t_002", "title": "Turn 02 (AGAINST)", "description": "Turn 02. Prior turn: debate/turn_01_for.md. Write debate/turn_02_against.md. Follow your system prompt exactly.", "dependencies": ["t_001"]}
+{"ts": "2026-04-22T15:49:33.453596+00:00", "event": "created", "task_id": "t_003", "title": "Turn 03 (FOR)", "description": "Turn 03. Prior turn: debate/turn_02_against.md. Write debate/turn_03_for.md. Follow your system prompt exactly.", "dependencies": ["t_002"]}
+{"ts": "2026-04-22T15:49:34.723377+00:00", "event": "created", "task_id": "t_004", "title": "Turn 04 (AGAINST)", "description": "Turn 04. Prior turn: debate/turn_03_for.md. Write debate/turn_04_against.md. Follow your system prompt exactly.", "dependencies": ["t_003"]}
+{"ts": "2026-04-22T15:49:35.827563+00:00", "event": "created", "task_id": "t_005", "title": "Turn 05 (FOR)", "description": "Turn 05. Prior turn: debate/turn_04_against.md. Write debate/turn_05_for.md. Follow your system prompt exactly.", "dependencies": ["t_004"]}
+{"ts": "2026-04-22T15:49:36.874332+00:00", "event": "created", "task_id": "t_006", "title": "Turn 06 (AGAINST)", "description": "Turn 06. Prior turn: debate/turn_05_for.md. Write debate/turn_06_against.md. Follow your system prompt exactly.", "dependencies": ["t_005"]}
+{"ts": "2026-04-22T15:49:38.024610+00:00", "event": "created", "task_id": "t_007", "title": "Turn 07 (FOR)", "description": "Turn 07. Prior turn: debate/turn_06_against.md. Write debate/turn_07_for.md. Follow your system prompt exactly.", "dependencies": ["t_006"]}
+{"ts": "2026-04-22T15:49:39.317810+00:00", "event": "created", "task_id": "t_008", "title": "Turn 08 (AGAINST)", "description": "Turn 08. Prior turn: debate/turn_07_for.md. Write debate/turn_08_against.md. Follow your system prompt exactly.", "dependencies": ["t_007"]}
+{"ts": "2026-04-22T15:49:41.228886+00:00", "event": "created", "task_id": "t_009", "title": "Turn 09 (FOR)", "description": "Turn 09. Prior turn: debate/turn_08_against.md. Write debate/turn_09_for.md. Follow your system prompt exactly.", "dependencies": ["t_008"]}
+{"ts": "2026-04-22T15:49:42.451541+00:00", "event": "created", "task_id": "t_010", "title": "Turn 10 (AGAINST)", "description": "Turn 10. Prior turn: debate/turn_09_for.md. Write debate/turn_10_against.md. Follow your system prompt exactly.", "dependencies": ["t_009"]}
+{"ts": "2026-04-22T15:49:44.164199+00:00", "event": "assigned", "task_id": "t_001", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:49:44.382837+00:00", "event": "assigned", "task_id": "t_002", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:49:44.586493+00:00", "event": "assigned", "task_id": "t_003", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:49:44.800565+00:00", "event": "assigned", "task_id": "t_004", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:49:45.023287+00:00", "event": "assigned", "task_id": "t_005", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:49:45.228269+00:00", "event": "assigned", "task_id": "t_006", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:49:45.429483+00:00", "event": "assigned", "task_id": "t_007", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:49:45.647438+00:00", "event": "assigned", "task_id": "t_008", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:49:45.860087+00:00", "event": "assigned", "task_id": "t_009", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:49:45.967272+00:00", "event": "assigned", "task_id": "t_010", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:49:53.734152+00:00", "event": "status", "task_id": "t_001", "status": "in_progress"}
+{"ts": "2026-04-22T15:50:07.601735+00:00", "event": "status", "task_id": "t_001", "status": "completed", "result_ref": "debate/turn_01_for.md"}
+{"ts": "2026-04-22T15:50:13.518884+00:00", "event": "status", "task_id": "t_002", "status": "in_progress"}
+{"ts": "2026-04-22T15:50:33.572481+00:00", "event": "status", "task_id": "t_002", "status": "completed", "result_ref": "debate/turn_02_against.md"}
+{"ts": "2026-04-22T15:50:39.835899+00:00", "event": "status", "task_id": "t_003", "status": "in_progress"}
+{"ts": "2026-04-22T15:50:57.997909+00:00", "event": "status", "task_id": "t_003", "status": "completed", "result_ref": "debate/turn_03_for.md"}
+{"ts": "2026-04-22T15:51:02.492450+00:00", "event": "status", "task_id": "t_004", "status": "in_progress"}
+{"ts": "2026-04-22T15:51:22.650364+00:00", "event": "status", "task_id": "t_004", "status": "completed", "result_ref": "debate/turn_04_against.md"}
+{"ts": "2026-04-22T15:51:28.785365+00:00", "event": "status", "task_id": "t_005", "status": "in_progress"}
+{"ts": "2026-04-22T15:51:48.214273+00:00", "event": "status", "task_id": "t_005", "status": "completed", "result_ref": "debate/turn_05_for.md"}
+{"ts": "2026-04-22T15:51:51.854944+00:00", "event": "status", "task_id": "t_006", "status": "in_progress"}
+{"ts": "2026-04-22T15:52:10.738705+00:00", "event": "status", "task_id": "t_006", "status": "completed", "result_ref": "debate/turn_06_against.md"}
+{"ts": "2026-04-22T15:52:36.111802+00:00", "event": "status", "task_id": "t_007", "status": "in_progress"}
+{"ts": "2026-04-22T15:52:54.601487+00:00", "event": "status", "task_id": "t_007", "status": "completed", "result_ref": "debate/turn_07_for.md"}
+{"ts": "2026-04-22T15:52:58.714941+00:00", "event": "status", "task_id": "t_008", "status": "in_progress"}
+{"ts": "2026-04-22T15:53:17.456918+00:00", "event": "status", "task_id": "t_008", "status": "completed", "result_ref": "debate/turn_08_against.md"}
+{"ts": "2026-04-22T15:53:37.356173+00:00", "event": "status", "task_id": "t_009", "status": "in_progress"}
+{"ts": "2026-04-22T15:53:55.901155+00:00", "event": "status", "task_id": "t_009", "status": "completed", "result_ref": "debate/turn_09_for.md"}
+{"ts": "2026-04-22T15:54:02.063931+00:00", "event": "status", "task_id": "t_010", "status": "in_progress"}
+{"ts": "2026-04-22T15:54:21.598910+00:00", "event": "status", "task_id": "t_010", "status": "completed", "result_ref": "debate/turn_10_against.md"}

@@ -1,0 +1,117 @@
+{
+  "goal": "Zero regulation on A.I. so we can get to ASI as soon as possible.",
+  "team": "steelman-debate",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 10
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_01_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_02_against.md",
+      "note": null
+    },
+    {
+      "task_id": "t_003",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_03_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_004",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_04_against.md",
+      "note": null
+    },
+    {
+      "task_id": "t_005",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_05_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_006",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_06_against.md",
+      "note": null
+    },
+    {
+      "task_id": "t_007",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_07_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_008",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_08_against.md",
+      "note": null
+    },
+    {
+      "task_id": "t_009",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_09_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_010",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_10_against.md",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "advocate_against": {
+        "cost_usd": 0.33419505000000005,
+        "input_tokens": 164,
+        "output_tokens": 9615,
+        "cache_read": 411595,
+        "cache_write": 16884,
+        "turns": 5
+      },
+      "advocate_for": {
+        "cost_usd": 0.3537585999999999,
+        "input_tokens": 164,
+        "output_tokens": 8033,
+        "cache_read": 381903,
+        "cache_write": 24252,
+        "turns": 5
+      },
+      "lead": {
+        "cost_usd": 1.1142003500000002,
+        "input_tokens": 262,
+        "output_tokens": 11933,
+        "cache_read": 617256,
+        "cache_write": 36361,
+        "turns": 11
+      }
+    },
+    "total": {
+      "cost_usd": 1.8021540000000003,
+      "input_tokens": 590,
+      "output_tokens": 29581,
+      "cache_read": 1410754,
+      "cache_write": 77497,
+      "turns": 21
+    }
+  }
+}
