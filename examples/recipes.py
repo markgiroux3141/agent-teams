@@ -57,7 +57,10 @@ def seed_workspace(scenario: Path, workspace: Path) -> list[str]:
     workspace.mkdir(parents=True, exist_ok=True)
     (workspace / "briefs").mkdir(parents=True, exist_ok=True)
     (workspace / "proposals").mkdir(parents=True, exist_ok=True)
-    (workspace / "data").mkdir(parents=True, exist_ok=True)
+    # All runtime website files (HTML/CSS/JS/data) live under src/ so
+    # they're separate from planning docs (SPEC, proposals, briefs,
+    # OUTPUT) at the workspace root.
+    (workspace / "src").mkdir(parents=True, exist_ok=True)
 
     copied: list[str] = []
     shutil.copy(context_src, workspace / "project_context.md")
@@ -124,7 +127,8 @@ async def main() -> int:
         print(f"\nSPEC.md ({spec.stat().st_size} bytes) OK")
 
     print("\nWorkspace artifacts:")
-    for folder in ("proposals", "data", "."):
+    # Planning artifacts at workspace root + proposals/
+    for folder in (".", "proposals"):
         d = workspace if folder == "." else workspace / folder
         if not d.exists():
             continue
@@ -132,6 +136,14 @@ async def main() -> int:
         for p in sorted(d.iterdir()):
             if p.is_file() and p.name not in ("project_context.md",):
                 print(f"  - {prefix}{p.name}  ({p.stat().st_size} bytes)")
+    # Runtime website files under src/
+    src_dir = workspace / "src"
+    if src_dir.exists():
+        print("  src/ (runtime website):")
+        for p in sorted(src_dir.rglob("*")):
+            if p.is_file():
+                rel = p.relative_to(src_dir)
+                print(f"    - {rel}  ({p.stat().st_size} bytes)")
 
     print(f"\nCost summary:\n{format_cost_summary(run_dir)}")
     print(f"\nTrace: {run_dir / 'trace.jsonl'}")
@@ -139,11 +151,16 @@ async def main() -> int:
     print(f"Summary: {run_dir / 'run_summary.json'}")
     print(f"Report:  {run_dir / 'report.html'}  (+ report.md, sequence.md, playback.html, stage.html)")
 
-    index_html = workspace / "index.html"
-    if index_html.exists():
-        print(f"\n→ To view the site: open {index_html}")
+    src_dir = workspace / "src"
+    spec = workspace / "SPEC.md"
+    if src_dir.exists() and any(src_dir.iterdir()):
+        print(f"\n→ Produced source files are in: {src_dir}")
+        if spec.exists():
+            print(f"→ See SPEC.md for the chosen stack and how to run it: {spec}")
+        print(f"→ Lead's build report (OUTPUT.md) summarizes what was built and how to use it.")
     else:
-        print(f"\n(index.html was not produced — inspect SPEC.md and findings for the gap)")
+        print(f"\n(No source files produced under src/ — inspect SPEC.md and the build-task"
+              f" notes for why.)")
     return 0
 
 

@@ -1,0 +1,263 @@
+[
+  {
+    "id": "recipe-001",
+    "name": "Fluffy Pancakes",
+    "category": "breakfast",
+    "time": 20,
+    "servings": 2,
+    "description": "Light, tender pancakes that cook up golden in minutes. Perfect with fresh berries or maple syrup.",
+    "ingredients": [
+      "1 1/2 cups all-purpose flour",
+      "2 tbsp sugar",
+      "2 tsp baking powder",
+      "1/2 tsp salt",
+      "1 1/4 cups milk",
+      "1 egg",
+      "2 tbsp melted butter"
+    ],
+    "steps": [
+      "Mix flour, sugar, baking powder, and salt in a large bowl.",
+      "Whisk together milk, egg, and melted butter in a separate bowl.",
+      "Pour wet ingredients into dry ingredients and stir until just combined—lumps are okay.",
+      "Heat a non-stick skillet or griddle over medium heat and lightly butter it.",
+      "Pour 1/4 cup batter per pancake onto the hot skillet.",
+      "Cook for 2–3 minutes until the edges look set and bubbles form on top.",
+      "Flip carefully and cook another 1–2 minutes until the bottom is golden.",
+      "Transfer to a plate and repeat with remaining batter."
+    ],
+    "difficulty": "easy",
+    "tags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-002",
+    "name": "Shakshuka",
+    "category": "breakfast",
+    "time": 25,
+    "servings": 4,
+    "description": "Eggs poached in a spiced tomato sauce with peppers and onions. Serve with crusty bread for dipping.",
+    "ingredients": [
+      "3 tbsp olive oil",
+      "1 large onion, diced",
+      "2 bell peppers, diced",
+      "4 garlic cloves, minced",
+      "1 can crushed tomatoes (14 oz)",
+      "1 tsp cumin",
+      "1/2 tsp paprika",
+      "1/4 tsp cayenne pepper",
+      "Salt and pepper to taste",
+      "6 eggs",
+      "Fresh parsley for garnish"
+    ],
+    "steps": [
+      "Heat olive oil in a large skillet over medium heat.",
+      "Add diced onion and bell peppers; cook until softened, about 5 minutes.",
+      "Stir in minced garlic and cook for 1 minute until fragrant.",
+      "Add crushed tomatoes, cumin, paprika, and cayenne; stir well.",
+      "Simmer for 8–10 minutes, stirring occasionally, until the sauce thickens slightly.",
+      "Season with salt and pepper to taste.",
+      "Make 6 small wells in the sauce and crack an egg into each well.",
+      "Cover the skillet and cook for 5–7 minutes until the eggs reach your preferred doneness.",
+      "Garnish with fresh parsley and serve directly from the skillet."
+    ],
+    "difficulty": "moderate",
+    "tags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-003",
+    "name": "Granola with Yogurt",
+    "category": "breakfast",
+    "time": 35,
+    "servings": 6,
+    "description": "Crunchy clusters of oats and nuts with warm honey and vanilla. Layer with yogurt and fresh fruit.",
+    "ingredients": [
+      "3 cups old-fashioned oats",
+      "1/2 cup sliced almonds",
+      "1/2 cup raw walnuts, chopped",
+      "1/3 cup raw sunflower seeds",
+      "1/3 cup honey",
+      "1/4 cup coconut oil, melted",
+      "2 tsp vanilla extract",
+      "1 tsp ground cinnamon",
+      "1/4 tsp salt",
+      "1/2 cup dried cranberries"
+    ],
+    "steps": [
+      "Preheat oven to 325°F.",
+      "In a large bowl, combine oats, almonds, walnuts, and sunflower seeds.",
+      "In a small bowl, whisk together honey, coconut oil, vanilla, cinnamon, and salt.",
+      "Pour the honey mixture over the oat mixture and stir until all oats are coated.",
+      "Spread the mixture evenly on two baking sheets.",
+      "Bake for 25–30 minutes, stirring every 8–10 minutes, until golden and fragrant.",
+      "Remove from oven and let cool completely on the baking sheets—it will crisp up as it cools.",
+      "Stir in dried cranberries once cooled.",
+      "Store in an airtight container and serve with yogurt and fresh fruit."
+    ],
+    "difficulty": "easy",
+    "tags": ["vegetarian", "vegan"]
+  },
+  {
+    "id": "recipe-004",
+    "name": "Tomato Soup",
+    "category": "main",
+    "time": 30,
+    "servings": 4,
+    "description": "Silky tomato soup with fresh basil and a touch of cream. Pair with a grilled cheese sandwich.",
+    "ingredients": [
+      "2 tbsp butter",
+      "1 large onion, diced",
+      "3 garlic cloves, minced",
+      "2 cans diced tomatoes (14 oz each)",
+      "1 cup vegetable broth",
+      "1/2 cup heavy cream",
+      "2 tbsp tomato paste",
+      "1 tsp sugar",
+      "Salt and pepper to taste",
+      "Fresh basil for garnish"
+    ],
+    "steps": [
+      "Melt butter in a large pot over medium heat.",
+      "Add diced onion and cook until softened, about 5 minutes.",
+      "Stir in minced garlic and tomato paste; cook for 1 minute.",
+      "Add canned tomatoes (with juice) and vegetable broth.",
+      "Bring to a simmer and cook for 15 minutes, stirring occasionally.",
+      "Carefully blend the soup until smooth using an immersion blender or regular blender (work in batches if using a regular blender).",
+      "Stir in heavy cream and sugar.",
+      "Season with salt and pepper to taste.",
+      "Ladle into bowls and garnish with fresh basil before serving."
+    ],
+    "difficulty": "easy",
+    "tags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-005",
+    "name": "Thai Green Curry",
+    "category": "main",
+    "time": 35,
+    "servings": 4,
+    "description": "Aromatic green curry with tender chicken and vibrant vegetables. Rich coconut broth balanced with a hint of lime.",
+    "ingredients": [
+      "2 tbsp coconut oil",
+      "3 tbsp green curry paste",
+      "1 lb chicken breast, cut into bite-sized pieces",
+      "1 can coconut milk (14 oz)",
+      "1 cup chicken broth",
+      "2 cups bell peppers, diced",
+      "1 medium zucchini, sliced",
+      "1/2 cup bamboo shoots or snap peas",
+      "3 tbsp fish sauce",
+      "2 tbsp lime juice",
+      "1 tsp sugar",
+      "Fresh basil and lime wedges for serving"
+    ],
+    "steps": [
+      "Heat coconut oil in a large pot or wok over medium-high heat.",
+      "Add green curry paste and cook for 1–2 minutes, stirring constantly, until fragrant.",
+      "Add chicken pieces and cook for 3–4 minutes until just starting to brown.",
+      "Pour in coconut milk and chicken broth; stir well.",
+      "Bring to a simmer and add bell peppers, zucchini, and bamboo shoots.",
+      "Simmer for 15–20 minutes until chicken is cooked through and vegetables are tender.",
+      "Stir in fish sauce, lime juice, and sugar.",
+      "Taste and adjust seasoning as needed.",
+      "Serve over rice, garnished with fresh basil and lime wedges."
+    ],
+    "difficulty": "moderate",
+    "tags": []
+  },
+  {
+    "id": "recipe-006",
+    "name": "Baked Salmon",
+    "category": "main",
+    "time": 25,
+    "servings": 4,
+    "description": "Flaky salmon fillets roasted with olive oil and lemon. Served alongside bright roasted vegetables for a complete meal.",
+    "ingredients": [
+      "4 salmon fillets (6 oz each)",
+      "4 tbsp olive oil",
+      "2 lemons, sliced",
+      "4 garlic cloves, minced",
+      "1 lb mixed vegetables (carrots, Brussels sprouts, asparagus), cut into bite-sized pieces",
+      "1 tsp dried thyme",
+      "1 tsp dried oregano",
+      "Salt and pepper to taste",
+      "Fresh dill for garnish"
+    ],
+    "steps": [
+      "Preheat oven to 400°F.",
+      "Place salmon fillets on a lined baking sheet, skin-side down.",
+      "Drizzle salmon with 2 tbsp olive oil and season with salt, pepper, thyme, and oregano.",
+      "Top each fillet with sliced lemon and minced garlic.",
+      "On the same baking sheet (around the salmon), toss vegetables with remaining 2 tbsp olive oil and season with salt and pepper.",
+      "Roast for 15–18 minutes until salmon is opaque and flakes easily with a fork, and vegetables are tender.",
+      "Serve garnished with fresh dill and lemon wedges."
+    ],
+    "difficulty": "easy",
+    "tags": ["gluten-free"]
+  },
+  {
+    "id": "recipe-007",
+    "name": "Chocolate Chip Cookies",
+    "category": "dessert",
+    "time": 30,
+    "servings": 24,
+    "description": "Chewy centers with crispy edges and melted chocolate chips. A timeless favorite that never disappoints.",
+    "ingredients": [
+      "2 1/4 cups all-purpose flour",
+      "1 tsp baking soda",
+      "1 tsp salt",
+      "1 cup butter, softened",
+      "3/4 cup sugar",
+      "3/4 cup brown sugar, packed",
+      "2 eggs",
+      "2 tsp vanilla extract",
+      "2 cups chocolate chips"
+    ],
+    "steps": [
+      "Preheat oven to 375°F.",
+      "In a small bowl, whisk together flour, baking soda, and salt.",
+      "In a large bowl, cream together softened butter, sugar, and brown sugar until light and fluffy, about 2–3 minutes.",
+      "Beat in eggs one at a time, then add vanilla extract.",
+      "Gradually stir the flour mixture into the butter mixture until just combined.",
+      "Fold in chocolate chips.",
+      "Drop rounded tablespoons of dough onto ungreased baking sheets, spacing them about 2 inches apart.",
+      "Bake for 9–12 minutes until golden brown around the edges but still soft in the center.",
+      "Let cool on the baking sheet for 2 minutes, then transfer to a wire rack."
+    ],
+    "difficulty": "easy",
+    "tags": ["vegetarian"]
+  },
+  {
+    "id": "recipe-008",
+    "name": "Lemon Bars",
+    "category": "dessert",
+    "time": 45,
+    "servings": 16,
+    "description": "Tangy lemon curd layered on a buttery shortbread crust. Dusted with powdered sugar for a bright finish.",
+    "ingredients": [
+      "1 1/2 cups all-purpose flour",
+      "1/3 cup powdered sugar",
+      "1/2 cup cold butter, cubed",
+      "3 eggs",
+      "1 1/2 cups sugar",
+      "3 tbsp all-purpose flour",
+      "1/4 tsp baking powder",
+      "1/4 cup fresh lemon juice",
+      "2 tbsp lemon zest",
+      "Powdered sugar for dusting"
+    ],
+    "steps": [
+      "Preheat oven to 350°F.",
+      "For the crust: In a bowl, combine 1 1/2 cups flour and 1/3 cup powdered sugar.",
+      "Cut in cold butter until the mixture resembles coarse crumbs.",
+      "Press the mixture firmly into an 8x8-inch baking pan.",
+      "Bake the crust for 12–15 minutes until light golden.",
+      "For the topping: In a bowl, whisk together eggs and sugar until well combined.",
+      "Stir in 3 tbsp flour, baking powder, lemon juice, and lemon zest.",
+      "Pour the lemon mixture over the warm crust.",
+      "Bake for 18–20 minutes until the filling is set but still slightly jiggly in the center.",
+      "Cool completely in the pan, then dust generously with powdered sugar.",
+      "Cut into 16 squares and serve."
+    ],
+    "difficulty": "moderate",
+    "tags": ["vegetarian"]
+  }
+]

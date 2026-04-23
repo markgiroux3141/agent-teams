@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Playback — 20260423_054538</title>
+<style>
+  :root {
+    --bg: #f8fafc; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0;
+    --accent: #2563eb; --ok: #16a34a; --warn: #f97316; --err: #dc2626;
+    --lane: #cbd5e1; --bubble: #ffffff; --note: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+         color: var(--fg); background: var(--bg); margin: 0; }
+  .wrap { max-width: 1500px; margin: 16px auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  header h1 { font-size: 20px; margin: 0 0 4px; }
+  header .meta { color: var(--muted); font-size: 13px; }
+  header .meta code { background: #fff; padding: 1px 6px; border-radius: 3px;
+                      border: 1px solid var(--line); }
+  .controls { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+              background: #fff; border: 1px solid var(--line); border-radius: 6px;
+              margin: 12px 0; position: sticky; top: 8px; z-index: 10;
+              box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+  .controls button { font: 14px/1 system-ui; padding: 6px 10px; cursor: pointer;
+                     background: #fff; border: 1px solid var(--line); border-radius: 4px;
+                     min-width: 36px; }
+  .controls button:hover { background: #f1f5f9; }
+  .controls button.primary { background: var(--accent); color: white;
+                             border-color: var(--accent); }
+  .controls button.primary:hover { background: #1d4ed8; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .controls .group { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                     font-size: 12px; }
+  .controls select { font: 13px system-ui; padding: 4px 6px; border: 1px solid var(--line);
+                     border-radius: 4px; background: #fff; }
+  .controls .scrubber { flex: 1; min-width: 120px; accent-color: var(--accent); }
+  .controls .progress { font-family: Consolas, monospace; font-size: 12px; color: var(--fg);
+                        min-width: 60px; text-align: right; }
+  #stage { background: #fff; border: 1px solid var(--line); border-radius: 6px;
+           overflow: hidden; }
+  #stage svg { display: block; width: 100%; height: auto; }
+  .lane-label { font: 600 13px Consolas, monospace; fill: var(--fg); }
+  .lane-sublabel { font: 11px Consolas, monospace; fill: var(--muted); }
+  .lane-line { stroke: var(--lane); stroke-width: 1; stroke-dasharray: 2 4; }
+  .event { transition: opacity 0.4s ease-out; }
+  .event.hidden { opacity: 0; }
+  .event.visible { opacity: 1; }
+  .event.current .bubble-bg, .event.current .note-bg { stroke-width: 2; }
+  .arrow { fill: none; stroke-linecap: round; stroke-width: 2; }
+  .arrow.solid { stroke: var(--accent); }
+  .arrow.dashed { stroke: var(--ok); stroke-dasharray: 6 4; }
+  .arrow.failed { stroke: var(--err); stroke-dasharray: 2 3; }
+  .arrow.msg { stroke: #0891b2; }
+  .bubble-bg { fill: var(--bubble); stroke: var(--line); }
+  .bubble-bg.msg { stroke: #0891b2; }
+  .bubble-bg.assign { stroke: var(--accent); }
+  .bubble-bg.done { stroke: var(--ok); }
+  .bubble-bg.failed { stroke: var(--err); }
+  .bubble-text { font: 12px system-ui; fill: var(--fg); }
+  .note-bg { fill: var(--note); stroke: #ca8a04; }
+  .note-text { font: 12px/1.2 system-ui; fill: #713f12; }
+  .sender-tag { font: 10px Consolas, monospace; fill: var(--muted); }
+  .now-line { stroke: var(--warn); stroke-width: 2; }
+  footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Playback — <code>20260423_054538</code></h1>
+      <div class="meta">Team <code>recipes-website</code> · 48 events</div>
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Playback controls">
+    <button id="btn-reset" title="Reset to start">⏮</button>
+    <button id="btn-back" title="Step back">◂</button>
+    <button id="btn-play" class="primary" title="Play / Pause">▶</button>
+    <button id="btn-next" title="Step forward">▸</button>
+    <button id="btn-end" title="Jump to end">⏭</button>
+    <div class="sep"></div>
+    <div class="group">
+      speed
+      <select id="speed">
+        <option value="0.25">0.25×</option>
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <input type="range" id="scrubber" class="scrubber" min="0" max="0" value="0" />
+    <span class="progress" id="progress">0 / 0</span>
+  </div>
+
+  <div id="stage"></div>
+  <footer>Self-contained offline playback. Also see
+    <a href="report.html">report.html</a> ·
+    <a href="sequence.md">sequence.md</a></footer>
+</div>
+
+<script type="application/json" id="data">{"run_id":"20260423_054538","team":"recipes-website","goal":"Ship a recipes website. Take the vague brief through two rounds of team deliberation, produce a SPEC.md that pins every cross-team contract, then dispatch parallel build tasks with no further coordination. Verify the produced files form a working static site.","agents":["lead","backend","frontend","ux","writer"],"events":[{"ts":"2026-04-23T05:46:12.613960+00:00","kind":"note","label":"writes DONE_CRITERIA.md","who":"lead"},{"ts":"2026-04-23T05:46:16.582517+00:00","kind":"note","label":"creates task: Propose \u2014 backend","who":"lead"},{"ts":"2026-04-23T05:46:16.999498+00:00","kind":"note","label":"creates task: Propose \u2014 frontend","who":"lead"},{"ts":"2026-04-23T05:46:17.418619+00:00","kind":"note","label":"creates task: Propose \u2014 ux","who":"lead"},{"ts":"2026-04-23T05:46:17.723144+00:00","kind":"note","label":"creates task: Propose \u2014 writer","who":"lead"},{"ts":"2026-04-23T05:46:19.197361+00:00","kind":"assign","label":"dispatch t_001","from":"lead","to":"backend"},{"ts":"2026-04-23T05:46:19.441640+00:00","kind":"assign","label":"dispatch t_002","from":"lead","to":"frontend"},{"ts":"2026-04-23T05:46:19.617702+00:00","kind":"assign","label":"dispatch t_003","from":"lead","to":"ux"},{"ts":"2026-04-23T05:46:19.718346+00:00","kind":"assign","label":"dispatch t_004","from":"lead","to":"writer"},{"ts":"2026-04-23T05:46:55.897125+00:00","kind":"msg","label":"Hi backend\u2014 Before I finalize my proposal, I want to confirm the recipe schema. I need th\u2026","full":"Hi backend\u2014 Before I finalize my proposal, I want to confirm the recipe schema. I need these REQUIRED fields per recipe: - name (string) - category (string \u2014 will be one of: breakfast, main, dessert) - time (integer, minutes) - servings (integer) - description (string, 1\u20132 sentences max) - ingredients (list of strings with amounts, e.g., '2 cups flour') - steps (list of strings, one per step) OPTIONAL (nice to have, don't block on these): - difficulty (string: easy / moderate / challenging) - dietary tags (list of strings: vegetarian, vegan, gluten-free, etc.) Does your proposed schema cover these? If you're thinking a different shape for ingredients or want to push back on any field, let me know now so I can bake it into my proposal. Thanks!","from":"writer","to":"backend"},{"ts":"2026-04-23T05:46:57.316204+00:00","kind":"msg","label":"Hi UX\u2014 Quick question on content density to shape what I write: Your brief mentions cards\u2026","full":"Hi UX\u2014 Quick question on content density to shape what I write: Your brief mentions cards should display title, time, category, and 'a line or two of description.' I'm planning to write descriptions as 1\u20132 punchy sentences max (roughly 15\u201325 words). Will that fit the container you're designing? Or do you want me shorter/longer? Also, are you leaning toward the no-images approach or unicode glyphs per category? Affects how much weight the description needs to carry visually. Thanks!","from":"writer","to":"ux"},{"ts":"2026-04-23T05:47:00.326457+00:00","kind":"msg","label":"Hi \u2014 I'm proposing **static HTML/CSS/JS** for the stack. Single-page app with a recipe li\u2026","full":"Hi \u2014 I'm proposing **static HTML/CSS/JS** for the stack. Single-page app with a recipe list as a card grid, detail on click opens a modal. For styling hooks, I'll use **BEM-style CSS classes**: - '.recipe-list' \u2014 the grid container - '.recipe-card' \u2014 each recipe card - '.recipe-card__title', '.recipe-card__time', '.recipe-card__category', '.recipe-card__description' \u2014 card internals - '.recipe-detail-modal' \u2014 the modal overlay and content - '.category-filter', '.search-input' \u2014 filter/search controls - '.app-header' \u2014 header This gives you a clean surface to style against without needing to know anything about the JS. All class names will be semantic and stable. Does BEM-style naming work for you? Any preference for how I structure the card hierarchy?","from":"frontend","to":"ux"},{"ts":"2026-04-23T05:47:02.199672+00:00","kind":"msg","label":"Hi \u2014 I'm proposing **static HTML/CSS/JS** with vanilla JavaScript. Single-page app: recip\u2026","full":"Hi \u2014 I'm proposing **static HTML/CSS/JS** with vanilla JavaScript. Single-page app: recipe list on load, detail on click opens a modal. For data delivery, I need the recipe data as a JSON structure. Two options: 1. **recipes.json** \u2014 separate file I fetch() on page load 2. **recipes.js** \u2014 CommonJS/ES6 module I import() or a global variable Given the scope (8\u201310 recipes, no runtime API), either works fine. I lean toward **recipes.json** because it's simpler \u2014 plain data, no build step needed on my end, and the writer can produce it directly. Which delivery mechanism fits your thinking? If backend prefers to provide recipes.js or a different format, I can adapt.","from":"frontend","to":"backend"},{"ts":"2026-04-23T05:47:09.914561+00:00","kind":"msg","label":"Hey \u2014 I need to lock down the naming surface you'll expose for styling. Before I write th\u2026","full":"Hey \u2014 I need to lock down the naming surface you'll expose for styling. Before I write the UX proposal, tell me: 1. What's your component structure? Will you emit named classes (e.g., '.rx-recipe-card', '.rx-list-container'), or are you using CSS-in-JS / styled components where I'd target component names directly? 2. Do you plan theme tokens/CSS variables, or should I define the palette in plain CSS? 3. For layout/responsive, do you want me to assume Flexbox/Grid in plain CSS, Tailwind classes that I configure, or component-level props? I'm designing for a warm, editorial feel \u2014 card grid on list, single column below 768px. I need the hooks locked so I can be systematic about what you'll build.","from":"ux","to":"frontend"},{"ts":"2026-04-23T05:47:12.054616+00:00","kind":"msg","label":"I'm designing the recipe card and list layout. Before I finalize the proposal, I need to\u2026","full":"I'm designing the recipe card and list layout. Before I finalize the proposal, I need to know your content density: 1. Recipe titles \u2014 short (e.g., 'Pasta') or longer (e.g., 'Creamy Tuscan Chicken Pasta with Fresh Basil')? 2. Recipe descriptions \u2014 are you providing a one-liner teaser, a 2\u20133 sentence summary, or nothing (just title + metadata)? 3. How many recipes are we launching with, and how many categories? I'm planning a card-based list on desktop (grid), single column on mobile. Each card will show title, cook time, category, and description (if you're providing one). Help me size the container right.","from":"ux","to":"writer"},{"ts":"2026-04-23T05:47:13.934340+00:00","kind":"msg","label":"Hi \u2014 backend here. Before I lock my schema proposal, let me confirm your fields list. I'm\u2026","full":"Hi \u2014 backend here. Before I lock my schema proposal, let me confirm your fields list. I'm proposing a recipe object with: - name, category, time (minutes), servings, description, ingredients (as strings like '2 cups flour'), steps - optional: difficulty (easy|medium|hard), tags (array of strings like ['vegetarian', 'gluten-free']) Does that cover what you need to write? Any fields I'm missing or should drop? Also: ingredients as strings acceptable, or do you want structured {amount, unit, item} objects? I'm advocating for strings to keep it simple. \u2014backend","from":"backend","to":"writer"},{"ts":"2026-04-23T05:47:15.244435+00:00","kind":"msg","label":"Hi \u2014 backend here. Before I finalize my proposal, I need to understand your view technolo\u2026","full":"Hi \u2014 backend here. Before I finalize my proposal, I need to understand your view technology. What are you leaning toward? Vanilla HTML/JS, React, Vue, server-rendered, or something else? Once I know that, I can propose a matching data-plane architecture (e.g., JSON file + JS module, React context, fetch from an API, etc.). Also: for this scope (8 recipes), do you see client-side search/filter/sort, or are you thinking something else? \u2014backend","from":"backend","to":"frontend"},{"ts":"2026-04-23T05:47:18.424596+00:00","kind":"msg","label":"Perfect timing! Here's what I'm planning: **Titles:** Short \u2014 2\u20134 words when possible. Ex\u2026","full":"Perfect timing! Here's what I'm planning: **Titles:** Short \u2014 2\u20134 words when possible. Examples: 'Fluffy Pancakes', 'Tomato Soup', 'Chocolate Cake'. Makes for a crisp card. **Descriptions:** 1\u20132 sentences max. Warm, practical tone \u2014 why you'd want to make the dish. No marketing speak. Something like: 'Golden, buttery pancakes with a tender crumb inside. Ready in 20 minutes, feeds four.' **Recipes & categories:** 8 recipes total, across three categories: - Breakfast (2\u20133) - Main (3\u20134) - Dessert (2\u20133) This should give your card layout something to breathe, and the category filter has enough diversity to feel useful without being overwhelming. Does that sizing work for your design?","from":"writer","to":"ux"},{"ts":"2026-04-23T05:47:19.275886+00:00","kind":"msg","label":"Perfect \u2014 1\u20132 punchy sentences (15\u201325 words) is exactly what I need. Gives the descriptio\u2026","full":"Perfect \u2014 1\u20132 punchy sentences (15\u201325 words) is exactly what I need. Gives the description breathing room in the card without making it text-heavy. Going with unicode glyphs per category as decorative markers (no external image URLs). This keeps the design focus on typography and lets the description carry the emotional weight. Will use something like \ud83c\udf5d, \ud83e\udd57, \ud83c\udf70, etc. as a category icon. Sizing the card for your content density now.","from":"ux","to":"writer"},{"ts":"2026-04-23T05:47:20.776507+00:00","kind":"msg","label":"BEM naming is perfect \u2014 that's exactly the surface I need. Your class structure is clean.\u2026","full":"BEM naming is perfect \u2014 that's exactly the surface I need. Your class structure is clean. Confirming my assumptions: I'll style '.recipe-list' as a responsive grid (2\u20133 columns on desktop, 1 column on mobile at 768px breakpoint), and each '.recipe-card' will have enough vertical padding for title + time + category line + description (1\u20132 sentences). The modal styling I'll handle against '.recipe-detail-modal' and its internals. Ready to write the proposal with these contracts locked.","from":"ux","to":"frontend"},{"ts":"2026-04-23T05:47:22.928437+00:00","kind":"msg","label":"Great \u2014 **recipes.json** works perfectly for me. Plain data, no build step, writer mainta\u2026","full":"Great \u2014 **recipes.json** works perfectly for me. Plain data, no build step, writer maintains it directly. I'll structure it as a JSON array of recipe objects. You fetch it on page load and populate the list. Sound good? For search/filter/sort on client-side \u2014 I'll provide utility functions in a JS module (e.g., filterByCategory, search, sortByTime) that you call when the user interacts with filters/search. Does that fit your modal detail flow? \u2014backend","from":"backend","to":"frontend"},{"ts":"2026-04-23T05:47:24.640123+00:00","kind":"msg","label":"Hi \u2014 backend here. Just confirming a couple of constraints for styling: Frontend is propo\u2026","full":"Hi \u2014 backend here. Just confirming a couple of constraints for styling: Frontend is proposing vanilla HTML/CSS/JS with a card grid list view + modal detail. Categories: breakfast, main, dessert. You mentioned either no images OR unicode/icon glyphs per category. Can you confirm which? That might affect my schema (do I store a category icon/emoji, or leave that to CSS?). Also, cards showing: title, time, category, 1-2 line description \u2014 does that match what frontend will emit? \u2014backend","from":"backend","to":"ux"},{"ts":"2026-04-23T05:47:26.309764+00:00","kind":"msg","label":"Perfect questions. Here's my answer: 1. **Component structure**: BEM-style named classes\u2026","full":"Perfect questions. Here's my answer: 1. **Component structure**: BEM-style named classes in plain HTML/CSS, no CSS-in-JS. I'll emit semantic class names like '.recipe-card', '.recipe-card__title', etc. You style them as regular CSS selectors. Full control over styling with standard CSS. 2. **Theme tokens**: I propose plain CSS with custom properties (CSS variables). I'll define semantic variable names in a ':root' block (e.g., '--color-accent', '--font-serif', '--spacing-base'), and you fill in the values in your stylesheet. Keeps the separation clean: I define hooks, you define values. 3. **Layout/responsive**: I'll structure the HTML (flexbox-ready containers, semantic element hierarchy). No inline styles, no layout classes. You apply the Flexbox/Grid rules and media queries via your CSS. I assume you'll handle the 768px breakpoint and single-column layout on mobile. So to summarize: **clean semantic HTML + BEM classes**, UX adds all visual styling (colors, typography, spacing, layout, responsive) via plain CSS with custom properties for the palette.","from":"frontend","to":"ux"},{"ts":"2026-04-23T05:47:28.339322+00:00","kind":"msg","label":"Clarifications: 1. **Stack**: Vanilla HTML/CSS/JS. Single HTML file, no build, no framewo\u2026","full":"Clarifications: 1. **Stack**: Vanilla HTML/CSS/JS. Single HTML file, no build, no framework. I load recipe data on page load and render it with vanilla JS. 2. **Data delivery**: I need the recipes as JSON. Either: - A 'recipes.json' file I fetch() on load, or - A 'recipes.js' ES module I import(), or - Inline JSON in a '<script type='application/json'>' tag in the HTML. I prefer **recipes.json** (plain data, no module system). Can you produce that? 3. **Client-side search/filter/sort**: Yes. I'll implement client-side search (text match on title/description) and category filtering via dropdown. No server calls. The UX is snappy because everything happens in the browser. Once I know you can deliver recipes.json, I'm ready to lock the data schema.","from":"frontend","to":"backend"},{"ts":"2026-04-23T05:47:38.330692+00:00","kind":"msg","label":"Thanks! Your schema is exactly what I need. Confirmed: - Required: name, category, time (\u2026","full":"Thanks! Your schema is exactly what I need. Confirmed: - Required: name, category, time (minutes), servings, description, ingredients (strings), steps \u2713 - Optional: difficulty (easy|medium|hard), tags (array) \u2713 - Ingredients as strings ('2 cups flour') is my preference \u2014 love keeping it simple. \u2713 This matches my proposal perfectly. I'm good to go.","from":"writer","to":"backend"},{"ts":"2026-04-23T05:47:40.700255+00:00","kind":"done","label":"t_003 done \u2192 proposals/ux.md","from":"ux","to":"lead"},{"ts":"2026-04-23T05:47:41.834836+00:00","kind":"done","label":"t_004 done \u2192 proposals/writer.md","from":"writer","to":"lead"},{"ts":"2026-04-23T05:47:52.699867+00:00","kind":"done","label":"t_001 done \u2192 proposals/backend.md","from":"backend","to":"lead"},{"ts":"2026-04-23T05:47:55.610858+00:00","kind":"done","label":"t_002 done \u2192 proposals/frontend.md","from":"frontend","to":"lead"},{"ts":"2026-04-23T05:48:43.555263+00:00","kind":"note","label":"creates task: Write SPEC.md (Phase 2 Synthesis)","who":"lead"},{"ts":"2026-04-23T05:48:45.182409+00:00","kind":"assign","label":"dispatch t_005","from":"lead","to":"backend"},{"ts":"2026-04-23T05:48:59.377972+00:00","kind":"msg","label":"Perfect. Your sizing is exactly what I designed for \u2014 8 recipes across 3 categories gives\u2026","full":"Perfect. Your sizing is exactly what I designed for \u2014 8 recipes across 3 categories gives the grid room to breathe on desktop and flows cleanly to a single column on mobile. Short titles (2\u20134 words) + descriptions (1\u20132 sentences) fit the card padding and visual hierarchy I proposed. The tone you're describing (warm, practical, no marketing) matches the editorial direction perfectly. Recipe card is ready to receive your content.","from":"ux","to":"writer"},{"ts":"2026-04-23T05:49:00.866566+00:00","kind":"msg","label":"Two clarifications: 1. **Unicode glyphs per category:** Store the emoji/glyph as part of\u2026","full":"Two clarifications: 1. **Unicode glyphs per category:** Store the emoji/glyph as part of the category metadata in your schema (e.g., '{ 'name': 'Breakfast', 'emoji': '\ud83c\udf05' }'). Frontend will render it inline with the category name; I'll style it with CSS. This keeps it data-driven and lets frontend/UX treat it as a standard field. 2. **Card structure:** Confirmed \u2014 title, time, category (with emoji), 1\u20132 line description. That's the exact surface I designed for.","from":"ux","to":"backend"},{"ts":"2026-04-23T05:49:01.672133+00:00","kind":"msg","label":"Excellent. Your setup is exactly what I need: - BEM classes for my selectors \u2713 - Plain CS\u2026","full":"Excellent. Your setup is exactly what I need: - BEM classes for my selectors \u2713 - Plain CSS with custom properties for palette tokens \u2713 - I own visual styling (colors, type, spacing, layout, responsive) \u2713 - I'll handle 768px breakpoint and mobile single-column layout \u2713 Ready to build against this contract once SPEC.md lands.","from":"ux","to":"frontend"},{"ts":"2026-04-23T05:50:10.495704+00:00","kind":"done","label":"t_005 done \u2192 SPEC.md","from":"backend","to":"lead"},{"ts":"2026-04-23T05:50:44.714373+00:00","kind":"note","label":"creates task: Build \u2014 backend","who":"lead"},{"ts":"2026-04-23T05:51:02.305975+00:00","kind":"note","label":"creates task: Build \u2014 frontend","who":"lead"},{"ts":"2026-04-23T05:51:13.095531+00:00","kind":"note","label":"creates task: Build \u2014 ux","who":"lead"},{"ts":"2026-04-23T05:51:27.223413+00:00","kind":"note","label":"creates task: Build \u2014 writer","who":"lead"},{"ts":"2026-04-23T05:51:29.259745+00:00","kind":"assign","label":"dispatch t_006","from":"lead","to":"backend"},{"ts":"2026-04-23T05:51:29.502222+00:00","kind":"assign","label":"dispatch t_007","from":"lead","to":"frontend"},{"ts":"2026-04-23T05:51:29.742949+00:00","kind":"assign","label":"dispatch t_008","from":"lead","to":"ux"},{"ts":"2026-04-23T05:51:29.956146+00:00","kind":"assign","label":"dispatch t_009","from":"lead","to":"writer"},{"ts":"2026-04-23T05:52:13.999236+00:00","kind":"done","label":"t_009 done \u2192 src/data/recipes.json","from":"writer","to":"lead"},{"ts":"2026-04-23T05:52:53.282324+00:00","kind":"done","label":"t_008 done \u2192 src/styles.css","from":"ux","to":"lead"},{"ts":"2026-04-23T05:53:14.793175+00:00","kind":"done","label":"t_007 done \u2192 src/index.html","from":"frontend","to":"lead"},{"ts":"2026-04-23T05:53:36.663404+00:00","kind":"done","label":"t_006 done \u2192 src/js/recipes.js","from":"backend","to":"lead"},{"ts":"2026-04-23T05:54:43.153640+00:00","kind":"note","label":"finalize()","who":"lead"}]}</script>
+<script>
+(() => {
+  'use strict';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const data = JSON.parse(document.getElementById('data').textContent);
+  const agents = data.agents;
+  const events = data.events;
+
+  // Layout
+  const COL_W = 210;
+  const LEFT_PAD = 32;
+  const RIGHT_PAD = 32;
+  const TOP_PAD = 56;
+  const BOTTOM_PAD = 32;
+  const ROW_H = 58;
+
+  const svgW = LEFT_PAD + RIGHT_PAD + Math.max(1, agents.length) * COL_W;
+  const svgH = TOP_PAD + Math.max(1, events.length) * ROW_H + BOTTOM_PAD;
+
+  const xForAgent = (name) => {
+    const i = agents.indexOf(name);
+    const idx = i < 0 ? agents.length : i;
+    return LEFT_PAD + idx * COL_W + COL_W / 2;
+  };
+  const yForEvent = (i) => TOP_PAD + i * ROW_H + ROW_H / 2;
+
+  const stage = document.getElementById('stage');
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+  // Arrow markers
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mk = (id, color) => `
+    <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+    </marker>`;
+  defs.innerHTML =
+    mk('mk-blue',  '#2563eb') +
+    mk('mk-green', '#16a34a') +
+    mk('mk-red',   '#dc2626') +
+    mk('mk-cyan',  '#0891b2');
+  svg.appendChild(defs);
+
+  // Lane labels + vertical lifelines
+  agents.forEach((a) => {
+    const x = xForAgent(a);
+    const label = document.createElementNS(SVG_NS, 'text');
+    label.setAttribute('x', x);
+    label.setAttribute('y', 28);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('class', 'lane-label');
+    label.textContent = a;
+    svg.appendChild(label);
+
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('x1', x);
+    line.setAttribute('y1', 40);
+    line.setAttribute('x2', x);
+    line.setAttribute('y2', svgH - BOTTOM_PAD);
+    line.setAttribute('class', 'lane-line');
+    svg.appendChild(line);
+  });
+
+  // Now-line (sweeps down as playback advances)
+  const nowLine = document.createElementNS(SVG_NS, 'line');
+  nowLine.setAttribute('x1', LEFT_PAD);
+  nowLine.setAttribute('x2', svgW - RIGHT_PAD);
+  nowLine.setAttribute('y1', TOP_PAD - 8);
+  nowLine.setAttribute('y2', TOP_PAD - 8);
+  nowLine.setAttribute('class', 'now-line');
+  nowLine.setAttribute('opacity', '0');
+  svg.appendChild(nowLine);
+
+  // Pre-render every event element (hidden initially)
+  const elements = events.map((e, i) => {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'event hidden');
+    g.setAttribute('data-idx', String(i));
+
+    const y = yForEvent(i);
+
+    if (e.kind === 'note') {
+      const who = e.who || 'lead';
+      const x = xForAgent(who);
+      const text = e.label || '';
+      const width = Math.min(COL_W - 20, Math.max(120, text.length * 6.5 + 20));
+      const height = 26;
+      const rect = document.createElementNS(SVG_NS, 'rect');
+      rect.setAttribute('x', x - width / 2);
+      rect.setAttribute('y', y - height / 2);
+      rect.setAttribute('width', width);
+      rect.setAttribute('height', height);
+      rect.setAttribute('rx', 4);
+      rect.setAttribute('class', 'note-bg');
+      g.appendChild(rect);
+
+      const t = document.createElementNS(SVG_NS, 'text');
+      t.setAttribute('x', x);
+      t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('class', 'note-text');
+      t.textContent = text;
+      g.appendChild(t);
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent = text;
+      g.appendChild(full);
+    } else {
+      const x1 = xForAgent(e.from);
+      const x2 = xForAgent(e.to);
+      const arrowCls =
+        e.kind === 'done' ? 'arrow dashed' :
+        e.kind === 'failed' ? 'arrow failed' :
+        e.kind === 'msg' ? 'arrow msg' : 'arrow solid';
+      const marker =
+        e.kind === 'done' ? 'mk-green' :
+        e.kind === 'failed' ? 'mk-red' :
+        e.kind === 'msg' ? 'mk-cyan' : 'mk-blue';
+
+      // Arrow path. Slight vertical offset at src/dst so a later bubble
+      // below doesn't sit on the line.
+      const path = document.createElementNS(SVG_NS, 'path');
+      const dir = x2 > x1 ? 1 : -1;
+      const pad = 8 * dir;
+      path.setAttribute('d', `M ${x1 + pad} ${y} L ${x2 - pad} ${y}`);
+      path.setAttribute('class', arrowCls);
+      path.setAttribute('marker-end', `url(#${marker})`);
+      path.setAttribute('pathLength', '100');
+      if (e.kind === 'done') {
+        // keep dashed look, but still animate via dashoffset on a wrapper
+        path.setAttribute('stroke-dasharray', '6 4');
+      } else if (e.kind === 'failed') {
+        path.setAttribute('stroke-dasharray', '2 3');
+      } else {
+        path.setAttribute('stroke-dasharray', '100');
+        path.setAttribute('stroke-dashoffset', '100');
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      }
+      g.appendChild(path);
+
+      // Bubble with truncated label above the arrow
+      const label = (e.label || '').slice(0, 110);
+      if (label) {
+        const midX = (x1 + x2) / 2;
+        const bubbleY = y - 18;
+        const w = Math.min(Math.abs(x2 - x1) - 30, label.length * 6.2 + 16);
+        const bw = Math.max(60, w);
+        const h = 18;
+        const rect = document.createElementNS(SVG_NS, 'rect');
+        rect.setAttribute('x', midX - bw / 2);
+        rect.setAttribute('y', bubbleY - h / 2);
+        rect.setAttribute('width', bw);
+        rect.setAttribute('height', h);
+        rect.setAttribute('rx', 3);
+        rect.setAttribute('class', 'bubble-bg ' + (e.kind || 'msg'));
+        g.appendChild(rect);
+
+        const t = document.createElementNS(SVG_NS, 'text');
+        t.setAttribute('x', midX);
+        t.setAttribute('y', bubbleY + 4);
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('class', 'bubble-text');
+        t.textContent = label;
+        g.appendChild(t);
+      }
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent =
+        (e.from || '?') + ' → ' + (e.to || '?') + ' [' + e.kind + ']\n' +
+        (e.label || '');
+      g.appendChild(full);
+    }
+
+    svg.appendChild(g);
+    return g;
+  });
+
+  stage.appendChild(svg);
+
+  // Playback state
+  let idx = -1;                 // index of the last revealed event; -1 = nothing
+  let playing = false;
+  let timer = null;
+  const BASE_DELAY = 850;       // ms/event at 1x
+  const speedEl = document.getElementById('speed');
+  const scrubEl = document.getElementById('scrubber');
+  const progEl  = document.getElementById('progress');
+  const playBtn = document.getElementById('btn-play');
+  const backBtn = document.getElementById('btn-back');
+  const nextBtn = document.getElementById('btn-next');
+  const resetBtn = document.getElementById('btn-reset');
+  const endBtn = document.getElementById('btn-end');
+  scrubEl.max = String(events.length);
+
+  const delay = () => BASE_DELAY / parseFloat(speedEl.value || '1');
+
+  function reveal(i, instant) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('hidden');
+    g.classList.add('visible');
+    const path = g.querySelector('path');
+    const dashed = path && path.getAttribute('stroke-dasharray') === '100';
+    if (dashed) {
+      if (instant) {
+        path.style.transition = 'none';
+        path.setAttribute('stroke-dashoffset', '0');
+        // Re-enable transition for next time
+        void path.getBoundingClientRect();
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      } else {
+        requestAnimationFrame(() =>
+          path.setAttribute('stroke-dashoffset', '0'));
+      }
+    }
+  }
+  function hide(i) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('visible');
+    g.classList.add('hidden');
+    const path = g.querySelector('path');
+    if (path && path.getAttribute('stroke-dasharray') === '100') {
+      path.style.transition = 'none';
+      path.setAttribute('stroke-dashoffset', '100');
+      void path.getBoundingClientRect();
+      path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+    }
+  }
+
+  function markCurrent() {
+    elements.forEach((g, i) => {
+      if (i === idx) g.classList.add('current');
+      else g.classList.remove('current');
+    });
+    if (idx >= 0) {
+      nowLine.setAttribute('opacity', '0.6');
+      const y = yForEvent(idx);
+      nowLine.setAttribute('y1', y);
+      nowLine.setAttribute('y2', y);
+      // Auto-scroll the element into view when we've passed below the fold
+      const g = elements[idx];
+      if (g && g.scrollIntoView) {
+        const r = g.getBoundingClientRect();
+        const inView = r.top >= 100 && r.bottom <= window.innerHeight - 20;
+        if (!inView) g.scrollIntoView({block: 'center', behavior: 'smooth'});
+      }
+    } else {
+      nowLine.setAttribute('opacity', '0');
+    }
+  }
+  function updateProgress() {
+    const n = idx + 1;
+    progEl.textContent = n + ' / ' + events.length;
+    scrubEl.value = String(n);
+    backBtn.disabled = idx < 0;
+    nextBtn.disabled = idx >= events.length - 1;
+  }
+  function setTo(n, instant) {
+    // n = number of events revealed (0..events.length)
+    const target = n - 1;
+    if (target > idx) {
+      for (let i = idx + 1; i <= target; i++) reveal(i, instant);
+    } else if (target < idx) {
+      for (let i = idx; i > target; i--) hide(i);
+    }
+    idx = target;
+    markCurrent();
+    updateProgress();
+  }
+  function stepNext() {
+    if (idx >= events.length - 1) { pause(); return; }
+    idx++;
+    reveal(idx, false);
+    markCurrent();
+    updateProgress();
+  }
+  function stepBack() {
+    if (idx < 0) return;
+    hide(idx);
+    idx--;
+    markCurrent();
+    updateProgress();
+  }
+  function play() {
+    if (idx >= events.length - 1) setTo(0, true);
+    playing = true;
+    playBtn.textContent = '⏸';
+    const tick = () => {
+      stepNext();
+      if (playing && idx < events.length - 1) {
+        timer = setTimeout(tick, delay());
+      } else {
+        pause();
+      }
+    };
+    timer = setTimeout(tick, delay());
+  }
+  function pause() {
+    playing = false;
+    playBtn.textContent = '▶';
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  playBtn.addEventListener('click', () => playing ? pause() : play());
+  nextBtn.addEventListener('click', () => { pause(); stepNext(); });
+  backBtn.addEventListener('click', () => { pause(); stepBack(); });
+  resetBtn.addEventListener('click', () => { pause(); setTo(0, true); });
+  endBtn.addEventListener('click',   () => { pause(); setTo(events.length, true); });
+  scrubEl.addEventListener('input', (ev) => {
+    pause(); setTo(parseInt(ev.target.value, 10), true);
+  });
+  document.addEventListener('keydown', (ev) => {
+    if (ev.target && /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); playing ? pause() : play(); }
+    else if (ev.key === 'ArrowRight') { ev.preventDefault(); pause(); stepNext(); }
+    else if (ev.key === 'ArrowLeft')  { ev.preventDefault(); pause(); stepBack(); }
+    else if (ev.key === 'Home')       { ev.preventDefault(); pause(); setTo(0, true); }
+    else if (ev.key === 'End')        { ev.preventDefault(); pause(); setTo(events.length, true); }
+  });
+
+  updateProgress();
+  markCurrent();
+})();
+</script>
+</body>
+</html>

@@ -20,16 +20,25 @@ lead:
     `write_scratchpad(filename='DONE_CRITERIA.md', content='...')` with:
       - The vague goal: quote workspace/project_context.md verbatim.
       - The roster: backend, frontend, ux, writer. One-line roles.
-      - Ground rules:
-        * Output is a STATIC site. No server, no build step, no package
-          manager. User opens workspace/index.html directly in a browser.
-        * Vanilla HTML/CSS/JS is the default. A framework is only allowed
-          if the team can execute it with no build step (they cannot).
-        * All file paths are relative, no absolute URLs to external CDNs
-          except optional Google Fonts for typography.
-        * Images, if referenced, must use either emoji/unicode
-          placeholders or external https URLs (unsplash, etc.) since
-          the team cannot produce binary files.
+      - Process ground rules (NOT architecture constraints — architecture
+        is the team's decision):
+        * **The team decides the stack.** Static HTML/CSS/JS, React
+          frontend, Vue frontend, Python/Node/Go backend, SSG, server-
+          rendered — all fair game. Your job is NOT to push toward any
+          choice; your job is to make sure the choice is made
+          deliberately and captured in SPEC.md tightly enough for four
+          teammates to build in parallel.
+        * **The team produces source files only.** No deployment, no
+          running, no installing packages, no network calls, no binary
+          assets. Whoever receives this workspace later can build/run
+          the code elsewhere. Success is not "the site opens in a
+          browser" — success is "four teammates built to a shared
+          contract without colliding".
+        * **All code lives under `src/`.** The internal structure of
+          `src/` is the team's call (`src/frontend/`, `src/backend/`,
+          flat, whatever). Planning artifacts (SPEC.md, proposals/,
+          briefs/, OUTPUT.md) stay at the workspace root. This
+          separation is housekeeping, not architectural.
       - The deliberation format:
           PROPOSAL format:
             ## My slice
@@ -62,22 +71,50 @@ lead:
          - OPEN CONFLICTS: where two proposals disagree and need
            arbitration.
          - GAPS: contracts nobody proposed (likely small but critical —
-           file paths, CSS class naming, exact field names).
+           file paths, CSS class naming, exact field names, content
+           handoff between producers and runtime consumers).
       d. Create a follow-up task for backend: "Write SPEC.md". Description
          must quote each AGREEMENT verbatim and direct backend to arbitrate
          each OPEN CONFLICT and fill each GAP, producing the final SPEC.
          The SPEC.md must contain:
-           1. Architecture (one sentence).
-           2. File ownership table (every path owned by exactly one role).
-           3. Recipe-object JSON schema (field names, types, required vs
-              optional).
-           4. CSS naming convention (class prefix, design tokens that
-              frontend's HTML must emit for ux's CSS to target).
-           5. Content plan (recipe count, categories, fields per recipe).
-           6. Page routing (just index.html? index + recipe detail? all
-              inline? this decides frontend's shape).
-           7. Data loading mechanism (fetch from json, inline via script
-              tag, or other).
+           1. **Architecture** (one paragraph). Name the stack the team
+              agreed on. Whatever it is, say it plainly.
+           2. **File ownership table** — every path owned by exactly
+              one role. All runtime paths must be prefixed with `src/`;
+              planning docs (SPEC.md, OUTPUT.md, proposals/) stay at
+              the root.
+           3. **Recipe data schema** — field names, types, required vs
+              optional. Format-agnostic (JSON, Python dataclass,
+              TypeScript interface, whatever the stack uses).
+           4. **Cross-role contracts** — ANY shared-naming surface the
+              chosen stack introduces. This might be CSS class names,
+              React component names/props, API endpoints + request
+              shapes, database table columns, template variable names,
+              CLI arguments. If stack X has convention Y that two
+              roles must both observe to integrate, lock Y here. The
+              set of contracts depends on the stack — a static site
+              has CSS class names; a React+API stack has API
+              endpoints + prop shapes. Name whatever applies.
+           5. **Content plan** — recipe count, categories, fields per
+              recipe.
+           6. **Data flow** — how recipe content produced by writer
+              reaches whatever renders it to the user. In a static
+              site this might be inlined JSON; in a server-rendered
+              stack it might be a loader that reads from disk; in an
+              API-driven stack it might be database fixtures + an
+              endpoint. Name the exact mechanism.
+           7. **Content handoff (REQUIRED)** — for EVERY file a producer
+              writes, state which runtime file/module loads it and how.
+              If writer produces `recipes.json` but no other file
+              references it, writer's output is orphaned. Name the
+              bridge explicitly. Stack-specific examples:
+                - Static: "frontend's index.html includes
+                  `<script src='data.js'>`"
+                - React: "frontend imports `../data/recipes.json`
+                  in RecipeList.jsx"
+                - FastAPI: "backend's routes.py reads recipes.json
+                  from disk and serves `/api/recipes`"
+              Whatever stack, name the bridge.
       e. End your turn.
 
     Phase 2b (optional — only if SPEC has gaps). After backend completes
@@ -87,27 +124,82 @@ lead:
 
     Phase 3 (parallel build, no further coordination). Batch-create FOUR
     build tasks with NO dependencies, one per teammate. Title: "Build —
-    <role>". Description must include:
+    <role>". Each task description MUST include:
       - The exact file paths the teammate owns (copy from SPEC.md's
         ownership table).
-      - A quote of the SPEC slices relevant to their work (schema,
-        naming convention, etc.).
+      - **Verbatim quotes** (not paraphrases) of the SPEC slices that
+        govern their work. Each role needs different slices depending
+        on what the team chose:
+          * EVERY role needs: their file ownership rows, the
+            Architecture paragraph, the "Content handoff" section,
+            and any "Cross-role contracts" entries naming them.
+          * backend, writer, frontend each need the recipe schema
+            and data-flow section.
+          * frontend and ux need any shared-naming surface
+            (class names, component names/props, template vars) that
+            the team's stack introduces.
+        Do NOT summarize these sections — paste them literally. The
+        build agents should not need to re-read SPEC to know what
+        they're responsible for, though they're expected to as part of
+        their pre-completion audit.
+      - A reminder to run the role-specific pre-completion audit
+        documented in their system prompt before calling
+        `update_task(status='completed')`.
       - The rule: "Do NOT send messages to peers during this task.
-        Everything you need is in SPEC.md. If SPEC.md is missing
-        something you need, mark the task failed with a specific note
-        explaining what's missing — do NOT improvise an answer that
-        might conflict with another teammate's work."
+        Everything you need is in this task description + SPEC.md. If
+        SPEC.md is missing something you need, mark the task failed
+        with a specific note explaining what's missing — do NOT
+        improvise an answer that might conflict with another teammate's
+        work."
 
     End your turn. Orchestrator runs all four in parallel.
 
-    Phase 4 (verify and finalize). When all build tasks are terminal:
-      - Read each produced file. Confirm it exists and is non-trivial.
-      - Read index.html and verify it references the other expected files.
-      - Read the recipes data file and confirm it parses as JSON (or
-        whatever format SPEC.md named) with the right schema.
-      - Cross-check: do frontend's emitted CSS classes match ux's
-        stylesheet? Does backend's data file match writer's content?
-      - Call `finalize(synthesis=...)` with this structure:
+    Phase 4 (verify and finalize). When all build tasks are terminal,
+    perform these cross-checks BEFORE finalizing. Each is a concrete
+    test — do them in order, and list results in OUTPUT.md. The
+    checks are stack-agnostic; apply them to whatever the team built.
+
+      1. **File existence.** Every file named in SPEC's ownership
+         table exists at the agreed path and is non-trivial
+         (>200 bytes).
+      2. **Contract symmetry.** For every cross-role contract in
+         SPEC (class names, component names/props, API endpoints,
+         template variables — whatever the team's "Cross-role
+         contracts" section named), verify both the producing role's
+         files AND the consuming role's files use the EXACT same
+         strings. Report any drift by name (e.g. "SPEC said
+         `.rx-detail-close`, styles.css uses `.rx-modal-close`" or
+         "SPEC said GET /api/recipes, frontend fetches /recipes").
+         Contract drift is THE most common parallel-build failure.
+      3. **Content handoff wired.** Read whichever file is the
+         "consumer" in SPEC's Content-handoff section. Confirm the
+         bridge SPEC defined is actually present. If SPEC said
+         frontend includes writer's file via import/script/template,
+         grep for that reference. If SPEC said a server loader reads
+         writer's file, confirm the loader code does so.
+      4. **Producer files referenced.** For every file in SPEC's
+         ownership table, confirm SOMETHING else in the runtime
+         references it. Orphaned files (produced but never loaded)
+         are a contract violation and must be called out.
+      5. **Data schema.** The recipes data (wherever SPEC put it)
+         parses as valid content for its format (JSON, JS, YAML,
+         Python literal, etc.) and every recipe has every REQUIRED
+         field from the schema.
+      6. **Inbound references.** Whatever file(s) the runtime "entry
+         point" is (per SPEC's architecture paragraph) — its
+         references/imports/includes point at the exact filenames
+         SPEC named.
+
+      If any check fails, you have a choice:
+      (a) Finalize with a detailed "Contract compliance" table that
+          names each violation with the exact fix (line number, wrong
+          string → right string). The stakeholder can hand this to an
+          engineer.
+      (b) If the violation is small and local, dispatch ONE targeted
+          fix task to the owning role. Then re-verify and finalize.
+          Limit: one fix round. Do not ping-pong.
+
+      Call `finalize(synthesis=...)` with this structure:
 
         # Recipes website — build report
 
@@ -123,8 +215,14 @@ lead:
         ## Known issues / TODOs
         - <anything the team decided to defer, or "none">
 
-        ## How to view
-        Open workspace/index.html in a browser.
+        ## How to use what was built
+        <Whatever the team's architecture implies. If static HTML,
+        "open workspace/src/index.html". If React, "npm install &&
+        npm run dev from workspace/src/". If FastAPI + client,
+        explain both. Pull this from SPEC.md's architecture paragraph.>
+
+      Note: you do NOT try to actually run the code. You describe
+      how it would be run given what the team produced.
 
     You do NOT write code. Read/Glob/Grep on workspace/ only, plus the
     coord tools.

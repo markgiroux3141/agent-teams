@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stage — 20260423_054936</title>
+<style>
+  :root {
+    --bg: #0f172a; --fg: #f1f5f9; --muted: #94a3b8; --line: #334155;
+    --panel: #1e293b; --accent: #60a5fa; --ok: #4ade80;
+    --warn: #fb923c; --err: #f87171; --msg: #22d3ee;
+    --note: #facc15; --bubble: #f8fafc; --bubble-fg: #0f172a;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+         color: var(--fg); background: var(--bg); margin: 0; }
+  .wrap { max-width: 1400px; margin: 16px auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: baseline;
+           gap: 16px; }
+  header h1 { font-size: 20px; margin: 0; }
+  header .meta { color: var(--muted); font-size: 13px; }
+  header .meta code { background: var(--panel); padding: 1px 6px; border-radius: 3px;
+                      color: var(--fg); }
+  .controls { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+              background: var(--panel); border: 1px solid var(--line);
+              border-radius: 6px; margin: 12px 0; position: sticky; top: 8px;
+              z-index: 10; }
+  .controls button { font: 14px/1 system-ui; padding: 6px 10px; cursor: pointer;
+                     background: var(--panel); color: var(--fg);
+                     border: 1px solid var(--line); border-radius: 4px; min-width: 36px; }
+  .controls button:hover { background: #334155; }
+  .controls button.primary { background: var(--accent); color: #0b1220;
+                             border-color: var(--accent); font-weight: 600; }
+  .controls button.primary:hover { background: #93c5fd; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .controls .group { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                     font-size: 12px; }
+  .controls select { font: 13px system-ui; padding: 4px 6px; border: 1px solid var(--line);
+                     border-radius: 4px; background: var(--panel); color: var(--fg); }
+  .controls .toggle { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                      font-size: 12px; cursor: pointer; user-select: none; }
+  .controls .toggle input { cursor: pointer; accent-color: var(--accent); }
+  .controls .toggle.on { color: var(--fg); }
+  .controls .scrubber { flex: 1; min-width: 120px; accent-color: var(--accent); }
+  .controls .progress { font-family: Consolas, monospace; font-size: 12px;
+                        min-width: 62px; text-align: right; }
+  #stage { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+           border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  #stage svg { display: block; width: 100%; height: auto; }
+  .floor { fill: #111827; }
+  .floor-line { stroke: #334155; stroke-width: 1; stroke-dasharray: 4 6; }
+  .avatar { font-size: 80px; dominant-baseline: central; text-anchor: middle;
+            transition: transform 0.3s ease-out;
+            animation: idle 4s ease-in-out infinite; }
+  .avatar.speaking { animation: speak 0.6s ease-in-out 2; }
+  .avatar.listening { animation: listen 0.5s ease-out; }
+  .agent-name { fill: var(--muted); font: 600 13px Consolas, monospace;
+                text-anchor: middle; }
+  .agent-name.active { fill: var(--fg); }
+  .agent-role { fill: var(--muted); font: 10px Consolas, monospace;
+                text-anchor: middle; opacity: 0.7; }
+  @keyframes idle {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+  @keyframes speak {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-10px) scale(1.06); }
+  }
+  @keyframes listen {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-4px) scale(1.03); }
+    100% { transform: translateY(0); }
+  }
+  .bubble-layer, .arrow-layer { pointer-events: none; }
+  .bubble { opacity: 0; transform-origin: center bottom;
+            transition: opacity 0.25s ease-out, transform 0.25s ease-out; }
+  .bubble.show { opacity: 1; }
+  .bubble-bg { fill: var(--bubble); stroke-width: 2; }
+  .bubble-bg.msg     { stroke: var(--msg); }
+  .bubble-bg.assign  { stroke: var(--accent); }
+  .bubble-bg.done    { stroke: var(--ok); }
+  .bubble-bg.failed  { stroke: var(--err); }
+  .bubble-bg.note    { fill: #fef9c3; stroke: var(--note); }
+  .bubble-tail { fill: var(--bubble); }
+  .bubble-tail.note { fill: #fef9c3; }
+  .bubble-from { font: 600 11px Consolas, monospace; fill: var(--muted); }
+  .bubble-text { font: 14px/1.3 system-ui; color: var(--bubble-fg);
+                 padding: 0; margin: 0; word-wrap: break-word;
+                 overflow-wrap: break-word; }
+  .arrow { fill: none; stroke-width: 2; opacity: 0;
+           transition: opacity 0.3s ease-out; }
+  .arrow.show { opacity: 0.85; }
+  .arrow.msg    { stroke: var(--msg); }
+  .arrow.assign { stroke: var(--accent); }
+  .arrow.done   { stroke: var(--ok); stroke-dasharray: 6 4; }
+  .arrow.failed { stroke: var(--err); stroke-dasharray: 2 3; }
+  .log { margin-top: 12px; background: var(--panel); border: 1px solid var(--line);
+         border-radius: 6px; padding: 12px 16px; max-height: 240px; overflow-y: auto;
+         font-family: Consolas, monospace; font-size: 13px; }
+  .log .entry { padding: 4px 0; border-bottom: 1px dashed #273142;
+                white-space: pre-wrap; }
+  .log .entry:last-child { border-bottom: none; }
+  .log .entry .who { color: var(--accent); font-weight: 600; }
+  .log .entry .to  { color: var(--msg); }
+  .log .entry .tag { display: inline-block; padding: 1px 6px; border-radius: 8px;
+                     font-size: 10px; margin-right: 6px; }
+  .log .entry .tag.assign { background: #1e3a8a; color: #bfdbfe; }
+  .log .entry .tag.done   { background: #14532d; color: #bbf7d0; }
+  .log .entry .tag.failed { background: #7f1d1d; color: #fecaca; }
+  .log .entry .tag.msg    { background: #164e63; color: #a5f3fc; }
+  .log .entry .tag.note   { background: #713f12; color: #fef08a; }
+  .log .entry.current { background: #1e293b; margin: 0 -16px;
+                        padding: 4px 16px; border-left: 3px solid var(--accent); }
+  footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Stage — <code>20260423_054936</code></h1>
+      <div class="meta">Team <code>shutdown-scenario</code> · 24 events</div>
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Playback controls">
+    <button id="btn-reset" title="Reset to start">⏮</button>
+    <button id="btn-back" title="Step back">◂</button>
+    <button id="btn-play" class="primary" title="Play / Pause">▶</button>
+    <button id="btn-next" title="Step forward">▸</button>
+    <button id="btn-end" title="Jump to end">⏭</button>
+    <div class="sep"></div>
+    <div class="group">
+      speed
+      <select id="speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+        <option value="3">3×</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <label class="toggle" id="human-only-label" title="Show only peer-to-peer messages (hide task dispatches, completions, and lead coordination notes)">
+      <input type="checkbox" id="human-only">
+      Human only
+    </label>
+    <label class="toggle" id="paired-label" title="Reorder so each message's reply plays immediately after it (conversational order), instead of strict chronological order across parallel work.">
+      <input type="checkbox" id="paired">
+      Conversational
+    </label>
+    <div class="sep"></div>
+    <input type="range" id="scrubber" class="scrubber" min="0" max="0" value="0" />
+    <span class="progress" id="progress">0 / 0</span>
+  </div>
+
+  <div id="stage"></div>
+
+  <div class="log" id="log"></div>
+
+  <footer>Self-contained offline stage playback. Also see
+    <a href="playback.html">playback.html</a> ·
+    <a href="report.html">report.html</a></footer>
+</div>
+
+<script type="application/json" id="data">{"run_id":"20260423_054936","team":"shutdown-scenario","goal":"Build a small Python utility as a team. Domain is open \u2014 pick anything useful in under 200 lines. Must include workspace/README.md and a smoke test that actually runs. Prefer the standard library. The utility should be offline-friendly (no network calls in normal operation). The reviewer will inspect every code artifact.","agents":["lead","research_engineer","partnerships_analyst","code_reviewer","team_lead"],"events":[{"ts":"2026-04-23T05:49:51.907862+00:00","kind":"note","label":"writes DONE_CRITERIA.md","who":"lead"},{"ts":"2026-04-23T05:50:01.722957+00:00","kind":"note","label":"creates task: Build v0 of the Python utility (src/ + smoke test)","who":"lead"},{"ts":"2026-04-23T05:50:09.316996+00:00","kind":"note","label":"creates task: Write workspace/README.md for the utility","who":"lead"},{"ts":"2026-04-23T05:50:18.859211+00:00","kind":"note","label":"creates task: Review v0 \u2014 write workspace/reviews/review_v1.md","who":"lead"},{"ts":"2026-04-23T05:50:20.937061+00:00","kind":"assign","label":"dispatch t_001","from":"lead","to":"research_engineer"},{"ts":"2026-04-23T05:50:22.513929+00:00","kind":"assign","label":"dispatch t_002","from":"lead","to":"partnerships_analyst"},{"ts":"2026-04-23T05:50:24.487984+00:00","kind":"assign","label":"dispatch t_003","from":"lead","to":"code_reviewer"},{"ts":"2026-04-23T05:53:14.528187+00:00","kind":"done","label":"t_001 done \u2192 src/logalyzer.py","from":"research_engineer","to":"lead"},{"ts":"2026-04-23T05:53:19.977705+00:00","kind":"msg","label":"t_001 complete. Deliverables: - 'src/logalyzer.py' \u2014 195 lines, stdlib only (argparse, re\u2026","full":"t_001 complete. Deliverables: - 'src/logalyzer.py' \u2014 195 lines, stdlib only (argparse, re, collections, pathlib). Log file analyser: counts lines by level (DEBUG/INFO/WARNING/ERROR/CRITICAL/UNKNOWN), prints an ASCII summary table with percentage bars, and supports --level / --search / --show-lines flags. Handles aliased levels (WARN\u2192WARNING, FATAL/SEVERE\u2192CRITICAL, NOTICE\u2192INFO). Offline, no network. - 'src/test_smoke.py' \u2014 17 tests across classify_line, analyse_file (unfiltered, level filter, keyword, combined), and main() CLI (exit codes, flags). 'python src/test_smoke.py' exits 0. Ready for code review.","from":"research_engineer","to":"team_lead"},{"ts":"2026-04-23T05:55:19.188938+00:00","kind":"done","label":"t_002 done \u2192 README.md","from":"partnerships_analyst","to":"lead"},{"ts":"2026-04-23T05:56:51.791198+00:00","kind":"done","label":"t_003 done \u2192 reviews/review_v1.md","from":"code_reviewer","to":"lead"},{"ts":"2026-04-23T05:56:57.736243+00:00","kind":"msg","label":"Review v1 complete \u2192 reviews/review_v1.md. Verdict: REVISE. **One blocking issue:** The R\u2026","full":"Review v1 complete \u2192 reviews/review_v1.md. Verdict: REVISE. **One blocking issue:** The README's '--level ERROR --show-lines' example shows a summary containing only 'ERROR 15 100.0%', but the implementation ('logalyzer.py:66') increments 'counts[level]' for every line unconditionally \u2014 before the filter check \u2014 so the summary always shows all levels. The docs and code contradict each other on a core feature. Engineer must either gate 'counts' on the level filter, or correct the README example. **Three non-blocking suggestions:** (1) dead 'show_lines' parameter in 'analyse_file'/'analyse_files', (2) no validation of '--level' value against known levels, (3) module-level 'FAILURES' list in test_smoke.py. Line count: 195 lines \u2014 PASS. Security: clean (stdlib only, no network, no subprocess, no eval, no secrets).","from":"code_reviewer","to":"team_lead"},{"ts":"2026-04-23T05:57:46.703682+00:00","kind":"note","label":"creates task: Revise v0 \u2014 fix blocking issue from review_v1.md","who":"lead"},{"ts":"2026-04-23T05:57:54.242725+00:00","kind":"note","label":"creates task: Update README.md to match revised code (v1)","who":"lead"},{"ts":"2026-04-23T05:58:03.442047+00:00","kind":"note","label":"creates task: Review v1 \u2014 write workspace/reviews/review_v2.md","who":"lead"},{"ts":"2026-04-23T05:58:05.482360+00:00","kind":"assign","label":"dispatch t_004","from":"lead","to":"research_engineer"},{"ts":"2026-04-23T05:58:07.109454+00:00","kind":"assign","label":"dispatch t_005","from":"lead","to":"partnerships_analyst"},{"ts":"2026-04-23T05:58:08.687584+00:00","kind":"assign","label":"dispatch t_006","from":"lead","to":"code_reviewer"},{"ts":"2026-04-23T06:00:32.951004+00:00","kind":"done","label":"t_004 done \u2192 src/logalyzer.py","from":"research_engineer","to":"lead"},{"ts":"2026-04-23T06:00:42.441285+00:00","kind":"msg","label":"t_004 complete \u2014 all review_v1.md issues addressed: **Blocking (README/code mismatch) \u2192 p\u2026","full":"t_004 complete \u2014 all review_v1.md issues addressed: **Blocking (README/code mismatch) \u2192 path (b):** - Corrected README.md '--level ERROR --show-lines' example (lines 88-107) to show the actual full-distribution summary table plus filtered matched lines below. Added a clarifying sentence explaining that '--level'/'--search' gate the matched lines printed, not the summary counts. Also updated the options table description for '--level' to be accurate. **Non-blocking 1 (dead 'show_lines' param):** - Removed 'show_lines: bool = False' from 'analyse_file', 'analyse_files', and the 'analyse_files(...)' call in 'main()'. **Non-blocking 2 ('--level' validation):** - Added guard in 'main()': if 'args.level' is set but not in 'LEVELS_ORDER', prints '[logalyzer] unknown level 'ERRO'. Valid: DEBUG, INFO, WARNING, ERROR, CRITICAL, UNKNOWN' to stderr and returns 1. **Non-blocking 3 (module-level 'FAILURES'):** - Added 'FAILURES.clear()' at entry to 'main_runner()' so multiple calls in the same process don't accumulate stale failures. - Also added a new 'test_main_level_validation' test covering the bad-level path. **Stats:** 197 lines (\u2264 200), 19 tests, exit 0.","from":"research_engineer","to":"team_lead"},{"ts":"2026-04-23T06:07:45.811905+00:00","kind":"done","label":"t_005 done \u2192 README.md","from":"partnerships_analyst","to":"lead"},{"ts":"2026-04-23T06:11:46.706981+00:00","kind":"done","label":"t_006 done \u2192 reviews/review_v2.md","from":"code_reviewer","to":"lead"},{"ts":"2026-04-23T06:11:56.584213+00:00","kind":"msg","label":"Review v2 complete \u2192 reviews/review_v2.md. Verdict: APPROVE. All blocking and non-blockin\u2026","full":"Review v2 complete \u2192 reviews/review_v2.md. Verdict: APPROVE. All blocking and non-blocking issues from v1 were addressed: \u2022 README --level example corrected (shows full summary + prose explanation) \u2705 \u2022 Dead 'show_lines' parameter removed from analyse_file / analyse_files \u2705 \u2022 Level validation added to main() with diagnostic message \u2705 \u2022 FAILURES.clear() added; test_main_level_validation() test added \u2705 One new non-blocking note: the multi-file --search example's per-file breakdown shows only 2 of app.log's levels (ERROR + CRITICAL) for 81 total lines, but the code prints all non-zero levels. Minor illustration gap; does not affect functionality. Code is clean: stdlib-only, no network, no eval/exec/subprocess, no secrets, 197 lines (PASS).","from":"code_reviewer","to":"team_lead"},{"ts":"2026-04-23T06:12:29.951216+00:00","kind":"note","label":"finalize()","who":"lead"}]}</script>
+<script>
+(() => {
+  'use strict';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const XHTML_NS = 'http://www.w3.org/1999/xhtml';
+  const data = JSON.parse(document.getElementById('data').textContent);
+  const agents = data.agents;
+  const events = data.events;
+
+  // Per-agent emoji + role hint. Fallback = generic person.
+  const AVATAR = {
+    lead:     { emoji: '🧑\u200D💼', role: 'manager' },
+    backend:  { emoji: '👨\u200D💻', role: 'backend' },
+    frontend: { emoji: '👩\u200D💻', role: 'frontend' },
+    qa:       { emoji: '🧑\u200D🔬', role: 'qa' },
+    design:   { emoji: '🧑\u200D🎨', role: 'design' },
+  };
+  const FALLBACK_AVATAR = { emoji: '👤', role: '' };
+  const meta = (a) => AVATAR[a] || { emoji: FALLBACK_AVATAR.emoji, role: a };
+
+  // ---- Stage layout ----
+  const STAGE_W = 1320;
+  const STAGE_H = 520;
+  const FLOOR_Y = 420;
+  const HEAD_Y  = 360;  // rough y where bubble tail should touch
+  const LEFT_MARGIN = 80;
+  const RIGHT_MARGIN = 80;
+  const span = STAGE_W - LEFT_MARGIN - RIGHT_MARGIN;
+  const n = Math.max(1, agents.length);
+  const positions = {};
+  agents.forEach((a, i) => {
+    const x = LEFT_MARGIN + (n === 1 ? span/2 : (span * i / (n - 1)));
+    positions[a] = { x, headY: HEAD_Y, footY: FLOOR_Y };
+  });
+  const posOf = (a) => positions[a] || {
+    x: STAGE_W - RIGHT_MARGIN / 2, headY: HEAD_Y, footY: FLOOR_Y
+  };
+
+  // ---- Build the stage SVG ----
+  const stageDiv = document.getElementById('stage');
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${STAGE_W} ${STAGE_H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+  // Arrow markers
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mk = (id, color) => `
+    <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+    </marker>`;
+  defs.innerHTML =
+    mk('mkMsg',    '#22d3ee') +
+    mk('mkAssign', '#60a5fa') +
+    mk('mkDone',   '#4ade80') +
+    mk('mkFailed', '#f87171');
+  svg.appendChild(defs);
+
+  // Floor
+  const floor = document.createElementNS(SVG_NS, 'rect');
+  floor.setAttribute('x', 0);
+  floor.setAttribute('y', FLOOR_Y + 40);
+  floor.setAttribute('width', STAGE_W);
+  floor.setAttribute('height', STAGE_H - (FLOOR_Y + 40));
+  floor.setAttribute('class', 'floor');
+  svg.appendChild(floor);
+
+  const floorLine = document.createElementNS(SVG_NS, 'line');
+  floorLine.setAttribute('x1', 20);
+  floorLine.setAttribute('x2', STAGE_W - 20);
+  floorLine.setAttribute('y1', FLOOR_Y + 40);
+  floorLine.setAttribute('y2', FLOOR_Y + 40);
+  floorLine.setAttribute('class', 'floor-line');
+  svg.appendChild(floorLine);
+
+  // Avatars (the cast)
+  const avatarEls = {};
+  const nameEls = {};
+  agents.forEach((a) => {
+    const p = posOf(a);
+    const m = meta(a);
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${p.x}, ${p.footY})`);
+    g.setAttribute('data-agent', a);
+
+    const avatar = document.createElementNS(SVG_NS, 'text');
+    avatar.setAttribute('class', 'avatar');
+    avatar.setAttribute('x', 0);
+    avatar.setAttribute('y', -10);
+    avatar.textContent = m.emoji;
+    g.appendChild(avatar);
+
+    const name = document.createElementNS(SVG_NS, 'text');
+    name.setAttribute('class', 'agent-name');
+    name.setAttribute('x', 0);
+    name.setAttribute('y', 64);
+    name.textContent = a;
+    g.appendChild(name);
+
+    if (m.role) {
+      const role = document.createElementNS(SVG_NS, 'text');
+      role.setAttribute('class', 'agent-role');
+      role.setAttribute('x', 0);
+      role.setAttribute('y', 80);
+      role.textContent = m.role;
+      g.appendChild(role);
+    }
+
+    svg.appendChild(g);
+    avatarEls[a] = avatar;
+    nameEls[a] = name;
+
+    // Stagger idle animations so the cast doesn't bob in unison
+    const stagger = (Math.abs(a.charCodeAt(0) + a.length) % 4) * 0.5;
+    avatar.style.animationDelay = stagger + 's';
+  });
+
+  // Arrow layer (under bubbles) and bubble layer
+  const arrowLayer = document.createElementNS(SVG_NS, 'g');
+  arrowLayer.setAttribute('class', 'arrow-layer');
+  svg.appendChild(arrowLayer);
+  const bubbleLayer = document.createElementNS(SVG_NS, 'g');
+  bubbleLayer.setAttribute('class', 'bubble-layer');
+  svg.appendChild(bubbleLayer);
+
+  stageDiv.appendChild(svg);
+
+  // ---- Bubble + arrow renderers ----
+  let currentBubble = null;
+  let currentArrow = null;
+  let reactionTimer = null;
+
+  function clearStageFX() {
+    if (currentBubble) { currentBubble.remove(); currentBubble = null; }
+    if (currentArrow)  { currentArrow.remove();  currentArrow = null; }
+    if (reactionTimer) { clearTimeout(reactionTimer); reactionTimer = null; }
+    // Remove lingering CSS animation classes
+    Object.values(avatarEls).forEach(a => {
+      a.classList.remove('speaking');
+      a.classList.remove('listening');
+    });
+    Object.entries(nameEls).forEach(([k, el]) => el.classList.remove('active'));
+  }
+
+  function drawBubble(who, text, kind) {
+    const p = posOf(who);
+    // Bubble sizing: width scales with text until 520px, then we wrap.
+    // Height is derived from the estimated wrapped row count.
+    const len = text.length;
+    const W = Math.min(520, Math.max(180, len * 6.8 + 36));
+    const approxCharsPerRow = Math.max(18, Math.floor((W - 28) / 7.2));
+    const rows = Math.max(1, Math.ceil(len / approxCharsPerRow));
+    const H = Math.min(240, 44 + rows * 20);
+    const cx = p.x;
+    // Anchor the bubble BOTTOM ~30px above the head so the tail tip
+    // sits just above it regardless of how tall the bubble grows.
+    const baseY = p.headY - 30;
+    // Clamp x so bubble doesn't run off either edge
+    const minCx = W / 2 + 12;
+    const maxCx = STAGE_W - W / 2 - 12;
+    const anchorX = Math.max(minCx, Math.min(maxCx, cx));
+
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'bubble');
+    g.setAttribute('transform', `translate(${anchorX}, ${baseY})`);
+
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('x', -W / 2);
+    rect.setAttribute('y', -H);
+    rect.setAttribute('width', W);
+    rect.setAttribute('height', H);
+    rect.setAttribute('rx', 12);
+    rect.setAttribute('class', 'bubble-bg ' + kind);
+    g.appendChild(rect);
+
+    // Tail points from bubble down to speaker's head
+    const tailBaseX = Math.max(-W / 2 + 14,
+                               Math.min(W / 2 - 14, cx - anchorX));
+    const tailPath = document.createElementNS(SVG_NS, 'polygon');
+    tailPath.setAttribute('points',
+      `${tailBaseX - 9},0 ${tailBaseX + 9},0 ${tailBaseX},22`);
+    tailPath.setAttribute('class', 'bubble-tail ' + (kind === 'note' ? 'note' : ''));
+    g.appendChild(tailPath);
+
+    // Tail outline: two short lines to fake a border on just the sides of the tail
+    const leftLine = document.createElementNS(SVG_NS, 'line');
+    leftLine.setAttribute('x1', tailBaseX - 9);
+    leftLine.setAttribute('y1', 0);
+    leftLine.setAttribute('x2', tailBaseX);
+    leftLine.setAttribute('y2', 22);
+    leftLine.setAttribute('stroke', rect.style.stroke || '');
+    g.appendChild(leftLine);
+
+    // Sender tag (small "from:" label inside the bubble)
+    const from = document.createElementNS(SVG_NS, 'text');
+    from.setAttribute('class', 'bubble-from');
+    from.setAttribute('x', -W / 2 + 10);
+    from.setAttribute('y', -H + 14);
+    from.textContent = who;
+    g.appendChild(from);
+
+    // Body text via foreignObject so it wraps
+    const fo = document.createElementNS(SVG_NS, 'foreignObject');
+    fo.setAttribute('x', -W / 2 + 10);
+    fo.setAttribute('y', -H + 18);
+    fo.setAttribute('width', W - 20);
+    fo.setAttribute('height', H - 22);
+    const body = document.createElementNS(XHTML_NS, 'div');
+    body.setAttribute('class', 'bubble-text');
+    body.textContent = text;
+    fo.appendChild(body);
+    g.appendChild(fo);
+
+    bubbleLayer.appendChild(g);
+    // Trigger CSS transition
+    requestAnimationFrame(() => g.classList.add('show'));
+    return g;
+  }
+
+  function drawArrow(from, to, kind) {
+    if (!from || !to || from === to) return null;
+    const a = posOf(from);
+    const b = posOf(to);
+    // Curve upward over the heads
+    const midX = (a.x + b.x) / 2;
+    const midY = Math.min(a.headY, b.headY) - 70;
+    const dir = b.x >= a.x ? 1 : -1;
+    const startX = a.x + 32 * dir;
+    const endX   = b.x - 28 * dir;
+    const startY = a.headY - 20;
+    const endY   = b.headY - 20;
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d',
+      `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`);
+    path.setAttribute('class', 'arrow ' + kind);
+    const marker =
+      kind === 'done'   ? 'mkDone' :
+      kind === 'failed' ? 'mkFailed' :
+      kind === 'assign' ? 'mkAssign' : 'mkMsg';
+    path.setAttribute('marker-end', `url(#${marker})`);
+    arrowLayer.appendChild(path);
+    requestAnimationFrame(() => path.classList.add('show'));
+    return path;
+  }
+
+  function reactSpeaker(who) {
+    const a = avatarEls[who];
+    if (!a) return;
+    a.classList.remove('speaking');
+    // force reflow so the animation restarts
+    void a.getBoundingClientRect();
+    a.classList.add('speaking');
+    if (nameEls[who]) nameEls[who].classList.add('active');
+  }
+  function reactListener(who) {
+    const a = avatarEls[who];
+    if (!a) return;
+    a.classList.remove('listening');
+    void a.getBoundingClientRect();
+    a.classList.add('listening');
+    if (nameEls[who]) nameEls[who].classList.add('active');
+  }
+
+  function renderEvent(e) {
+    if (!e) return;
+    const kind = e.kind;
+    const body = (e.full && e.full.length > 0) ? e.full : (e.label || '');
+    if (kind === 'note') {
+      currentBubble = drawBubble(e.who, body, 'note');
+      reactSpeaker(e.who);
+    } else {
+      currentBubble = drawBubble(e.from, body, kind);
+      currentArrow = drawArrow(e.from, e.to, kind);
+      reactSpeaker(e.from);
+      reactionTimer = setTimeout(() => reactListener(e.to), 350);
+    }
+  }
+
+  // ---- Filter: "Human only" keeps only peer-to-peer `msg` events. ----
+  let visibleEvents = events.slice();
+  let logEntries = [];
+
+  function buildLogEntries() {
+    logEntries = visibleEvents.map((e, i) => {
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.dataset.idx = String(i);
+      const tag = document.createElement('span');
+      tag.className = 'tag ' + e.kind;
+      tag.textContent = e.kind;
+      div.appendChild(tag);
+      const who = document.createElement('span');
+      who.className = 'who';
+      who.textContent = e.kind === 'note' ? (e.who || '?') : (e.from || '?');
+      div.appendChild(who);
+      const sep = document.createElement('span');
+      if (e.kind === 'note') {
+        sep.textContent = ' · ';
+        div.appendChild(sep);
+      } else {
+        sep.textContent = ' → ';
+        const to = document.createElement('span');
+        to.className = 'to';
+        to.textContent = e.to || '?';
+        div.appendChild(sep);
+        div.appendChild(to);
+        const colon = document.createElement('span');
+        colon.textContent = ': ';
+        div.appendChild(colon);
+      }
+      const body = document.createElement('span');
+      body.textContent = (e.full && e.full.length > 0) ? e.full : (e.label || '');
+      div.appendChild(body);
+      return div;
+    });
+  }
+
+  // ---- Subtitle log ----
+  const logEl = document.getElementById('log');
+
+  function renderLog(upTo) {
+    // upTo = index of last visible entry in `visibleEvents`; -1 = empty
+    logEl.innerHTML = '';
+    for (let i = 0; i <= upTo; i++) {
+      const entry = logEntries[i];
+      if (!entry) continue;
+      entry.classList.toggle('current', i === upTo);
+      logEl.appendChild(entry);
+    }
+    if (upTo >= 0 && logEntries[upTo]) {
+      logEntries[upTo].scrollIntoView({block: 'nearest', behavior: 'smooth'});
+    }
+  }
+
+  // ---- Playback controls ----
+  let idx = -1;
+  let playing = false;
+  let timer = null;
+  const BASE_DELAY = 2000; // ms/event at 1x
+  const speedEl = document.getElementById('speed');
+  const scrubEl = document.getElementById('scrubber');
+  const progEl  = document.getElementById('progress');
+  const playBtn = document.getElementById('btn-play');
+  const backBtn = document.getElementById('btn-back');
+  const nextBtn = document.getElementById('btn-next');
+  const humanEl = document.getElementById('human-only');
+  const humanLabel = document.getElementById('human-only-label');
+  const pairedEl = document.getElementById('paired');
+  const pairedLabel = document.getElementById('paired-label');
+
+  const delay = () => BASE_DELAY / parseFloat(speedEl.value || '1');
+
+  function updateProgress() {
+    const n = idx + 1;
+    progEl.textContent = n + ' / ' + visibleEvents.length;
+    scrubEl.value = String(n);
+    backBtn.disabled = idx < 0;
+    nextBtn.disabled = idx >= visibleEvents.length - 1;
+  }
+  function setTo(i) {
+    idx = Math.max(-1, Math.min(visibleEvents.length - 1, i));
+    clearStageFX();
+    if (idx >= 0) renderEvent(visibleEvents[idx]);
+    renderLog(idx);
+    updateProgress();
+  }
+  function stepNext() {
+    if (idx >= visibleEvents.length - 1) { pause(); return; }
+    setTo(idx + 1);
+  }
+  function stepBack() {
+    if (idx < 0) return;
+    setTo(idx - 1);
+  }
+  function play() {
+    if (idx >= visibleEvents.length - 1) setTo(-1);
+    playing = true;
+    playBtn.textContent = '⏸';
+    const tick = () => {
+      stepNext();
+      if (playing && idx < visibleEvents.length - 1) {
+        timer = setTimeout(tick, delay());
+      } else {
+        pause();
+      }
+    };
+    stepNext();
+    if (playing && idx < visibleEvents.length - 1) {
+      timer = setTimeout(tick, delay());
+    } else {
+      pause();
+    }
+  }
+  function pause() {
+    playing = false;
+    playBtn.textContent = '▶';
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  // Reorder events so each message-question is followed by its reply and each
+  // task dispatch is followed by its completion. Unpaired events keep their
+  // relative order. Greedy — an A→B message pairs with the NEXT unpaired B→A
+  // message; an assign pairs with the next unpaired done mentioning the same
+  // task_id. Broadcasts (one-way messages with no reply) stay in place.
+  function pairEvents(src) {
+    const taken = new Set();
+    const out = [];
+    const taskIdRe = /\b(t_\d+)\b/;
+    const taskIdOf = (e) => {
+      const m = taskIdRe.exec(e.label || '');
+      return m ? m[1] : null;
+    };
+    function findReply(i) {
+      const e = src[i];
+      if (e.kind === 'msg') {
+        for (let j = i + 1; j < src.length; j++) {
+          if (taken.has(j)) continue;
+          const f = src[j];
+          if (f.kind === 'msg' && f.from === e.to && f.to === e.from) return j;
+        }
+      } else if (e.kind === 'assign') {
+        const tid = taskIdOf(e);
+        if (!tid) return -1;
+        for (let j = i + 1; j < src.length; j++) {
+          if (taken.has(j)) continue;
+          const f = src[j];
+          if ((f.kind === 'done' || f.kind === 'failed') && taskIdOf(f) === tid) return j;
+        }
+      }
+      return -1;
+    }
+    for (let i = 0; i < src.length; i++) {
+      if (taken.has(i)) continue;
+      out.push(src[i]);
+      taken.add(i);
+      const r = findReply(i);
+      if (r !== -1) {
+        out.push(src[r]);
+        taken.add(r);
+      }
+    }
+    return out;
+  }
+
+  function rebuildVisible() {
+    pause();
+    const humanOnly = !!(humanEl && humanEl.checked);
+    const paired    = !!(pairedEl && pairedEl.checked);
+    let pool = humanOnly
+      ? events.filter(e => e.kind === 'msg')
+      : events.slice();
+    if (paired) pool = pairEvents(pool);
+    visibleEvents = pool;
+    buildLogEntries();
+    scrubEl.max = String(visibleEvents.length);
+    if (humanLabel) humanLabel.classList.toggle('on', humanOnly);
+    if (pairedLabel) pairedLabel.classList.toggle('on', paired);
+    setTo(-1);
+  }
+
+  playBtn.addEventListener('click',     () => playing ? pause() : play());
+  nextBtn.addEventListener('click',     () => { pause(); stepNext(); });
+  backBtn.addEventListener('click',     () => { pause(); stepBack(); });
+  document.getElementById('btn-reset').addEventListener('click',
+    () => { pause(); setTo(-1); });
+  document.getElementById('btn-end').addEventListener('click',
+    () => { pause(); setTo(visibleEvents.length - 1); });
+  scrubEl.addEventListener('input', (ev) => {
+    pause();
+    setTo(parseInt(ev.target.value, 10) - 1);
+  });
+  if (humanEl) humanEl.addEventListener('change', rebuildVisible);
+  if (pairedEl) pairedEl.addEventListener('change', rebuildVisible);
+  document.addEventListener('keydown', (ev) => {
+    if (ev.target && /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); playing ? pause() : play(); }
+    else if (ev.key === 'ArrowRight') { ev.preventDefault(); pause(); stepNext(); }
+    else if (ev.key === 'ArrowLeft')  { ev.preventDefault(); pause(); stepBack(); }
+    else if (ev.key === 'Home')       { ev.preventDefault(); pause(); setTo(-1); }
+    else if (ev.key === 'End')        { ev.preventDefault(); pause(); setTo(visibleEvents.length - 1); }
+  });
+
+  rebuildVisible();
+})();
+</script>
+</body>
+</html>
