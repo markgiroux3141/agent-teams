@@ -1,0 +1,61 @@
+{
+  "goal": "Write a brief on row-level vs page-level locking in relational databases. The brief must include at least one specific performance or contention figure.",
+  "team": "messaging-demo",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 2
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "researcher",
+      "result_ref": "findings.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "writer",
+      "result_ref": "brief.md",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "lead": {
+        "cost_usd": 0.1062767,
+        "input_tokens": 78,
+        "output_tokens": 2303,
+        "cache_read": 118332,
+        "cache_write": 16123,
+        "turns": 3
+      },
+      "researcher": {
+        "cost_usd": 0.0369106,
+        "input_tokens": 23,
+        "output_tokens": 2837,
+        "cache_read": 28161,
+        "cache_write": 15410,
+        "turns": 1
+      },
+      "writer": {
+        "cost_usd": 0.0353107,
+        "input_tokens": 30,
+        "output_tokens": 1803,
+        "cache_read": 45892,
+        "cache_write": 16834,
+        "turns": 1
+      }
+    },
+    "total": {
+      "cost_usd": 0.17849800000000002,
+      "input_tokens": 131,
+      "output_tokens": 6943,
+      "cache_read": 192385,
+      "cache_write": 48367,
+      "turns": 5
+    }
+  }
+}

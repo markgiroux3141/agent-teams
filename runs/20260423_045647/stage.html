@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stage — 20260423_045647</title>
+<style>
+  :root {
+    --bg: #0f172a; --fg: #f1f5f9; --muted: #94a3b8; --line: #334155;
+    --panel: #1e293b; --accent: #60a5fa; --ok: #4ade80;
+    --warn: #fb923c; --err: #f87171; --msg: #22d3ee;
+    --note: #facc15; --bubble: #f8fafc; --bubble-fg: #0f172a;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+         color: var(--fg); background: var(--bg); margin: 0; }
+  .wrap { max-width: 1400px; margin: 16px auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: baseline;
+           gap: 16px; }
+  header h1 { font-size: 20px; margin: 0; }
+  header .meta { color: var(--muted); font-size: 13px; }
+  header .meta code { background: var(--panel); padding: 1px 6px; border-radius: 3px;
+                      color: var(--fg); }
+  .controls { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+              background: var(--panel); border: 1px solid var(--line);
+              border-radius: 6px; margin: 12px 0; position: sticky; top: 8px;
+              z-index: 10; }
+  .controls button { font: 14px/1 system-ui; padding: 6px 10px; cursor: pointer;
+                     background: var(--panel); color: var(--fg);
+                     border: 1px solid var(--line); border-radius: 4px; min-width: 36px; }
+  .controls button:hover { background: #334155; }
+  .controls button.primary { background: var(--accent); color: #0b1220;
+                             border-color: var(--accent); font-weight: 600; }
+  .controls button.primary:hover { background: #93c5fd; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .controls .group { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                     font-size: 12px; }
+  .controls select { font: 13px system-ui; padding: 4px 6px; border: 1px solid var(--line);
+                     border-radius: 4px; background: var(--panel); color: var(--fg); }
+  .controls .toggle { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                      font-size: 12px; cursor: pointer; user-select: none; }
+  .controls .toggle input { cursor: pointer; accent-color: var(--accent); }
+  .controls .toggle.on { color: var(--fg); }
+  .controls .scrubber { flex: 1; min-width: 120px; accent-color: var(--accent); }
+  .controls .progress { font-family: Consolas, monospace; font-size: 12px;
+                        min-width: 62px; text-align: right; }
+  #stage { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+           border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  #stage svg { display: block; width: 100%; height: auto; }
+  .floor { fill: #111827; }
+  .floor-line { stroke: #334155; stroke-width: 1; stroke-dasharray: 4 6; }
+  .avatar { font-size: 80px; dominant-baseline: central; text-anchor: middle;
+            transition: transform 0.3s ease-out;
+            animation: idle 4s ease-in-out infinite; }
+  .avatar.speaking { animation: speak 0.6s ease-in-out 2; }
+  .avatar.listening { animation: listen 0.5s ease-out; }
+  .agent-name { fill: var(--muted); font: 600 13px Consolas, monospace;
+                text-anchor: middle; }
+  .agent-name.active { fill: var(--fg); }
+  .agent-role { fill: var(--muted); font: 10px Consolas, monospace;
+                text-anchor: middle; opacity: 0.7; }
+  @keyframes idle {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+  @keyframes speak {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-10px) scale(1.06); }
+  }
+  @keyframes listen {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-4px) scale(1.03); }
+    100% { transform: translateY(0); }
+  }
+  .bubble-layer, .arrow-layer { pointer-events: none; }
+  .bubble { opacity: 0; transform-origin: center bottom;
+            transition: opacity 0.25s ease-out, transform 0.25s ease-out; }
+  .bubble.show { opacity: 1; }
+  .bubble-bg { fill: var(--bubble); stroke-width: 2; }
+  .bubble-bg.msg     { stroke: var(--msg); }
+  .bubble-bg.assign  { stroke: var(--accent); }
+  .bubble-bg.done    { stroke: var(--ok); }
+  .bubble-bg.failed  { stroke: var(--err); }
+  .bubble-bg.note    { fill: #fef9c3; stroke: var(--note); }
+  .bubble-tail { fill: var(--bubble); }
+  .bubble-tail.note { fill: #fef9c3; }
+  .bubble-from { font: 600 11px Consolas, monospace; fill: var(--muted); }
+  .bubble-text { font: 14px/1.3 system-ui; color: var(--bubble-fg);
+                 padding: 0; margin: 0; word-wrap: break-word;
+                 overflow-wrap: break-word; }
+  .arrow { fill: none; stroke-width: 2; opacity: 0;
+           transition: opacity 0.3s ease-out; }
+  .arrow.show { opacity: 0.85; }
+  .arrow.msg    { stroke: var(--msg); }
+  .arrow.assign { stroke: var(--accent); }
+  .arrow.done   { stroke: var(--ok); stroke-dasharray: 6 4; }
+  .arrow.failed { stroke: var(--err); stroke-dasharray: 2 3; }
+  .log { margin-top: 12px; background: var(--panel); border: 1px solid var(--line);
+         border-radius: 6px; padding: 12px 16px; max-height: 240px; overflow-y: auto;
+         font-family: Consolas, monospace; font-size: 13px; }
+  .log .entry { padding: 4px 0; border-bottom: 1px dashed #273142;
+                white-space: pre-wrap; }
+  .log .entry:last-child { border-bottom: none; }
+  .log .entry .who { color: var(--accent); font-weight: 600; }
+  .log .entry .to  { color: var(--msg); }
+  .log .entry .tag { display: inline-block; padding: 1px 6px; border-radius: 8px;
+                     font-size: 10px; margin-right: 6px; }
+  .log .entry .tag.assign { background: #1e3a8a; color: #bfdbfe; }
+  .log .entry .tag.done   { background: #14532d; color: #bbf7d0; }
+  .log .entry .tag.failed { background: #7f1d1d; color: #fecaca; }
+  .log .entry .tag.msg    { background: #164e63; color: #a5f3fc; }
+  .log .entry .tag.note   { background: #713f12; color: #fef08a; }
+  .log .entry.current { background: #1e293b; margin: 0 -16px;
+                        padding: 4px 16px; border-left: 3px solid var(--accent); }
+  footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Stage — <code>20260423_045647</code></h1>
+      <div class="meta">Team <code>recipes-website</code> · 48 events</div>
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Playback controls">
+    <button id="btn-reset" title="Reset to start">⏮</button>
+    <button id="btn-back" title="Step back">◂</button>
+    <button id="btn-play" class="primary" title="Play / Pause">▶</button>
+    <button id="btn-next" title="Step forward">▸</button>
+    <button id="btn-end" title="Jump to end">⏭</button>
+    <div class="sep"></div>
+    <div class="group">
+      speed
+      <select id="speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+        <option value="3">3×</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <label class="toggle" id="human-only-label" title="Show only peer-to-peer messages (hide task dispatches, completions, and lead coordination notes)">
+      <input type="checkbox" id="human-only">
+      Human only
+    </label>
+    <label class="toggle" id="paired-label" title="Reorder so each message's reply plays immediately after it (conversational order), instead of strict chronological order across parallel work.">
+      <input type="checkbox" id="paired">
+      Conversational
+    </label>
+    <div class="sep"></div>
+    <input type="range" id="scrubber" class="scrubber" min="0" max="0" value="0" />
+    <span class="progress" id="progress">0 / 0</span>
+  </div>
+
+  <div id="stage"></div>
+
+  <div class="log" id="log"></div>
+
+  <footer>Self-contained offline stage playback. Also see
+    <a href="playback.html">playback.html</a> ·
+    <a href="report.html">report.html</a></footer>
+</div>
+
+<script type="application/json" id="data">{"run_id":"20260423_045647","team":"recipes-website","goal":"Ship a recipes website. Take the vague brief through two rounds of team deliberation, produce a SPEC.md that pins every cross-team contract, then dispatch parallel build tasks with no further coordination. Verify the produced files form a working static site.","agents":["lead","backend","frontend","ux","writer"],"events":[{"ts":"2026-04-23T04:57:08.097335+00:00","kind":"note","label":"writes DONE_CRITERIA.md","who":"lead"},{"ts":"2026-04-23T04:57:11.892740+00:00","kind":"note","label":"creates task: Propose \u2014 backend","who":"lead"},{"ts":"2026-04-23T04:57:12.518344+00:00","kind":"note","label":"creates task: Propose \u2014 frontend","who":"lead"},{"ts":"2026-04-23T04:57:13.148551+00:00","kind":"note","label":"creates task: Propose \u2014 ux","who":"lead"},{"ts":"2026-04-23T04:57:13.656419+00:00","kind":"note","label":"creates task: Propose \u2014 writer","who":"lead"},{"ts":"2026-04-23T04:57:15.123763+00:00","kind":"assign","label":"dispatch t_001","from":"lead","to":"backend"},{"ts":"2026-04-23T04:57:15.344791+00:00","kind":"assign","label":"dispatch t_002","from":"lead","to":"frontend"},{"ts":"2026-04-23T04:57:15.546623+00:00","kind":"assign","label":"dispatch t_003","from":"lead","to":"ux"},{"ts":"2026-04-23T04:57:15.683112+00:00","kind":"assign","label":"dispatch t_004","from":"lead","to":"writer"},{"ts":"2026-04-23T04:57:46.275899+00:00","kind":"msg","label":"Hi! UX here. Before I lock in my visual direction, I need to confirm the CSS class names\u2026","full":"Hi! UX here. Before I lock in my visual direction, I need to confirm the CSS class names you're committing to emit. I'm planning a warm, editorial card-based layout for the recipe list. Please give me: 1. The CSS class-name prefix (e.g., 'rx-', 'recipe-', etc.) 2. The full list of classes you'll emit for the list view (e.g., '.rx-card', '.rx-card-title', etc.) 3. Similarly for any detail/modal view if that's in scope This will let me style everything systematically. What's your class contract?","from":"ux","to":"frontend"},{"ts":"2026-04-23T04:57:48.003632+00:00","kind":"msg","label":"Hey! UX here. I'm designing the card containers for the recipe list, and I need to know y\u2026","full":"Hey! UX here. I'm designing the card containers for the recipe list, and I need to know your content density: 1. Recipe titles \u2014 a few words (e.g., 'Rustic Bread') or longer (e.g., 'Rustic Sourdough with a Crispy Crust and Tangy Flavor')? 2. Descriptions \u2014 punchy one-liner or a narrative sentence or two? 3. Do you want images? The team can't produce binary files, so I'm suggesting either: (a) no images, strong typography carries it, or (b) emoji/unicode glyph per category as a visual marker. What feels right to you? This shapes the card height and text measure. What's your content plan?","from":"ux","to":"writer"},{"ts":"2026-04-23T04:57:48.796874+00:00","kind":"msg","label":"Hi backend! UX here. Quick scope question: are we showing recipe filters/search on the li\u2026","full":"Hi backend! UX here. Quick scope question: are we showing recipe filters/search on the list view, or is it a straight grid of all recipes? This affects the overall layout complexity and whether I need to reserve space for a filter sidebar or search bar. What's in scope for the first pass?","from":"ux","to":"backend"},{"ts":"2026-04-23T04:57:51.642165+00:00","kind":"msg","label":"Hi backend \u2014 writer here. Before I propose my recipe set, I need to confirm the schema. I\u2026","full":"Hi backend \u2014 writer here. Before I propose my recipe set, I need to confirm the schema. I'm planning 8 recipes with these fields per recipe: REQUIRED: - name (string) - category (string \u2014 one of: breakfast, main, dessert) - time (integer, in minutes) - servings (integer) - description (string, 1\u20132 sentences) - ingredients (array of strings, formatted as 'amount unit ingredient' e.g. '2 cups flour') - steps (array of strings, ordered instructions) OPTIONAL (nice-to-have, not blocking): - difficulty (string \u2014 easy, medium, hard) - dietary_tags (array of strings \u2014 vegetarian, vegan, gluten_free, etc.) Does your proposed schema cover these? Any gaps I should know about before I commit to the proposal?","from":"writer","to":"backend"},{"ts":"2026-04-23T04:57:54.524866+00:00","kind":"msg","label":"Hi UX \u2014 writer here. Your brief asked what I'll write. Here's what shapes my decisions: F\u2026","full":"Hi UX \u2014 writer here. Your brief asked what I'll write. Here's what shapes my decisions: For recipe titles: I'll keep them SHORT \u2014 2\u20134 words when possible (e.g. 'Fluffy Pancakes', 'Grilled Salmon', 'Chocolate Cake'). Clear over clever. For descriptions: I'll stick to 1\u20132 sentences max. Warm, practical voice \u2014 why you'd want to make it, no marketing fluff. Two questions for you: 1. Is the card grid dense (compact spacing, descriptions clipped) or roomy (more breathing room, descriptions might run 2 full lines)? That shapes how I pace the description text. 2. Are you using emoji/unicode glyphs per category (breakfast egg, fork-knife, dessert spoon) or relying on typography alone? I can weave that into the descriptions if you want thematic touches, but I don't add emoji to the content itself either way.","from":"writer","to":"ux"},{"ts":"2026-04-23T04:58:11.981074+00:00","kind":"msg","label":"Perfect, your questions match mine exactly. Here's my content plan: 1. **Titles**: SHORT\u2026","full":"Perfect, your questions match mine exactly. Here's my content plan: 1. **Titles**: SHORT \u2014 2\u20134 words max (e.g., 'Fluffy Pancakes', 'Grilled Salmon', 'Chocolate Lava Cake'). Clear and scannable. 2. **Descriptions**: ONE punchy sentence, maybe two if the first is brief. Something that tells the cook WHY they'd want to make it ('Crispy edges, fluffy center, ready in 20 minutes.') \u2014 no flowery marketing speak. 3. **Images**: I vote for **(b) emoji/unicode glyphs per category**. One visual marker per card (breakfast gets \ud83c\udf73, main gets \ud83c\udf7d\ufe0f, dessert gets \ud83c\udf70 \u2014 or whatever you pick). Keeps it light, no external URLs to break on a demo, and adds warmth without being cutesy. No emoji embedded in my description text though. This keeps cards compact and scannable. The glyph gives you a visual anchor, and I'll make sure descriptions are punchy enough to sit on a single line + overflow to one more if needed. Assuming the card grid is standard (readable measure, ~280\u2013320px wide?), this should fit tight and nice.","from":"writer","to":"ux"},{"ts":"2026-04-23T04:58:12.602604+00:00","kind":"msg","label":"Hi UX! Proposing CSS class prefix and structure for the recipes site. I'm planning to use\u2026","full":"Hi UX! Proposing CSS class prefix and structure for the recipes site. I'm planning to use 'rx-' as the prefix for all recipe-related elements. Major classes I'll emit: - 'rx-header' (page header) - 'rx-search-input' (search field) - 'rx-filter-button' (category filter buttons) - 'rx-recipe-list' (the grid container) - 'rx-card' (individual recipe card) - 'rx-card-image' (image/placeholder area) - 'rx-card-title', 'rx-card-description', 'rx-card-meta', 'rx-card-time', 'rx-card-category' (card content pieces) - 'rx-detail-modal' (detail view modal/container) - 'rx-ingredients-list', 'rx-steps-list' (in detail view) For the detail view, I'm proposing a modal overlay on a single-page design (click card \u2192 overlay appears). Prefer this over separate recipe.html since it's simpler and avoids navigation complexity. **Question for you:** Should I include image placeholder markup? Your brief suggests either (a) no images, or (b) emoji/unicode glyphs per category. I'll include 'rx-card-image' div either way, but want to know your preference so I structure it right. Does this class naming feel like what you'd want to style against?","from":"frontend","to":"ux"},{"ts":"2026-04-23T04:58:16.599450+00:00","kind":"msg","label":"Hi Backend! Proposing the DOM structure and hooks you'll need to inject content. I'm doin\u2026","full":"Hi Backend! Proposing the DOM structure and hooks you'll need to inject content. I'm doing a single-page design with: - '<input id='search-input'>' for search (you'll wire the input event) - '<button class='rx-filter-button' data-category='breakfast'>' (etc. for each category \u2014 you'll wire click handlers) - '<div id='recipe-list' class='rx-recipe-list'>' (container where you'll inject 'rx-card' elements) - Each card is '<article class='rx-card' data-recipe-id='...'>' with nested elements for title, image, meta, description - A '<div id='recipe-detail' class='rx-detail-modal'>' overlay that you'll populate when a card is clicked - Inside the modal: '<div class='rx-ingredients-list'>' and '<div class='rx-steps-list'>' **Data format question:** Your brief mentions either inline '<script type='application/json'>' or inlined const in app.js. No strong opinion from me \u2014 wherever the recipes data lives, I just need to know so I don't fight over turf. What's your preference? **Search/filter logic:** You'll handle the filtering on input/click and re-render the recipe list. I'll provide hooks (the container IDs, button classes with data attrs). Sound right?","from":"frontend","to":"backend"},{"ts":"2026-04-23T04:58:16.763044+00:00","kind":"msg","label":"Proposed recipe schema. Does this cover what you need? ''' { id: string (unique), name: s\u2026","full":"Proposed recipe schema. Does this cover what you need? ''' { id: string (unique), name: string, description: string (1-2 sentences), category: string (breakfast|main|dessert), time_minutes: number, servings: number, ingredients: string[] (with amounts), steps: string[] (ordered), difficulty?: string (easy|medium|hard), dietary_tags?: string[] (vegetarian, gluten-free, etc), image_emoji?: string (single character) } ''' Missing anything? Want to add fields or constraints?","from":"backend","to":"writer"},{"ts":"2026-04-23T04:58:17.940712+00:00","kind":"msg","label":"Data loading approach: frontend embeds a '<script type='application/json' id='recipes-dat\u2026","full":"Data loading approach: frontend embeds a '<script type='application/json' id='recipes-data'>' block in index.html (containing the JSON recipes). Backend's app.js reads it via 'document.getElementById('recipes-data').textContent' and parses it. Writer produces the JSON, you embed it in the HTML. Works for file:// (no fetch), keeps concerns separated. Acceptable?","from":"backend","to":"frontend"},{"ts":"2026-04-23T04:58:25.312616+00:00","kind":"msg","label":"Schema confirmed with writer \u2014 you're good. For data loading: I'm proposing you embed '<s\u2026","full":"Schema confirmed with writer \u2014 you're good. For data loading: I'm proposing you embed '<script type='application/json' id='recipes-data'>...<\/script>' in index.html with the full recipes array. app.js reads it on load via 'document.getElementById('recipes-data').textContent' and parses it. DOM hooks look solid. I'll wire search input and filter buttons for category filtering. Clicking a card opens the modal, clicking outside closes it. Initially starting with search + category filter. No sort control needed for Phase 1. That align with your structure?","from":"backend","to":"frontend"},{"ts":"2026-04-23T04:58:26.429023+00:00","kind":"msg","label":"Scope: search bar (by name/description/ingredients) and category filter buttons (breakfas\u2026","full":"Scope: search bar (by name/description/ingredients) and category filter buttons (breakfast|main|dessert). Both live above the recipe grid. Will be visible on page load. Frontend is reserving space. You design the visual treatment for search input, filter buttons, and the recipe card grid. Does that work for layout planning?","from":"backend","to":"ux"},{"ts":"2026-04-23T04:58:27.981894+00:00","kind":"done","label":"t_004 done \u2192 proposals/writer.md","from":"writer","to":"lead"},{"ts":"2026-04-23T04:58:29.255345+00:00","kind":"msg","label":"Perfect! Your content plan is exactly what I need. SHORT titles and punchy 1\u20132 sentence d\u2026","full":"Perfect! Your content plan is exactly what I need. SHORT titles and punchy 1\u20132 sentence descriptions = roomy card grid (more breathing room). Here's my answer to your questions: 1. **Card spacing:** ROOMY. With your short, scannable titles and punchy descriptions, I'm designing for comfortable breathing room \u2014 larger padding, generous line-height. No cramming. This feels more 'favorite cookbook' than 'data grid.' 2. **Emoji glyphs:** YES, use them. One visual marker per card (\ud83c\udf73 for breakfast, \ud83c\udf7d\ufe0f for main, \ud83c\udf70 for dessert, etc.). Frontend will emit a 'rx-card-category' class that I'll style to hold the glyph. They'll handle the emoji placement in markup; you keep emoji out of your description text. This is the right call \u2014 warm, lightweight, no external URLs. **Card dimensions I'm designing for:** - Width: ~280\u2013320px (matches your assumption) - Height: flexible, but expecting ~200\u2013240px for title + metadata + 1\u20132 line description - Padding: 20px inside, 20px gap between cards (scales to 12px on mobile) Does this feel like the right vibe?","from":"ux","to":"writer"},{"ts":"2026-04-23T04:58:32.461873+00:00","kind":"msg","label":"Perfect class contract! I'll style every 'rx-*' you listed. A few confirmations: 1. **'rx\u2026","full":"Perfect class contract! I'll style every 'rx-*' you listed. A few confirmations: 1. **'rx-card-image' structure:** YES, include the placeholder div. I'll style it to hold a SINGLE EMOJI/UNICODE CHARACTER as the visual anchor (one per category \u2014 breakfast \ud83c\udf73, main \ud83c\udf7d\ufe0f, dessert \ud83c\udf70, etc.). The writer and I agreed on this. Keep it simple: a single character in that div, styled to be prominent but not overwhelming. 2. **Your class list is perfect.** I'll style all of these: - Page-level: 'rx-header', 'rx-search-input', 'rx-filter-button' - List view: 'rx-recipe-list', 'rx-card', 'rx-card-image', 'rx-card-title', 'rx-card-description', 'rx-card-meta', 'rx-card-time', 'rx-card-category' - Detail view: 'rx-detail-modal', 'rx-ingredients-list', 'rx-steps-list' 3. **Modal detail view:** Great choice (single-page, no separate recipe.html). I'll style the modal overlay with appropriate contrast and touch-friendly close affordances. I'll have 'styles.css' ready with all these classes styled in the warm editorial direction. The 'rx-card-image' will be sized to hold a single emoji character as a visual category anchor \u2014 no background images needed. Does this lock down your markup contract?","from":"ux","to":"frontend"},{"ts":"2026-04-23T04:58:37.173741+00:00","kind":"done","label":"t_002 done \u2192 proposals/frontend.md","from":"frontend","to":"lead"},{"ts":"2026-04-23T04:58:42.529215+00:00","kind":"done","label":"t_001 done \u2192 proposals/backend.md","from":"backend","to":"lead"},{"ts":"2026-04-23T04:59:02.161678+00:00","kind":"done","label":"t_003 done \u2192 proposals/ux.md","from":"ux","to":"lead"},{"ts":"2026-04-23T05:00:14.397105+00:00","kind":"note","label":"creates task: Write SPEC.md (Phase 2)","who":"lead"},{"ts":"2026-04-23T05:00:17.323175+00:00","kind":"assign","label":"dispatch t_005","from":"lead","to":"backend"},{"ts":"2026-04-23T05:00:27.245160+00:00","kind":"msg","label":"Perfect \u2014 that's locked into my proposal. I'm designing visual treatment for: - '.rx-sear\u2026","full":"Perfect \u2014 that's locked into my proposal. I'm designing visual treatment for: - '.rx-search-input' (search field) - '.rx-filter-button' (category buttons: breakfast, main, dessert) - Both above the '.rx-recipe-list' grid I'll style the search input for readability + touch-friendly hit target. Filter buttons will be small, accent-colored badges that change state on selection. No conflict with frontend's space reservation. Ready to style these once SPEC.md lands.","from":"ux","to":"backend"},{"ts":"2026-04-23T05:00:29.598480+00:00","kind":"msg","label":"Perfect! Locked. I'm emitting all the 'rx-*' classes you listed. On 'rx-card-image': Conf\u2026","full":"Perfect! Locked. I'm emitting all the 'rx-*' classes you listed. On 'rx-card-image': Confirmed. Single emoji character per category in that div \u2014 I'll put it there empty/placeholder, and you style it prominent. No background images, no complex markup needed. I'm good to build index.html with this contract. See you in Phase 3!","from":"frontend","to":"ux"},{"ts":"2026-04-23T05:00:29.761614+00:00","kind":"msg","label":"Excellent. Your schema covers everything. The 'image_emoji' field is a nice touch \u2014 I won\u2026","full":"Excellent. Your schema covers everything. The 'image_emoji' field is a nice touch \u2014 I won't populate it myself, but it's there if frontend needs to inject category icons separately. I'm ready to write the 8 recipes. Waiting for you to publish SPEC.md with final decisions and the file path where you want the recipe data (presumably 'data/recipes.json' or embedded in the HTML?). Once that's locked, I'll produce the full JSON content.","from":"writer","to":"backend"},{"ts":"2026-04-23T05:00:29.849612+00:00","kind":"msg","label":"YES \u2014 that vibe is exactly right. Roomy, warm, cookbook aesthetic. Your card dimensions (\u2026","full":"YES \u2014 that vibe is exactly right. Roomy, warm, cookbook aesthetic. Your card dimensions (280\u2013320px wide, 200\u2013240px tall) are perfect for the descriptions I'm writing. Generous padding and breathing room will make it feel intentional, not cramped. I'll keep emoji out of the description text. Frontend handles the glyph placement via 'rx-card-category' \u2014 I'll just make sure my descriptions fit nicely in the remaining space. Ready to go when backend publishes SPEC.md.","from":"writer","to":"ux"},{"ts":"2026-04-23T05:00:31.152353+00:00","kind":"msg","label":"Locked on both fronts: 1. **Data loading:** YES, I'll embed '<script type='application/js\u2026","full":"Locked on both fronts: 1. **Data loading:** YES, I'll embed '<script type='application/json' id='recipes-data'>...<\/script>' in index.html. You read it in app.js via 'document.getElementById('recipes-data').textContent' and parse. Perfect for file:// and keeps concerns clean. 2. **DOM hooks & interactivity:** Confirmed. You'll wire search input + category filter buttons, card click \u2192 modal open, click outside \u2192 close. My structure supports all of it. I'll build index.html to this spec. Ready when SPEC.md lands, or if the lead moves us to Phase 3 build.","from":"frontend","to":"backend"},{"ts":"2026-04-23T05:01:40.452734+00:00","kind":"done","label":"t_005 done \u2192 SPEC.md","from":"backend","to":"lead"},{"ts":"2026-04-23T05:02:10.814317+00:00","kind":"note","label":"creates task: Build \u2014 frontend","who":"lead"},{"ts":"2026-04-23T05:02:21.073592+00:00","kind":"note","label":"creates task: Build \u2014 ux","who":"lead"},{"ts":"2026-04-23T05:02:31.785609+00:00","kind":"note","label":"creates task: Build \u2014 backend","who":"lead"},{"ts":"2026-04-23T05:02:41.132577+00:00","kind":"note","label":"creates task: Build \u2014 writer","who":"lead"},{"ts":"2026-04-23T05:02:42.944091+00:00","kind":"assign","label":"dispatch t_006","from":"lead","to":"frontend"},{"ts":"2026-04-23T05:02:43.214770+00:00","kind":"assign","label":"dispatch t_007","from":"lead","to":"ux"},{"ts":"2026-04-23T05:02:43.385524+00:00","kind":"assign","label":"dispatch t_008","from":"lead","to":"backend"},{"ts":"2026-04-23T05:02:43.449452+00:00","kind":"assign","label":"dispatch t_009","from":"lead","to":"writer"},{"ts":"2026-04-23T05:03:24.239550+00:00","kind":"done","label":"t_007 done \u2192 styles.css","from":"ux","to":"lead"},{"ts":"2026-04-23T05:04:06.149456+00:00","kind":"done","label":"t_008 done \u2192 app.js","from":"backend","to":"lead"},{"ts":"2026-04-23T05:04:09.932408+00:00","kind":"done","label":"t_006 done \u2192 index.html","from":"frontend","to":"lead"},{"ts":"2026-04-23T05:04:10.915636+00:00","kind":"done","label":"t_009 done \u2192 recipes.json","from":"writer","to":"lead"},{"ts":"2026-04-23T05:05:44.931298+00:00","kind":"note","label":"finalize()","who":"lead"}]}</script>
+<script>
+(() => {
+  'use strict';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const XHTML_NS = 'http://www.w3.org/1999/xhtml';
+  const data = JSON.parse(document.getElementById('data').textContent);
+  const agents = data.agents;
+  const events = data.events;
+
+  // Per-agent emoji + role hint. Fallback = generic person.
+  const AVATAR = {
+    lead:     { emoji: '🧑\u200D💼', role: 'manager' },
+    backend:  { emoji: '👨\u200D💻', role: 'backend' },
+    frontend: { emoji: '👩\u200D💻', role: 'frontend' },
+    qa:       { emoji: '🧑\u200D🔬', role: 'qa' },
+    design:   { emoji: '🧑\u200D🎨', role: 'design' },
+  };
+  const FALLBACK_AVATAR = { emoji: '👤', role: '' };
+  const meta = (a) => AVATAR[a] || { emoji: FALLBACK_AVATAR.emoji, role: a };
+
+  // ---- Stage layout ----
+  const STAGE_W = 1320;
+  const STAGE_H = 520;
+  const FLOOR_Y = 420;
+  const HEAD_Y  = 360;  // rough y where bubble tail should touch
+  const LEFT_MARGIN = 80;
+  const RIGHT_MARGIN = 80;
+  const span = STAGE_W - LEFT_MARGIN - RIGHT_MARGIN;
+  const n = Math.max(1, agents.length);
+  const positions = {};
+  agents.forEach((a, i) => {
+    const x = LEFT_MARGIN + (n === 1 ? span/2 : (span * i / (n - 1)));
+    positions[a] = { x, headY: HEAD_Y, footY: FLOOR_Y };
+  });
+  const posOf = (a) => positions[a] || {
+    x: STAGE_W - RIGHT_MARGIN / 2, headY: HEAD_Y, footY: FLOOR_Y
+  };
+
+  // ---- Build the stage SVG ----
+  const stageDiv = document.getElementById('stage');
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${STAGE_W} ${STAGE_H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+  // Arrow markers
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mk = (id, color) => `
+    <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+    </marker>`;
+  defs.innerHTML =
+    mk('mkMsg',    '#22d3ee') +
+    mk('mkAssign', '#60a5fa') +
+    mk('mkDone',   '#4ade80') +
+    mk('mkFailed', '#f87171');
+  svg.appendChild(defs);
+
+  // Floor
+  const floor = document.createElementNS(SVG_NS, 'rect');
+  floor.setAttribute('x', 0);
+  floor.setAttribute('y', FLOOR_Y + 40);
+  floor.setAttribute('width', STAGE_W);
+  floor.setAttribute('height', STAGE_H - (FLOOR_Y + 40));
+  floor.setAttribute('class', 'floor');
+  svg.appendChild(floor);
+
+  const floorLine = document.createElementNS(SVG_NS, 'line');
+  floorLine.setAttribute('x1', 20);
+  floorLine.setAttribute('x2', STAGE_W - 20);
+  floorLine.setAttribute('y1', FLOOR_Y + 40);
+  floorLine.setAttribute('y2', FLOOR_Y + 40);
+  floorLine.setAttribute('class', 'floor-line');
+  svg.appendChild(floorLine);
+
+  // Avatars (the cast)
+  const avatarEls = {};
+  const nameEls = {};
+  agents.forEach((a) => {
+    const p = posOf(a);
+    const m = meta(a);
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('transform', `translate(${p.x}, ${p.footY})`);
+    g.setAttribute('data-agent', a);
+
+    const avatar = document.createElementNS(SVG_NS, 'text');
+    avatar.setAttribute('class', 'avatar');
+    avatar.setAttribute('x', 0);
+    avatar.setAttribute('y', -10);
+    avatar.textContent = m.emoji;
+    g.appendChild(avatar);
+
+    const name = document.createElementNS(SVG_NS, 'text');
+    name.setAttribute('class', 'agent-name');
+    name.setAttribute('x', 0);
+    name.setAttribute('y', 64);
+    name.textContent = a;
+    g.appendChild(name);
+
+    if (m.role) {
+      const role = document.createElementNS(SVG_NS, 'text');
+      role.setAttribute('class', 'agent-role');
+      role.setAttribute('x', 0);
+      role.setAttribute('y', 80);
+      role.textContent = m.role;
+      g.appendChild(role);
+    }
+
+    svg.appendChild(g);
+    avatarEls[a] = avatar;
+    nameEls[a] = name;
+
+    // Stagger idle animations so the cast doesn't bob in unison
+    const stagger = (Math.abs(a.charCodeAt(0) + a.length) % 4) * 0.5;
+    avatar.style.animationDelay = stagger + 's';
+  });
+
+  // Arrow layer (under bubbles) and bubble layer
+  const arrowLayer = document.createElementNS(SVG_NS, 'g');
+  arrowLayer.setAttribute('class', 'arrow-layer');
+  svg.appendChild(arrowLayer);
+  const bubbleLayer = document.createElementNS(SVG_NS, 'g');
+  bubbleLayer.setAttribute('class', 'bubble-layer');
+  svg.appendChild(bubbleLayer);
+
+  stageDiv.appendChild(svg);
+
+  // ---- Bubble + arrow renderers ----
+  let currentBubble = null;
+  let currentArrow = null;
+  let reactionTimer = null;
+
+  function clearStageFX() {
+    if (currentBubble) { currentBubble.remove(); currentBubble = null; }
+    if (currentArrow)  { currentArrow.remove();  currentArrow = null; }
+    if (reactionTimer) { clearTimeout(reactionTimer); reactionTimer = null; }
+    // Remove lingering CSS animation classes
+    Object.values(avatarEls).forEach(a => {
+      a.classList.remove('speaking');
+      a.classList.remove('listening');
+    });
+    Object.entries(nameEls).forEach(([k, el]) => el.classList.remove('active'));
+  }
+
+  function drawBubble(who, text, kind) {
+    const p = posOf(who);
+    // Bubble sizing: width scales with text until 520px, then we wrap.
+    // Height is derived from the estimated wrapped row count.
+    const len = text.length;
+    const W = Math.min(520, Math.max(180, len * 6.8 + 36));
+    const approxCharsPerRow = Math.max(18, Math.floor((W - 28) / 7.2));
+    const rows = Math.max(1, Math.ceil(len / approxCharsPerRow));
+    const H = Math.min(240, 44 + rows * 20);
+    const cx = p.x;
+    // Anchor the bubble BOTTOM ~30px above the head so the tail tip
+    // sits just above it regardless of how tall the bubble grows.
+    const baseY = p.headY - 30;
+    // Clamp x so bubble doesn't run off either edge
+    const minCx = W / 2 + 12;
+    const maxCx = STAGE_W - W / 2 - 12;
+    const anchorX = Math.max(minCx, Math.min(maxCx, cx));
+
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'bubble');
+    g.setAttribute('transform', `translate(${anchorX}, ${baseY})`);
+
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.setAttribute('x', -W / 2);
+    rect.setAttribute('y', -H);
+    rect.setAttribute('width', W);
+    rect.setAttribute('height', H);
+    rect.setAttribute('rx', 12);
+    rect.setAttribute('class', 'bubble-bg ' + kind);
+    g.appendChild(rect);
+
+    // Tail points from bubble down to speaker's head
+    const tailBaseX = Math.max(-W / 2 + 14,
+                               Math.min(W / 2 - 14, cx - anchorX));
+    const tailPath = document.createElementNS(SVG_NS, 'polygon');
+    tailPath.setAttribute('points',
+      `${tailBaseX - 9},0 ${tailBaseX + 9},0 ${tailBaseX},22`);
+    tailPath.setAttribute('class', 'bubble-tail ' + (kind === 'note' ? 'note' : ''));
+    g.appendChild(tailPath);
+
+    // Tail outline: two short lines to fake a border on just the sides of the tail
+    const leftLine = document.createElementNS(SVG_NS, 'line');
+    leftLine.setAttribute('x1', tailBaseX - 9);
+    leftLine.setAttribute('y1', 0);
+    leftLine.setAttribute('x2', tailBaseX);
+    leftLine.setAttribute('y2', 22);
+    leftLine.setAttribute('stroke', rect.style.stroke || '');
+    g.appendChild(leftLine);
+
+    // Sender tag (small "from:" label inside the bubble)
+    const from = document.createElementNS(SVG_NS, 'text');
+    from.setAttribute('class', 'bubble-from');
+    from.setAttribute('x', -W / 2 + 10);
+    from.setAttribute('y', -H + 14);
+    from.textContent = who;
+    g.appendChild(from);
+
+    // Body text via foreignObject so it wraps
+    const fo = document.createElementNS(SVG_NS, 'foreignObject');
+    fo.setAttribute('x', -W / 2 + 10);
+    fo.setAttribute('y', -H + 18);
+    fo.setAttribute('width', W - 20);
+    fo.setAttribute('height', H - 22);
+    const body = document.createElementNS(XHTML_NS, 'div');
+    body.setAttribute('class', 'bubble-text');
+    body.textContent = text;
+    fo.appendChild(body);
+    g.appendChild(fo);
+
+    bubbleLayer.appendChild(g);
+    // Trigger CSS transition
+    requestAnimationFrame(() => g.classList.add('show'));
+    return g;
+  }
+
+  function drawArrow(from, to, kind) {
+    if (!from || !to || from === to) return null;
+    const a = posOf(from);
+    const b = posOf(to);
+    // Curve upward over the heads
+    const midX = (a.x + b.x) / 2;
+    const midY = Math.min(a.headY, b.headY) - 70;
+    const dir = b.x >= a.x ? 1 : -1;
+    const startX = a.x + 32 * dir;
+    const endX   = b.x - 28 * dir;
+    const startY = a.headY - 20;
+    const endY   = b.headY - 20;
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d',
+      `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`);
+    path.setAttribute('class', 'arrow ' + kind);
+    const marker =
+      kind === 'done'   ? 'mkDone' :
+      kind === 'failed' ? 'mkFailed' :
+      kind === 'assign' ? 'mkAssign' : 'mkMsg';
+    path.setAttribute('marker-end', `url(#${marker})`);
+    arrowLayer.appendChild(path);
+    requestAnimationFrame(() => path.classList.add('show'));
+    return path;
+  }
+
+  function reactSpeaker(who) {
+    const a = avatarEls[who];
+    if (!a) return;
+    a.classList.remove('speaking');
+    // force reflow so the animation restarts
+    void a.getBoundingClientRect();
+    a.classList.add('speaking');
+    if (nameEls[who]) nameEls[who].classList.add('active');
+  }
+  function reactListener(who) {
+    const a = avatarEls[who];
+    if (!a) return;
+    a.classList.remove('listening');
+    void a.getBoundingClientRect();
+    a.classList.add('listening');
+    if (nameEls[who]) nameEls[who].classList.add('active');
+  }
+
+  function renderEvent(e) {
+    if (!e) return;
+    const kind = e.kind;
+    const body = (e.full && e.full.length > 0) ? e.full : (e.label || '');
+    if (kind === 'note') {
+      currentBubble = drawBubble(e.who, body, 'note');
+      reactSpeaker(e.who);
+    } else {
+      currentBubble = drawBubble(e.from, body, kind);
+      currentArrow = drawArrow(e.from, e.to, kind);
+      reactSpeaker(e.from);
+      reactionTimer = setTimeout(() => reactListener(e.to), 350);
+    }
+  }
+
+  // ---- Filter: "Human only" keeps only peer-to-peer `msg` events. ----
+  let visibleEvents = events.slice();
+  let logEntries = [];
+
+  function buildLogEntries() {
+    logEntries = visibleEvents.map((e, i) => {
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.dataset.idx = String(i);
+      const tag = document.createElement('span');
+      tag.className = 'tag ' + e.kind;
+      tag.textContent = e.kind;
+      div.appendChild(tag);
+      const who = document.createElement('span');
+      who.className = 'who';
+      who.textContent = e.kind === 'note' ? (e.who || '?') : (e.from || '?');
+      div.appendChild(who);
+      const sep = document.createElement('span');
+      if (e.kind === 'note') {
+        sep.textContent = ' · ';
+        div.appendChild(sep);
+      } else {
+        sep.textContent = ' → ';
+        const to = document.createElement('span');
+        to.className = 'to';
+        to.textContent = e.to || '?';
+        div.appendChild(sep);
+        div.appendChild(to);
+        const colon = document.createElement('span');
+        colon.textContent = ': ';
+        div.appendChild(colon);
+      }
+      const body = document.createElement('span');
+      body.textContent = (e.full && e.full.length > 0) ? e.full : (e.label || '');
+      div.appendChild(body);
+      return div;
+    });
+  }
+
+  // ---- Subtitle log ----
+  const logEl = document.getElementById('log');
+
+  function renderLog(upTo) {
+    // upTo = index of last visible entry in `visibleEvents`; -1 = empty
+    logEl.innerHTML = '';
+    for (let i = 0; i <= upTo; i++) {
+      const entry = logEntries[i];
+      if (!entry) continue;
+      entry.classList.toggle('current', i === upTo);
+      logEl.appendChild(entry);
+    }
+    if (upTo >= 0 && logEntries[upTo]) {
+      logEntries[upTo].scrollIntoView({block: 'nearest', behavior: 'smooth'});
+    }
+  }
+
+  // ---- Playback controls ----
+  let idx = -1;
+  let playing = false;
+  let timer = null;
+  const BASE_DELAY = 2000; // ms/event at 1x
+  const speedEl = document.getElementById('speed');
+  const scrubEl = document.getElementById('scrubber');
+  const progEl  = document.getElementById('progress');
+  const playBtn = document.getElementById('btn-play');
+  const backBtn = document.getElementById('btn-back');
+  const nextBtn = document.getElementById('btn-next');
+  const humanEl = document.getElementById('human-only');
+  const humanLabel = document.getElementById('human-only-label');
+  const pairedEl = document.getElementById('paired');
+  const pairedLabel = document.getElementById('paired-label');
+
+  const delay = () => BASE_DELAY / parseFloat(speedEl.value || '1');
+
+  function updateProgress() {
+    const n = idx + 1;
+    progEl.textContent = n + ' / ' + visibleEvents.length;
+    scrubEl.value = String(n);
+    backBtn.disabled = idx < 0;
+    nextBtn.disabled = idx >= visibleEvents.length - 1;
+  }
+  function setTo(i) {
+    idx = Math.max(-1, Math.min(visibleEvents.length - 1, i));
+    clearStageFX();
+    if (idx >= 0) renderEvent(visibleEvents[idx]);
+    renderLog(idx);
+    updateProgress();
+  }
+  function stepNext() {
+    if (idx >= visibleEvents.length - 1) { pause(); return; }
+    setTo(idx + 1);
+  }
+  function stepBack() {
+    if (idx < 0) return;
+    setTo(idx - 1);
+  }
+  function play() {
+    if (idx >= visibleEvents.length - 1) setTo(-1);
+    playing = true;
+    playBtn.textContent = '⏸';
+    const tick = () => {
+      stepNext();
+      if (playing && idx < visibleEvents.length - 1) {
+        timer = setTimeout(tick, delay());
+      } else {
+        pause();
+      }
+    };
+    stepNext();
+    if (playing && idx < visibleEvents.length - 1) {
+      timer = setTimeout(tick, delay());
+    } else {
+      pause();
+    }
+  }
+  function pause() {
+    playing = false;
+    playBtn.textContent = '▶';
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  // Reorder events so each message-question is followed by its reply and each
+  // task dispatch is followed by its completion. Unpaired events keep their
+  // relative order. Greedy — an A→B message pairs with the NEXT unpaired B→A
+  // message; an assign pairs with the next unpaired done mentioning the same
+  // task_id. Broadcasts (one-way messages with no reply) stay in place.
+  function pairEvents(src) {
+    const taken = new Set();
+    const out = [];
+    const taskIdRe = /\b(t_\d+)\b/;
+    const taskIdOf = (e) => {
+      const m = taskIdRe.exec(e.label || '');
+      return m ? m[1] : null;
+    };
+    function findReply(i) {
+      const e = src[i];
+      if (e.kind === 'msg') {
+        for (let j = i + 1; j < src.length; j++) {
+          if (taken.has(j)) continue;
+          const f = src[j];
+          if (f.kind === 'msg' && f.from === e.to && f.to === e.from) return j;
+        }
+      } else if (e.kind === 'assign') {
+        const tid = taskIdOf(e);
+        if (!tid) return -1;
+        for (let j = i + 1; j < src.length; j++) {
+          if (taken.has(j)) continue;
+          const f = src[j];
+          if ((f.kind === 'done' || f.kind === 'failed') && taskIdOf(f) === tid) return j;
+        }
+      }
+      return -1;
+    }
+    for (let i = 0; i < src.length; i++) {
+      if (taken.has(i)) continue;
+      out.push(src[i]);
+      taken.add(i);
+      const r = findReply(i);
+      if (r !== -1) {
+        out.push(src[r]);
+        taken.add(r);
+      }
+    }
+    return out;
+  }
+
+  function rebuildVisible() {
+    pause();
+    const humanOnly = !!(humanEl && humanEl.checked);
+    const paired    = !!(pairedEl && pairedEl.checked);
+    let pool = humanOnly
+      ? events.filter(e => e.kind === 'msg')
+      : events.slice();
+    if (paired) pool = pairEvents(pool);
+    visibleEvents = pool;
+    buildLogEntries();
+    scrubEl.max = String(visibleEvents.length);
+    if (humanLabel) humanLabel.classList.toggle('on', humanOnly);
+    if (pairedLabel) pairedLabel.classList.toggle('on', paired);
+    setTo(-1);
+  }
+
+  playBtn.addEventListener('click',     () => playing ? pause() : play());
+  nextBtn.addEventListener('click',     () => { pause(); stepNext(); });
+  backBtn.addEventListener('click',     () => { pause(); stepBack(); });
+  document.getElementById('btn-reset').addEventListener('click',
+    () => { pause(); setTo(-1); });
+  document.getElementById('btn-end').addEventListener('click',
+    () => { pause(); setTo(visibleEvents.length - 1); });
+  scrubEl.addEventListener('input', (ev) => {
+    pause();
+    setTo(parseInt(ev.target.value, 10) - 1);
+  });
+  if (humanEl) humanEl.addEventListener('change', rebuildVisible);
+  if (pairedEl) pairedEl.addEventListener('change', rebuildVisible);
+  document.addEventListener('keydown', (ev) => {
+    if (ev.target && /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); playing ? pause() : play(); }
+    else if (ev.key === 'ArrowRight') { ev.preventDefault(); pause(); stepNext(); }
+    else if (ev.key === 'ArrowLeft')  { ev.preventDefault(); pause(); stepBack(); }
+    else if (ev.key === 'Home')       { ev.preventDefault(); pause(); setTo(-1); }
+    else if (ev.key === 'End')        { ev.preventDefault(); pause(); setTo(visibleEvents.length - 1); }
+  });
+
+  rebuildVisible();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Page Header -->
+  <header class="rx-header">
+    <h1 class="rx-title">Recipes</h1>
+    <input id="search-input" type="text" placeholder="Search recipes..." class="rx-search-input" aria-label="Search recipes">
+    <div class="rx-filter-buttons">
+      <button class="rx-filter-button" data-category="breakfast" aria-pressed="false">Breakfast</button>
+      <button class="rx-filter-button" data-category="main" aria-pressed="false">Main</button>
+      <button class="rx-filter-button" data-category="dessert" aria-pressed="false">Dessert</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="rx-main">
+    <!-- Recipe List Grid -->
+    <div id="recipe-list" class="rx-recipe-list">
+      <!-- Backend injects recipe cards here -->
+    </div>
+
+    <!-- Empty State (shown when no recipes match) -->
+    <div id="empty-state" class="rx-empty-state" style="display: none;">
+      No recipes found. Try adjusting your search or filters.
+    </div>
+  </main>
+
+  <!-- Detail Modal -->
+  <div id="recipe-detail" class="rx-detail-modal rx-detail-modal--hidden">
+    <div class="rx-detail-content">
+      <button id="detail-close" class="rx-detail-close" aria-label="Close recipe details">×</button>
+
+      <h2 class="rx-detail-title"></h2>
+
+      <div class="rx-detail-meta">
+        <span class="rx-detail-time"></span>
+        <span class="rx-detail-servings"></span>
+        <span class="rx-detail-category"></span>
+      </div>
+
+      <p class="rx-detail-description"></p>
+
+      <section class="rx-detail-section">
+        <h3 class="rx-detail-heading">Ingredients</h3>
+        <ul id="ingredients-list" class="rx-ingredients-list">
+          <!-- Backend injects ingredients here -->
+        </ul>
+      </section>
+
+      <section class="rx-detail-section">
+        <h3 class="rx-detail-heading">Steps</h3>
+        <ol id="steps-list" class="rx-steps-list">
+          <!-- Backend injects steps here -->
+        </ol>
+      </section>
+
+      <div id="detail-tags" class="rx-detail-tags" style="display: none;">
+        <!-- Backend injects dietary tags and difficulty here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Recipes Data (embedded JSON) -->
+  <script type="application/json" id="recipes-data">
+[
+  {
+    "id": "fluffy-pancakes",
+    "name": "Fluffy Pancakes",
+    "description": "Golden, tender pancakes with a crispy exterior. Perfect weekend breakfast that's easier than you'd think.",
+    "category": "breakfast",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "2 cups all-purpose flour",
+      "2 tablespoons sugar",
+      "2 teaspoons baking powder",
+      "1 teaspoon salt",
+      "2 cups milk",
+      "2 eggs",
+      "2 tablespoons melted butter"
+    ],
+    "steps": [
+      "Whisk flour, sugar, baking powder, and salt in a large bowl.",
+      "In another bowl, whisk milk, eggs, and melted butter until combined.",
+      "Pour wet ingredients into dry ingredients and stir until just combined (lumpy is okay).",
+      "Heat a buttered skillet or griddle over medium heat.",
+      "Pour 1/4 cup batter onto the hot surface for each pancake.",
+      "Cook until bubbles form on the surface, then flip and cook until golden brown.",
+      "Serve warm with maple syrup and butter."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "avocado-toast",
+    "name": "Avocado Toast",
+    "description": "Creamy avocado on crispy sourdough with a pinch of salt and a squeeze of lemon. Simple, satisfying breakfast.",
+    "category": "breakfast",
+    "time": 10,
+    "servings": 2,
+    "ingredients": [
+      "2 slices sourdough bread",
+      "1 ripe avocado",
+      "1 tablespoon olive oil",
+      "Salt and pepper to taste",
+      "1 lemon",
+      "Red pepper flakes (optional)"
+    ],
+    "steps": [
+      "Toast the sourdough slices until golden and crispy.",
+      "Cut the avocado in half, remove the pit, and scoop the flesh into a bowl.",
+      "Mash lightly with a fork, leaving some texture.",
+      "Drizzle olive oil into the mashed avocado and stir gently.",
+      "Spread the mixture evenly onto each toast slice.",
+      "Season with salt, pepper, and a squeeze of fresh lemon juice.",
+      "Sprinkle with red pepper flakes if desired and serve immediately."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian", "vegan"]
+  },
+  {
+    "id": "shakshuka",
+    "name": "Shakshuka",
+    "description": "Eggs poached in spiced tomato sauce with peppers and onions. A Middle Eastern breakfast that feels fancy but comes together in 25 minutes.",
+    "category": "breakfast",
+    "time": 25,
+    "servings": 4,
+    "ingredients": [
+      "2 tablespoons olive oil",
+      "1 medium onion, diced",
+      "1 red bell pepper, sliced",
+      "2 cloves garlic, minced",
+      "1 can (14 oz) crushed tomatoes",
+      "1 teaspoon paprika",
+      "1/2 teaspoon cumin",
+      "Salt and pepper to taste",
+      "4 eggs",
+      "Fresh cilantro or parsley for garnish"
+    ],
+    "steps": [
+      "Heat olive oil in a large skillet over medium heat.",
+      "Add diced onion and sauté until softened, about 5 minutes.",
+      "Stir in bell pepper and garlic, cooking for another 3 minutes.",
+      "Add crushed tomatoes, paprika, and cumin. Simmer for 5-7 minutes until the sauce thickens slightly.",
+      "Season with salt and pepper to taste.",
+      "Create 4 small wells in the sauce and crack an egg into each well.",
+      "Cover and simmer until the egg whites are set but yolks are still soft, about 5-7 minutes.",
+      "Garnish with fresh cilantro or parsley and serve with crusty bread."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "grilled-salmon",
+    "name": "Grilled Salmon",
+    "description": "Pan-seared salmon fillet with a crispy skin and moist, flaky center. A restaurant-quality main that's done in 30 minutes.",
+    "category": "main",
+    "time": 30,
+    "servings": 2,
+    "ingredients": [
+      "2 salmon fillets (6 oz each)",
+      "2 tablespoons olive oil",
+      "1 lemon",
+      "Salt and pepper to taste",
+      "2 cloves garlic, minced",
+      "Fresh dill or thyme (optional)"
+    ],
+    "steps": [
+      "Pat salmon fillets dry with a paper towel and season generously with salt and pepper.",
+      "Heat olive oil in a large skillet over medium-high heat until it shimmers.",
+      "Place salmon skin-side up in the pan and cook for 4-5 minutes until the skin is crispy and golden.",
+      "Carefully flip the fillets and cook for another 3-4 minutes until cooked through.",
+      "Squeeze fresh lemon juice over the salmon and garnish with minced garlic and herbs if desired.",
+      "Serve immediately with your choice of roasted vegetables or a simple salad."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": []
+  },
+  {
+    "id": "pasta-carbonara",
+    "name": "Pasta Carbonara",
+    "description": "Creamy, luxurious pasta with bacon and egg. No cream needed—the magic is in the technique. Ready in 20 minutes.",
+    "category": "main",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "1 pound spaghetti or linguine",
+      "6 slices bacon or pancetta, chopped",
+      "4 egg yolks",
+      "1 cup freshly grated Pecorino Romano cheese",
+      "Salt and freshly ground black pepper to taste",
+      "Fresh parsley for garnish (optional)"
+    ],
+    "steps": [
+      "Bring a large pot of salted water to a boil and cook pasta until al dente.",
+      "While pasta cooks, cook chopped bacon in a large skillet over medium heat until crispy, about 5-7 minutes.",
+      "In a small bowl, whisk together egg yolks and most of the grated cheese.",
+      "Reserve 1 cup of pasta water, then drain the pasta.",
+      "Add the hot pasta to the bacon skillet (remove from heat) and toss quickly.",
+      "Pour the egg-cheese mixture over the pasta and toss vigorously, adding pasta water a little at a time until creamy.",
+      "Season with salt and lots of freshly ground black pepper.",
+      "Serve immediately, topped with remaining cheese and fresh parsley if desired."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": []
+  },
+  {
+    "id": "chicken-stir-fry",
+    "name": "Chicken Stir-Fry",
+    "description": "Tender chicken and crisp vegetables in a savory-sweet sauce served over rice. Quick, healthy, and deeply satisfying.",
+    "category": "main",
+    "time": 25,
+    "servings": 4,
+    "ingredients": [
+      "1.5 pounds chicken breast, cut into bite-sized pieces",
+      "3 tablespoons vegetable oil",
+      "2 cups broccoli florets",
+      "1 red bell pepper, sliced",
+      "1 medium onion, sliced",
+      "3 cloves garlic, minced",
+      "3 tablespoons soy sauce",
+      "1 tablespoon sesame oil",
+      "1 teaspoon ginger, minced",
+      "2 teaspoons cornstarch mixed with 2 tablespoons water",
+      "Cooked rice for serving"
+    ],
+    "steps": [
+      "Heat 1 tablespoon oil in a wok or large skillet over high heat.",
+      "Cook chicken in batches until golden, about 5-7 minutes per batch. Set aside.",
+      "Add remaining oil and stir-fry broccoli, bell pepper, and onion for 3-4 minutes until just tender-crisp.",
+      "Add garlic and ginger, stirring constantly for 30 seconds.",
+      "Return chicken to the pan and add soy sauce and sesame oil.",
+      "Stir the cornstarch slurry and add to the pan, cooking until the sauce thickens, about 1 minute.",
+      "Taste and adjust seasoning as needed.",
+      "Serve immediately over cooked rice."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": []
+  },
+  {
+    "id": "chocolate-lava-cake",
+    "name": "Chocolate Lava Cake",
+    "description": "Individual molten chocolate cakes with a flowing center. Feels indulgent but takes just 20 minutes from start to plate.",
+    "category": "dessert",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "6 ounces dark chocolate, chopped",
+      "6 tablespoons butter",
+      "2 eggs",
+      "2 egg yolks",
+      "1/4 cup sugar",
+      "2 tablespoons all-purpose flour",
+      "Pinch of salt",
+      "Butter and cocoa powder for ramekins"
+    ],
+    "steps": [
+      "Preheat oven to 425°F. Butter and dust 4 ramekins with cocoa powder.",
+      "Melt chocolate and butter together over low heat or in a microwave, stirring frequently.",
+      "In a bowl, whisk eggs, egg yolks, and sugar until pale and thick, about 3 minutes.",
+      "Fold in the melted chocolate mixture gently.",
+      "Fold in flour and salt until just combined.",
+      "Divide batter evenly among the ramekins.",
+      "Bake for 12-14 minutes until edges are firm but centers still jiggle slightly when gently shaken.",
+      "Invert onto plates and serve immediately with vanilla ice cream or whipped cream."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "lemon-bars",
+    "name": "Lemon Bars",
+    "description": "Tart, buttery lemon filling on a shortbread crust. These bars are bright, zesty, and perfect for sharing (if you can resist eating them all).",
+    "category": "dessert",
+    "time": 40,
+    "servings": 12,
+    "ingredients": [
+      "1 cup all-purpose flour",
+      "1/4 cup powdered sugar",
+      "6 tablespoons cold butter",
+      "2 eggs",
+      "1 cup sugar",
+      "3 tablespoons all-purpose flour",
+      "1/2 teaspoon baking powder",
+      "1/4 teaspoon salt",
+      "4 tablespoons fresh lemon juice",
+      "1 tablespoon lemon zest",
+      "Additional powdered sugar for dusting"
+    ],
+    "steps": [
+      "Preheat oven to 350°F. Line an 8x8-inch baking pan with parchment paper.",
+      "For the crust: mix 1 cup flour and 1/4 cup powdered sugar. Cut in cold butter until mixture resembles coarse crumbs.",
+      "Press evenly into the prepared pan and bake for 10-12 minutes until golden.",
+      "While crust bakes, whisk eggs and sugar together until well combined.",
+      "Fold in flour, baking powder, and salt.",
+      "Stir in lemon juice and lemon zest.",
+      "Pour lemon mixture over the warm crust.",
+      "Bake for 15-20 minutes until the filling is set but still slightly jiggly in the center.",
+      "Cool completely, then dust generously with powdered sugar and cut into squares."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian"]
+  }
+]
+  </script>
+
+  <!-- Application Logic -->
+  <script src="app.js" defer></script>
+</body>
+</html>

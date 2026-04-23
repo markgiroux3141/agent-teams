@@ -1,0 +1,132 @@
+{
+  "goal": "Run today's standup. Collect status from every teammate, surface conflicts and unowned blockers explicitly, dispatch targeted follow-ups, and deliver a synthesis with named owners for every open item.",
+  "team": "daily-standup",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 11
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "updates/backend.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "updates/frontend.md",
+      "note": null
+    },
+    {
+      "task_id": "t_003",
+      "status": "completed",
+      "assigned_to": "qa",
+      "result_ref": "updates/qa.md",
+      "note": null
+    },
+    {
+      "task_id": "t_004",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "release_strategy_clarification.md",
+      "note": null
+    },
+    {
+      "task_id": "t_005",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "coupon_endpoint_decision.md",
+      "note": null
+    },
+    {
+      "task_id": "t_006",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "staging_seed_ownership.md",
+      "note": null
+    },
+    {
+      "task_id": "t_007",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "refund_endpoint_confirmation.md",
+      "note": null
+    },
+    {
+      "task_id": "t_008",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "flag_toggle_checkout_v2_qa.md",
+      "note": null
+    },
+    {
+      "task_id": "t_009",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "design_escalation_critical_path.md",
+      "note": null
+    },
+    {
+      "task_id": "t_010",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "coupon_endpoint_schema.md",
+      "note": null
+    },
+    {
+      "task_id": "t_011",
+      "status": "completed",
+      "assigned_to": "qa",
+      "result_ref": null,
+      "note": "Provided test user ID (qa-checkout-test-001) to frontend. Flag toggle can proceed. Also updated frontend on endpoint readiness and release strategy clarification from backend."
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "backend": {
+        "cost_usd": 0.6672074500000001,
+        "input_tokens": 271,
+        "output_tokens": 11641,
+        "cache_read": 806072,
+        "cache_write": 21758,
+        "turns": 6
+      },
+      "frontend": {
+        "cost_usd": 0.40629170000000003,
+        "input_tokens": 197,
+        "output_tokens": 12359,
+        "cache_read": 540409,
+        "cache_write": 29393,
+        "turns": 4
+      },
+      "lead": {
+        "cost_usd": 0.49909729999999997,
+        "input_tokens": 184,
+        "output_tokens": 15716,
+        "cache_read": 506591,
+        "cache_write": 43851,
+        "turns": 4
+      },
+      "qa": {
+        "cost_usd": 0.14419145,
+        "input_tokens": 90,
+        "output_tokens": 4179,
+        "cache_read": 174388,
+        "cache_write": 19664,
+        "turns": 3
+      }
+    },
+    "total": {
+      "cost_usd": 1.7167879000000004,
+      "input_tokens": 742,
+      "output_tokens": 43895,
+      "cache_read": 2027460,
+      "cache_write": 114666,
+      "turns": 17
+    }
+  }
+}

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Playback — 20260422_205531</title>
+<style>
+  :root {
+    --bg: #f8fafc; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0;
+    --accent: #2563eb; --ok: #16a34a; --warn: #f97316; --err: #dc2626;
+    --lane: #cbd5e1; --bubble: #ffffff; --note: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+         color: var(--fg); background: var(--bg); margin: 0; }
+  .wrap { max-width: 1500px; margin: 16px auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  header h1 { font-size: 20px; margin: 0 0 4px; }
+  header .meta { color: var(--muted); font-size: 13px; }
+  header .meta code { background: #fff; padding: 1px 6px; border-radius: 3px;
+                      border: 1px solid var(--line); }
+  .controls { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+              background: #fff; border: 1px solid var(--line); border-radius: 6px;
+              margin: 12px 0; position: sticky; top: 8px; z-index: 10;
+              box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+  .controls button { font: 14px/1 system-ui; padding: 6px 10px; cursor: pointer;
+                     background: #fff; border: 1px solid var(--line); border-radius: 4px;
+                     min-width: 36px; }
+  .controls button:hover { background: #f1f5f9; }
+  .controls button.primary { background: var(--accent); color: white;
+                             border-color: var(--accent); }
+  .controls button.primary:hover { background: #1d4ed8; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .controls .group { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                     font-size: 12px; }
+  .controls select { font: 13px system-ui; padding: 4px 6px; border: 1px solid var(--line);
+                     border-radius: 4px; background: #fff; }
+  .controls .scrubber { flex: 1; min-width: 120px; accent-color: var(--accent); }
+  .controls .progress { font-family: Consolas, monospace; font-size: 12px; color: var(--fg);
+                        min-width: 60px; text-align: right; }
+  #stage { background: #fff; border: 1px solid var(--line); border-radius: 6px;
+           overflow: hidden; }
+  #stage svg { display: block; width: 100%; height: auto; }
+  .lane-label { font: 600 13px Consolas, monospace; fill: var(--fg); }
+  .lane-sublabel { font: 11px Consolas, monospace; fill: var(--muted); }
+  .lane-line { stroke: var(--lane); stroke-width: 1; stroke-dasharray: 2 4; }
+  .event { transition: opacity 0.4s ease-out; }
+  .event.hidden { opacity: 0; }
+  .event.visible { opacity: 1; }
+  .event.current .bubble-bg, .event.current .note-bg { stroke-width: 2; }
+  .arrow { fill: none; stroke-linecap: round; stroke-width: 2; }
+  .arrow.solid { stroke: var(--accent); }
+  .arrow.dashed { stroke: var(--ok); stroke-dasharray: 6 4; }
+  .arrow.failed { stroke: var(--err); stroke-dasharray: 2 3; }
+  .arrow.msg { stroke: #0891b2; }
+  .bubble-bg { fill: var(--bubble); stroke: var(--line); }
+  .bubble-bg.msg { stroke: #0891b2; }
+  .bubble-bg.assign { stroke: var(--accent); }
+  .bubble-bg.done { stroke: var(--ok); }
+  .bubble-bg.failed { stroke: var(--err); }
+  .bubble-text { font: 12px system-ui; fill: var(--fg); }
+  .note-bg { fill: var(--note); stroke: #ca8a04; }
+  .note-text { font: 12px/1.2 system-ui; fill: #713f12; }
+  .sender-tag { font: 10px Consolas, monospace; fill: var(--muted); }
+  .now-line { stroke: var(--warn); stroke-width: 2; }
+  footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Playback — <code>20260422_205531</code></h1>
+      <div class="meta">Team <code>incident-postmortem</code> · 37 events</div>
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Playback controls">
+    <button id="btn-reset" title="Reset to start">⏮</button>
+    <button id="btn-back" title="Step back">◂</button>
+    <button id="btn-play" class="primary" title="Play / Pause">▶</button>
+    <button id="btn-next" title="Step forward">▸</button>
+    <button id="btn-end" title="Jump to end">⏭</button>
+    <div class="sep"></div>
+    <div class="group">
+      speed
+      <select id="speed">
+        <option value="0.25">0.25×</option>
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <input type="range" id="scrubber" class="scrubber" min="0" max="0" value="0" />
+    <span class="progress" id="progress">0 / 0</span>
+  </div>
+
+  <div id="stage"></div>
+  <footer>Self-contained offline playback. Also see
+    <a href="report.html">report.html</a> ·
+    <a href="sequence.md">sequence.md</a></footer>
+</div>
+
+<script type="application/json" id="data">{"run_id":"20260422_205531","team":"incident-postmortem","goal":"Run the incident postmortem. Pool evidence from all four investigators, force cross-domain triangulation on contradictions and gaps, converge on a root-cause hypothesis supported by a specific join of evidence, and deliver remediation with named owners.","agents":["lead","sre","observability","releng","support"],"events":[{"ts":"2026-04-22T20:55:56.689665+00:00","kind":"note","label":"writes DONE_CRITERIA.md","who":"lead"},{"ts":"2026-04-22T20:55:59.359273+00:00","kind":"note","label":"creates task: Investigation \u2014 SRE","who":"lead"},{"ts":"2026-04-22T20:55:59.785164+00:00","kind":"note","label":"creates task: Investigation \u2014 Observability","who":"lead"},{"ts":"2026-04-22T20:56:00.203470+00:00","kind":"note","label":"creates task: Investigation \u2014 Release Engineering","who":"lead"},{"ts":"2026-04-22T20:56:00.473381+00:00","kind":"note","label":"creates task: Investigation \u2014 Support","who":"lead"},{"ts":"2026-04-22T20:56:01.908070+00:00","kind":"assign","label":"dispatch t_001","from":"lead","to":"sre"},{"ts":"2026-04-22T20:56:02.149377+00:00","kind":"assign","label":"dispatch t_002","from":"lead","to":"observability"},{"ts":"2026-04-22T20:56:02.320455+00:00","kind":"assign","label":"dispatch t_003","from":"lead","to":"releng"},{"ts":"2026-04-22T20:56:02.395479+00:00","kind":"assign","label":"dispatch t_004","from":"lead","to":"support"},{"ts":"2026-04-22T20:56:30.964922+00:00","kind":"msg","label":"SRE: The 401 spike begins 14:02:14 UTC, only 71 seconds after your 14:01 deploy completio\u2026","full":"SRE: The 401 spike begins 14:02:14 UTC, only 71 seconds after your 14:01 deploy completion. The pattern shows sessions becoming valid \u2192 invalid \u2192 valid \u2192 invalid within 2\u20133 minute cycles, suggesting premature expiry rather than normal TTL exhaustion. Did the 14:01 deploy modify session TTL configuration, or change the session validation code path? Any dependency version changes that could affect session lifecycle?","from":"sre","to":"releng"},{"ts":"2026-04-22T20:56:31.917854+00:00","kind":"msg","label":"SRE: 401 spike starts 14:02:14 (post-deploy), peaks at 310 req/min by 14:18, recovers 14:\u2026","full":"SRE: 401 spike starts 14:02:14 (post-deploy), peaks at 310 req/min by 14:18, recovers 14:36 onward post-rollback. Questions: (1) Did the 14:05 scheduled DB failover trigger any immediate spike in session cache evictions or memory pressure on the session store? (2) Can you show cache hit rate on session lookups during 14:02\u201314:35 vs. baseline? If sessions were being evicted prematurely, cache-miss rate should spike.","from":"sre","to":"observability"},{"ts":"2026-04-22T20:56:32.775399+00:00","kind":"msg","label":"Releng here. The 14:01 deploy included a minor version bump to user-session: 2.0.4 \u2192 2.1.\u2026","full":"Releng here. The 14:01 deploy included a minor version bump to user-session: 2.0.4 \u2192 2.1.0. The PR author incorrectly labeled it as patch-level. This library handles session management and could be directly implicated in checkout failures. Did you observe session invalidation spikes, 401/403 errors, or session state anomalies in your logs around 14:00\u201314:03 that correlate with deploy completion at 14:03:45? What session error patterns do you see in the incident window?","from":"releng","to":"sre"},{"ts":"2026-04-22T20:56:32.872030+00:00","kind":"msg","label":"SRE: Logs show session invalidation pattern where same users are re-authenticating every\u2026","full":"SRE: Logs show session invalidation pattern where same users are re-authenticating every 2\u20133 minutes (not normal session lifetime). During 14:02\u201314:35 UTC, do customer tickets show users complaining about being forced to re-login repeatedly? If so, roughly how many re-auth cycles per user before they abandoned checkout?","from":"sre","to":"support"},{"ts":"2026-04-22T20:56:35.271495+00:00","kind":"msg","label":"Releng here. The 14:01 deploy introduced a minor version bump to the user-session library\u2026","full":"Releng here. The 14:01 deploy introduced a minor version bump to the user-session library (2.0.4 \u2192 2.1.0). Minor versions can carry behavior changes. Are you seeing customer reports of session-related issues in the incident window (14:00\u201314:45)? Patterns like: 'had to re-login', 'session expired unexpectedly', 'authentication failed on first try but worked on retry'? These would correlate directly with a session library change.","from":"releng","to":"support"},{"ts":"2026-04-22T20:56:38.744876+00:00","kind":"msg","label":"Observability perspective on 14:01 deploy: checkout success rate dropped 99.8% \u2192 92.1% at\u2026","full":"Observability perspective on 14:01 deploy: checkout success rate dropped 99.8% \u2192 92.1% at 14:02 UTC, with '/session/validate' errors spiking from 0.2% \u2192 14.8% in same window. Session Redis cache-hit-rate fell 94.1% \u2192 61.3% during incident but cluster was healthy (no evictions, no resource pressure). Pattern suggests code change that bypassed or invalidated session cache, not infrastructure failure. Can you detail what changed in the 14:01 checkout service deploy? Any changes to session validation logic, cache key generation, or invalidation patterns?","from":"observability","to":"releng"},{"ts":"2026-04-22T20:56:40.022353+00:00","kind":"msg","label":"Observability data shows '/session/validate' error rate: 0.2% \u2192 14.8% at 14:02, peaking ~\u2026","full":"Observability data shows '/session/validate' error rate: 0.2% \u2192 14.8% at 14:02, peaking ~18% around 14:20. Session Redis cache-hit-rate dropped 94.1% \u2192 61.3% concurrently; Redis cluster itself healthy. Error spike timing aligns with 14:01 deploy. Two questions: (1) Are these errors 401s or another status code? (2) Do your logs show whether errors came from cache misses or from validation logic itself? This will help distinguish if the deploy broke validation or broke cache invalidation.","from":"observability","to":"sre"},{"ts":"2026-04-22T20:56:46.260515+00:00","kind":"done","label":"t_003 done \u2192 findings/releng.md","from":"releng","to":"lead"},{"ts":"2026-04-22T20:56:48.319953+00:00","kind":"done","label":"t_001 done \u2192 findings/sre.md","from":"sre","to":"lead"},{"ts":"2026-04-22T20:56:55.486751+00:00","kind":"msg","label":"Support confirms your session cycling hypothesis with ticket data. 38 of 47 tickets expli\u2026","full":"Support confirms your session cycling hypothesis with ticket data. 38 of 47 tickets explicitly report users logging in successfully, then being kicked out 2\u20135 minutes later, requiring re-login. Ticket #18422: 'logged in fine, added items, got session expired error, logged back in, worked for a couple minutes then kicked out again.' Ticket #18444: 'signed in, was fine for about 5 minutes, then got signed out again.' This directly matches your '/session/validate' 401 cycling pattern with 2\u20133 minute windows. The consistency across tickets strongly supports the hypothesis that session TTL was modified downward in the 14:01 deploy.","from":"support","to":"sre"},{"ts":"2026-04-22T20:56:56.656661+00:00","kind":"done","label":"t_002 done \u2192 findings/observability.md","from":"observability","to":"lead"},{"ts":"2026-04-22T20:56:57.018080+00:00","kind":"msg","label":"Support data implicates session behavior change in the 14:01 deploy. 81% of incident tick\u2026","full":"Support data implicates session behavior change in the 14:01 deploy. 81% of incident tickets report the same pattern: successful login, then session expiration every 2\u20135 minutes, requiring multiple re-authentications to complete checkout. This is not auth failure (users can login), but premature session invalidation. Critical question: did the 14:01 deploy modify session TTL configuration, session validation code, or any dependency that affects session lifecycle? The precision of the 2\u20135 minute window suggests a hardcoded value rather than random failure.","from":"support","to":"releng"},{"ts":"2026-04-22T20:56:58.256370+00:00","kind":"msg","label":"Session behavior anomaly correlates with the 14:01 deploy. Support tickets show customers\u2026","full":"Session behavior anomaly correlates with the 14:01 deploy. Support tickets show customers experiencing session expiration every 2\u20135 minutes (abnormal vs normal multi-hour session lifetime). SRE observed 401 spike on '/session/validate' at 14:02:14 UTC with same 2\u20133 minute cycling. Can you provide metrics on session cache hit rate, session store latency, or connection pool behavior between 14:01 and 14:02? Also confirm whether any infrastructure change (DB failover at 14:05?) would have cascading effects on session invalidation.","from":"support","to":"observability"},{"ts":"2026-04-22T20:56:59.946994+00:00","kind":"done","label":"t_004 done \u2192 findings/support.md","from":"support","to":"lead"},{"ts":"2026-04-22T20:57:31.973644+00:00","kind":"note","label":"creates task: Follow-up \u2014 Releng: user-session 2.1.0 release notes & code\u2026","who":"lead"},{"ts":"2026-04-22T20:57:34.489783+00:00","kind":"note","label":"creates task: Follow-up \u2014 Observability: Was 14:05 DB failover pre-schedu\u2026","who":"lead"},{"ts":"2026-04-22T20:57:36.864824+00:00","kind":"note","label":"creates task: Follow-up \u2014 SRE: Session invalidation patterns & cache bypa\u2026","who":"lead"},{"ts":"2026-04-22T20:57:38.947389+00:00","kind":"assign","label":"dispatch t_005","from":"lead","to":"releng"},{"ts":"2026-04-22T20:57:39.193021+00:00","kind":"assign","label":"dispatch t_006","from":"lead","to":"observability"},{"ts":"2026-04-22T20:57:39.371429+00:00","kind":"assign","label":"dispatch t_007","from":"lead","to":"sre"},{"ts":"2026-04-22T20:57:53.625736+00:00","kind":"msg","label":"Support data on re-auth cycles: Ticket #18431 explicitly states 'Got logged out mid-check\u2026","full":"Support data on re-auth cycles: Ticket #18431 explicitly states 'Got logged out mid-checkout THREE times before it let me pay' \u2014 so at least one user persisted through 3 cycles. Ticket #18422 and #18444 both report being kicked out, re-logging in, and getting kicked out again (2+ cycles visible). Most tickets don't quantify exact cycle count, but the pattern across 38 tickets is consistent: users had to re-login multiple times to complete checkout. The 8% success rate suggests some users persisted through 2\u20133 cycles and eventually succeeded, while others abandoned before reaching success. No tickets report 'I gave up after 1 logout' \u2014 the abandonment is happening after repeated cycles, not on first occurrence.","from":"support","to":"sre"},{"ts":"2026-04-22T20:57:55.688081+00:00","kind":"msg","label":"Session library change (2.0.4 \u2192 2.1.0) strongly correlates with support data. All 38 of t\u2026","full":"Session library change (2.0.4 \u2192 2.1.0) strongly correlates with support data. All 38 of the primary incident tickets show the exact patterns you asked about: 'had to re-login' (repeatedly), 'session expired unexpectedly' (multiple users cite 'session expired' error specifically), but NOT 'authentication failed on first try' \u2014 users successfully logged in every time, then established sessions expired after 2\u20135 minutes. Key evidence: users report re-authenticating multiple times mid-checkout (not just once). This is not initial auth failure, it's established session invalidation cycling. The user-session library version bump from 2.0.4 \u2192 2.1.0 is the most direct match for this behavior change on the exact deploy timeline.","from":"support","to":"releng"},{"ts":"2026-04-22T20:58:10.999745+00:00","kind":"done","label":"t_006 done \u2192 observability_followup.md","from":"observability","to":"lead"},{"ts":"2026-04-22T20:58:19.145936+00:00","kind":"msg","label":"SRE follow-up: My logs show session IDs cycling (sid=a7f2 failed, then sid=b3e9 succeeded\u2026","full":"SRE follow-up: My logs show session IDs cycling (sid=a7f2 failed, then sid=b3e9 succeeded, then failed again), but I cannot correlate individual sessions to Redis cache keys or determine if the failures were cache misses or validation-logic errors. Can you: (1) Show which session_ids from my logs had corresponding Redis cache keys present/absent during their 401 failures? (2) Identify the ~8% of successful checkouts (14:02\u201314:35) \u2014 did they use '/session/validate' successfully, or bypass it entirely?","from":"sre","to":"observability"},{"ts":"2026-04-22T20:58:20.768890+00:00","kind":"msg","label":"SRE follow-up: Customer support confirms session cycling every 2\u20135 minutes during the inc\u2026","full":"SRE follow-up: Customer support confirms session cycling every 2\u20135 minutes during the incident, matching my logs exactly. This pattern screams 'TTL changed downward' rather than validation logic broken. In user-session 2.1.0: (1) Was session TTL modified? If so, from what to what? (2) Did cache key generation change between 2.0.4 and 2.1.0? (3) Did any validation checks change that would force re-validation even on cached sessions? A code diff or changelog excerpt on these three points would clarify whether this is a TTL bug, a cache-key bug, or validation logic.","from":"sre","to":"releng"},{"ts":"2026-04-22T20:58:24.240786+00:00","kind":"done","label":"t_007 done \u2192 follow_up_session_analysis.md","from":"sre","to":"lead"},{"ts":"2026-04-22T20:58:35.713756+00:00","kind":"done","label":"t_005 done \u2192 findings/releng_followup_user_session.md","from":"releng","to":"lead"},{"ts":"2026-04-22T20:59:24.354141+00:00","kind":"note","label":"finalize()","who":"lead"}]}</script>
+<script>
+(() => {
+  'use strict';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const data = JSON.parse(document.getElementById('data').textContent);
+  const agents = data.agents;
+  const events = data.events;
+
+  // Layout
+  const COL_W = 210;
+  const LEFT_PAD = 32;
+  const RIGHT_PAD = 32;
+  const TOP_PAD = 56;
+  const BOTTOM_PAD = 32;
+  const ROW_H = 58;
+
+  const svgW = LEFT_PAD + RIGHT_PAD + Math.max(1, agents.length) * COL_W;
+  const svgH = TOP_PAD + Math.max(1, events.length) * ROW_H + BOTTOM_PAD;
+
+  const xForAgent = (name) => {
+    const i = agents.indexOf(name);
+    const idx = i < 0 ? agents.length : i;
+    return LEFT_PAD + idx * COL_W + COL_W / 2;
+  };
+  const yForEvent = (i) => TOP_PAD + i * ROW_H + ROW_H / 2;
+
+  const stage = document.getElementById('stage');
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+  // Arrow markers
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mk = (id, color) => `
+    <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+    </marker>`;
+  defs.innerHTML =
+    mk('mk-blue',  '#2563eb') +
+    mk('mk-green', '#16a34a') +
+    mk('mk-red',   '#dc2626') +
+    mk('mk-cyan',  '#0891b2');
+  svg.appendChild(defs);
+
+  // Lane labels + vertical lifelines
+  agents.forEach((a) => {
+    const x = xForAgent(a);
+    const label = document.createElementNS(SVG_NS, 'text');
+    label.setAttribute('x', x);
+    label.setAttribute('y', 28);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('class', 'lane-label');
+    label.textContent = a;
+    svg.appendChild(label);
+
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('x1', x);
+    line.setAttribute('y1', 40);
+    line.setAttribute('x2', x);
+    line.setAttribute('y2', svgH - BOTTOM_PAD);
+    line.setAttribute('class', 'lane-line');
+    svg.appendChild(line);
+  });
+
+  // Now-line (sweeps down as playback advances)
+  const nowLine = document.createElementNS(SVG_NS, 'line');
+  nowLine.setAttribute('x1', LEFT_PAD);
+  nowLine.setAttribute('x2', svgW - RIGHT_PAD);
+  nowLine.setAttribute('y1', TOP_PAD - 8);
+  nowLine.setAttribute('y2', TOP_PAD - 8);
+  nowLine.setAttribute('class', 'now-line');
+  nowLine.setAttribute('opacity', '0');
+  svg.appendChild(nowLine);
+
+  // Pre-render every event element (hidden initially)
+  const elements = events.map((e, i) => {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'event hidden');
+    g.setAttribute('data-idx', String(i));
+
+    const y = yForEvent(i);
+
+    if (e.kind === 'note') {
+      const who = e.who || 'lead';
+      const x = xForAgent(who);
+      const text = e.label || '';
+      const width = Math.min(COL_W - 20, Math.max(120, text.length * 6.5 + 20));
+      const height = 26;
+      const rect = document.createElementNS(SVG_NS, 'rect');
+      rect.setAttribute('x', x - width / 2);
+      rect.setAttribute('y', y - height / 2);
+      rect.setAttribute('width', width);
+      rect.setAttribute('height', height);
+      rect.setAttribute('rx', 4);
+      rect.setAttribute('class', 'note-bg');
+      g.appendChild(rect);
+
+      const t = document.createElementNS(SVG_NS, 'text');
+      t.setAttribute('x', x);
+      t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('class', 'note-text');
+      t.textContent = text;
+      g.appendChild(t);
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent = text;
+      g.appendChild(full);
+    } else {
+      const x1 = xForAgent(e.from);
+      const x2 = xForAgent(e.to);
+      const arrowCls =
+        e.kind === 'done' ? 'arrow dashed' :
+        e.kind === 'failed' ? 'arrow failed' :
+        e.kind === 'msg' ? 'arrow msg' : 'arrow solid';
+      const marker =
+        e.kind === 'done' ? 'mk-green' :
+        e.kind === 'failed' ? 'mk-red' :
+        e.kind === 'msg' ? 'mk-cyan' : 'mk-blue';
+
+      // Arrow path. Slight vertical offset at src/dst so a later bubble
+      // below doesn't sit on the line.
+      const path = document.createElementNS(SVG_NS, 'path');
+      const dir = x2 > x1 ? 1 : -1;
+      const pad = 8 * dir;
+      path.setAttribute('d', `M ${x1 + pad} ${y} L ${x2 - pad} ${y}`);
+      path.setAttribute('class', arrowCls);
+      path.setAttribute('marker-end', `url(#${marker})`);
+      path.setAttribute('pathLength', '100');
+      if (e.kind === 'done') {
+        // keep dashed look, but still animate via dashoffset on a wrapper
+        path.setAttribute('stroke-dasharray', '6 4');
+      } else if (e.kind === 'failed') {
+        path.setAttribute('stroke-dasharray', '2 3');
+      } else {
+        path.setAttribute('stroke-dasharray', '100');
+        path.setAttribute('stroke-dashoffset', '100');
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      }
+      g.appendChild(path);
+
+      // Bubble with truncated label above the arrow
+      const label = (e.label || '').slice(0, 110);
+      if (label) {
+        const midX = (x1 + x2) / 2;
+        const bubbleY = y - 18;
+        const w = Math.min(Math.abs(x2 - x1) - 30, label.length * 6.2 + 16);
+        const bw = Math.max(60, w);
+        const h = 18;
+        const rect = document.createElementNS(SVG_NS, 'rect');
+        rect.setAttribute('x', midX - bw / 2);
+        rect.setAttribute('y', bubbleY - h / 2);
+        rect.setAttribute('width', bw);
+        rect.setAttribute('height', h);
+        rect.setAttribute('rx', 3);
+        rect.setAttribute('class', 'bubble-bg ' + (e.kind || 'msg'));
+        g.appendChild(rect);
+
+        const t = document.createElementNS(SVG_NS, 'text');
+        t.setAttribute('x', midX);
+        t.setAttribute('y', bubbleY + 4);
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('class', 'bubble-text');
+        t.textContent = label;
+        g.appendChild(t);
+      }
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent =
+        (e.from || '?') + ' → ' + (e.to || '?') + ' [' + e.kind + ']\n' +
+        (e.label || '');
+      g.appendChild(full);
+    }
+
+    svg.appendChild(g);
+    return g;
+  });
+
+  stage.appendChild(svg);
+
+  // Playback state
+  let idx = -1;                 // index of the last revealed event; -1 = nothing
+  let playing = false;
+  let timer = null;
+  const BASE_DELAY = 850;       // ms/event at 1x
+  const speedEl = document.getElementById('speed');
+  const scrubEl = document.getElementById('scrubber');
+  const progEl  = document.getElementById('progress');
+  const playBtn = document.getElementById('btn-play');
+  const backBtn = document.getElementById('btn-back');
+  const nextBtn = document.getElementById('btn-next');
+  const resetBtn = document.getElementById('btn-reset');
+  const endBtn = document.getElementById('btn-end');
+  scrubEl.max = String(events.length);
+
+  const delay = () => BASE_DELAY / parseFloat(speedEl.value || '1');
+
+  function reveal(i, instant) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('hidden');
+    g.classList.add('visible');
+    const path = g.querySelector('path');
+    const dashed = path && path.getAttribute('stroke-dasharray') === '100';
+    if (dashed) {
+      if (instant) {
+        path.style.transition = 'none';
+        path.setAttribute('stroke-dashoffset', '0');
+        // Re-enable transition for next time
+        void path.getBoundingClientRect();
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      } else {
+        requestAnimationFrame(() =>
+          path.setAttribute('stroke-dashoffset', '0'));
+      }
+    }
+  }
+  function hide(i) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('visible');
+    g.classList.add('hidden');
+    const path = g.querySelector('path');
+    if (path && path.getAttribute('stroke-dasharray') === '100') {
+      path.style.transition = 'none';
+      path.setAttribute('stroke-dashoffset', '100');
+      void path.getBoundingClientRect();
+      path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+    }
+  }
+
+  function markCurrent() {
+    elements.forEach((g, i) => {
+      if (i === idx) g.classList.add('current');
+      else g.classList.remove('current');
+    });
+    if (idx >= 0) {
+      nowLine.setAttribute('opacity', '0.6');
+      const y = yForEvent(idx);
+      nowLine.setAttribute('y1', y);
+      nowLine.setAttribute('y2', y);
+      // Auto-scroll the element into view when we've passed below the fold
+      const g = elements[idx];
+      if (g && g.scrollIntoView) {
+        const r = g.getBoundingClientRect();
+        const inView = r.top >= 100 && r.bottom <= window.innerHeight - 20;
+        if (!inView) g.scrollIntoView({block: 'center', behavior: 'smooth'});
+      }
+    } else {
+      nowLine.setAttribute('opacity', '0');
+    }
+  }
+  function updateProgress() {
+    const n = idx + 1;
+    progEl.textContent = n + ' / ' + events.length;
+    scrubEl.value = String(n);
+    backBtn.disabled = idx < 0;
+    nextBtn.disabled = idx >= events.length - 1;
+  }
+  function setTo(n, instant) {
+    // n = number of events revealed (0..events.length)
+    const target = n - 1;
+    if (target > idx) {
+      for (let i = idx + 1; i <= target; i++) reveal(i, instant);
+    } else if (target < idx) {
+      for (let i = idx; i > target; i--) hide(i);
+    }
+    idx = target;
+    markCurrent();
+    updateProgress();
+  }
+  function stepNext() {
+    if (idx >= events.length - 1) { pause(); return; }
+    idx++;
+    reveal(idx, false);
+    markCurrent();
+    updateProgress();
+  }
+  function stepBack() {
+    if (idx < 0) return;
+    hide(idx);
+    idx--;
+    markCurrent();
+    updateProgress();
+  }
+  function play() {
+    if (idx >= events.length - 1) setTo(0, true);
+    playing = true;
+    playBtn.textContent = '⏸';
+    const tick = () => {
+      stepNext();
+      if (playing && idx < events.length - 1) {
+        timer = setTimeout(tick, delay());
+      } else {
+        pause();
+      }
+    };
+    timer = setTimeout(tick, delay());
+  }
+  function pause() {
+    playing = false;
+    playBtn.textContent = '▶';
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  playBtn.addEventListener('click', () => playing ? pause() : play());
+  nextBtn.addEventListener('click', () => { pause(); stepNext(); });
+  backBtn.addEventListener('click', () => { pause(); stepBack(); });
+  resetBtn.addEventListener('click', () => { pause(); setTo(0, true); });
+  endBtn.addEventListener('click',   () => { pause(); setTo(events.length, true); });
+  scrubEl.addEventListener('input', (ev) => {
+    pause(); setTo(parseInt(ev.target.value, 10), true);
+  });
+  document.addEventListener('keydown', (ev) => {
+    if (ev.target && /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); playing ? pause() : play(); }
+    else if (ev.key === 'ArrowRight') { ev.preventDefault(); pause(); stepNext(); }
+    else if (ev.key === 'ArrowLeft')  { ev.preventDefault(); pause(); stepBack(); }
+    else if (ev.key === 'Home')       { ev.preventDefault(); pause(); setTo(0, true); }
+    else if (ev.key === 'End')        { ev.preventDefault(); pause(); setTo(events.length, true); }
+  });
+
+  updateProgress();
+  markCurrent();
+})();
+</script>
+</body>
+</html>

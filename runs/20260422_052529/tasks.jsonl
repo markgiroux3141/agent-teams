@@ -1,0 +1,12 @@
+{"ts": "2026-04-22T05:25:37.319951+00:00", "event": "created", "task_id": "t_001", "title": "Research: Monoliths vs Microservices Tradeoffs", "description": "Write a comprehensive background-and-context document covering the key architectural tradeoffs between monolithic and microservices approaches. Include discussion of deployment, scalability, complexity, development velocity, operational concerns, and real-world implications.", "dependencies": []}
+{"ts": "2026-04-22T05:25:40.248041+00:00", "event": "created", "task_id": "t_002", "title": "Analysis: Evaluate & Rank Tradeoffs", "description": "Critically evaluate the research document. Identify and rank the key tradeoffs between monoliths and microservices. Consider context dependencies (team size, scale, technology maturity, organizational constraints). Highlight which tradeoffs matter most in different scenarios.", "dependencies": ["t_001"]}
+{"ts": "2026-04-22T05:25:44.043639+00:00", "event": "created", "task_id": "t_003", "title": "Write Brief: Monoliths vs Microservices", "description": "Synthesize research and analysis into a tight, polished brief suitable for a technical audience. Focus on clarity, actionable insights, and decision-making guidance. Keep it concise but substantive, structured for easy scanning and decision-making.", "dependencies": ["t_002"]}
+{"ts": "2026-04-22T05:25:46.372546+00:00", "event": "assigned", "task_id": "t_001", "agent": "researcher"}
+{"ts": "2026-04-22T05:25:46.582920+00:00", "event": "assigned", "task_id": "t_002", "agent": "analyst"}
+{"ts": "2026-04-22T05:25:46.663046+00:00", "event": "assigned", "task_id": "t_003", "agent": "writer"}
+{"ts": "2026-04-22T05:25:51.442769+00:00", "event": "status", "task_id": "t_001", "status": "in_progress"}
+{"ts": "2026-04-22T05:26:51.560850+00:00", "event": "status", "task_id": "t_001", "status": "completed", "result_ref": "research.md"}
+{"ts": "2026-04-22T05:27:00.152219+00:00", "event": "status", "task_id": "t_002", "status": "in_progress"}
+{"ts": "2026-04-22T05:28:13.525163+00:00", "event": "status", "task_id": "t_002", "status": "completed", "result_ref": "analysis.md"}
+{"ts": "2026-04-22T05:28:23.857048+00:00", "event": "status", "task_id": "t_003", "status": "in_progress"}
+{"ts": "2026-04-22T05:28:52.826164+00:00", "event": "status", "task_id": "t_003", "status": "completed", "result_ref": "brief.md"}

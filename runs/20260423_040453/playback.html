@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Playback — 20260423_040453</title>
+<style>
+  :root {
+    --bg: #f8fafc; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0;
+    --accent: #2563eb; --ok: #16a34a; --warn: #f97316; --err: #dc2626;
+    --lane: #cbd5e1; --bubble: #ffffff; --note: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+         color: var(--fg); background: var(--bg); margin: 0; }
+  .wrap { max-width: 1500px; margin: 16px auto; padding: 0 16px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  header h1 { font-size: 20px; margin: 0 0 4px; }
+  header .meta { color: var(--muted); font-size: 13px; }
+  header .meta code { background: #fff; padding: 1px 6px; border-radius: 3px;
+                      border: 1px solid var(--line); }
+  .controls { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+              background: #fff; border: 1px solid var(--line); border-radius: 6px;
+              margin: 12px 0; position: sticky; top: 8px; z-index: 10;
+              box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+  .controls button { font: 14px/1 system-ui; padding: 6px 10px; cursor: pointer;
+                     background: #fff; border: 1px solid var(--line); border-radius: 4px;
+                     min-width: 36px; }
+  .controls button:hover { background: #f1f5f9; }
+  .controls button.primary { background: var(--accent); color: white;
+                             border-color: var(--accent); }
+  .controls button.primary:hover { background: #1d4ed8; }
+  .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .controls .group { display: flex; align-items: center; gap: 6px; color: var(--muted);
+                     font-size: 12px; }
+  .controls select { font: 13px system-ui; padding: 4px 6px; border: 1px solid var(--line);
+                     border-radius: 4px; background: #fff; }
+  .controls .scrubber { flex: 1; min-width: 120px; accent-color: var(--accent); }
+  .controls .progress { font-family: Consolas, monospace; font-size: 12px; color: var(--fg);
+                        min-width: 60px; text-align: right; }
+  #stage { background: #fff; border: 1px solid var(--line); border-radius: 6px;
+           overflow: hidden; }
+  #stage svg { display: block; width: 100%; height: auto; }
+  .lane-label { font: 600 13px Consolas, monospace; fill: var(--fg); }
+  .lane-sublabel { font: 11px Consolas, monospace; fill: var(--muted); }
+  .lane-line { stroke: var(--lane); stroke-width: 1; stroke-dasharray: 2 4; }
+  .event { transition: opacity 0.4s ease-out; }
+  .event.hidden { opacity: 0; }
+  .event.visible { opacity: 1; }
+  .event.current .bubble-bg, .event.current .note-bg { stroke-width: 2; }
+  .arrow { fill: none; stroke-linecap: round; stroke-width: 2; }
+  .arrow.solid { stroke: var(--accent); }
+  .arrow.dashed { stroke: var(--ok); stroke-dasharray: 6 4; }
+  .arrow.failed { stroke: var(--err); stroke-dasharray: 2 3; }
+  .arrow.msg { stroke: #0891b2; }
+  .bubble-bg { fill: var(--bubble); stroke: var(--line); }
+  .bubble-bg.msg { stroke: #0891b2; }
+  .bubble-bg.assign { stroke: var(--accent); }
+  .bubble-bg.done { stroke: var(--ok); }
+  .bubble-bg.failed { stroke: var(--err); }
+  .bubble-text { font: 12px system-ui; fill: var(--fg); }
+  .note-bg { fill: var(--note); stroke: #ca8a04; }
+  .note-text { font: 12px/1.2 system-ui; fill: #713f12; }
+  .sender-tag { font: 10px Consolas, monospace; fill: var(--muted); }
+  .now-line { stroke: var(--warn); stroke-width: 2; }
+  footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Playback — <code>20260423_040453</code></h1>
+      <div class="meta">Team <code>launch-premortem</code> · 44 events</div>
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Playback controls">
+    <button id="btn-reset" title="Reset to start">⏮</button>
+    <button id="btn-back" title="Step back">◂</button>
+    <button id="btn-play" class="primary" title="Play / Pause">▶</button>
+    <button id="btn-next" title="Step forward">▸</button>
+    <button id="btn-end" title="Jump to end">⏭</button>
+    <div class="sep"></div>
+    <div class="group">
+      speed
+      <select id="speed">
+        <option value="0.25">0.25×</option>
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <input type="range" id="scrubber" class="scrubber" min="0" max="0" value="0" />
+    <span class="progress" id="progress">0 / 0</span>
+  </div>
+
+  <div id="stage"></div>
+  <footer>Self-contained offline playback. Also see
+    <a href="report.html">report.html</a> ·
+    <a href="sequence.md">sequence.md</a></footer>
+</div>
+
+<script type="application/json" id="data">{"run_id":"20260423_040453","team":"launch-premortem","goal":"Run the pre-mortem. Collect failure modes from each role in parallel, cluster duplicates, force exploration of risk-class gaps nobody raised, rebalance loud-but-improbable risks against quieter high-impact ones, and deliver a prioritized mitigation list with owners.","agents":["lead","engineer","ops","support"],"events":[{"ts":"2026-04-23T04:05:14.203285+00:00","kind":"note","label":"writes DONE_CRITERIA.md","who":"lead"},{"ts":"2026-04-23T04:05:16.944434+00:00","kind":"note","label":"creates task: Pre-mortem \u2014 engineer","who":"lead"},{"ts":"2026-04-23T04:05:17.373454+00:00","kind":"note","label":"creates task: Pre-mortem \u2014 ops","who":"lead"},{"ts":"2026-04-23T04:05:17.666738+00:00","kind":"note","label":"creates task: Pre-mortem \u2014 support","who":"lead"},{"ts":"2026-04-23T04:05:19.542614+00:00","kind":"assign","label":"dispatch t_001","from":"lead","to":"engineer"},{"ts":"2026-04-23T04:05:19.569761+00:00","kind":"assign","label":"dispatch t_002","from":"lead","to":"ops"},{"ts":"2026-04-23T04:05:19.683491+00:00","kind":"assign","label":"dispatch t_003","from":"lead","to":"support"},{"ts":"2026-04-23T04:08:34.889229+00:00","kind":"msg","label":"Hi \u2014 pre-mortem surface two risks that need engineering input before Friday ship: 1. **Un\u2026","full":"Hi \u2014 pre-mortem surface two risks that need engineering input before Friday ship: 1. **Unbriefed coupon endpoint:** The '/v2/coupons/apply' endpoint is new this week, untested, and support has had zero briefing on what user-facing behavior or error messages changed. When users hit coupon errors Sunday/Monday, support agents won't know if it's expected or a bug. Mitigation: 30-min briefing Thursday with the engineer who built it. Document error codes, user-facing messages, validation changes. 2. **Session re-auth timing:** The brief flagged a concern that new checkout might re-auth at different moments. If behavior changed, users will see unexpected logouts mid-checkout and blame the platform. We need confirmation of what changed before Friday so we can brief agents and prepare a consistent user-facing message. Can you flag these for the checkout eng lead? Cheers.","from":"support","to":"engineer"},{"ts":"2026-04-23T04:08:36.245598+00:00","kind":"msg","label":"Engineer risks update: Several of my risks implicate on-call and rollback decision-making\u2026","full":"Engineer risks update: Several of my risks implicate on-call and rollback decision-making: 1. Redis session latency spike during Monday ramp (med/high likelihood, high impact) \u2014 single-node Redis under increased load could evict sessions or timeout, breaking checkouts 2. Idempotency-key enforcement breaks during flag transitions (med-high/high) \u2014 duplicate transactions could slip through audit log during ramp or rollback 3. Flag-off rollback encounters schema incompatibility (med/high) \u2014 v1 may not run against v2-migrated schema; rollback could fail partway 4. Ramp metrics lack stratification (high/med) \u2014 blended metrics hide v2 degradation; you won't have clear go/no-go signal for each ramp stage I'm proposing: load test Redis latency pre-ramp, build stratified metrics dashboard before Monday, and test rollback safety in staging. Lead is copied. Details in risks/engineer.md.","from":"engineer","to":"ops"},{"ts":"2026-04-23T04:08:37.249924+00:00","kind":"msg","label":"Hi \u2014 pre-mortem surfaces a structural risk with your feedback loop: **Feedback loop lag:*\u2026","full":"Hi \u2014 pre-mortem surfaces a structural risk with your feedback loop: **Feedback loop lag:** Historical pattern from past launches: tickets are the first signal of bugs. If the new coupon endpoint fails silently for edge cases or new checkout has subtle issues, support will see 'coupon didn't work' tickets before monitoring alerts. Without a structured escalation channel, ops doesn't notice the pattern until support manually pings Slack an hour later. Mitigation: Before Friday, agree on a threshold (e.g., 5+ tickets with same symptom in 1 hour) and commit to ops triaging within 15 min when support escalates. This keeps response time tight if there IS a real issue. Can you confirm you're ready for that protocol by Thursday? Thanks.","from":"support","to":"ops"},{"ts":"2026-04-23T04:08:38.357981+00:00","kind":"msg","label":"Engineer risks update: Three of my risks could drive user-facing pain: 1. Coupon endpoint\u2026","full":"Engineer risks update: Three of my risks could drive user-facing pain: 1. Coupon endpoint schema mismatch (med/high likelihood, high impact) \u2014 real production coupon codes/carts may fail in the new endpoint; users see 'discount won't apply' or checkout errors 2. Redis session latency spike (med/high, high impact) \u2014 session reads timeout under Monday ramp traffic; checkout failures increase 3. Idempotency enforcement gaps during flag transitions (med-high, high impact) \u2014 duplicate transaction handling breaks during ramp or rollback; potential for silent duplicate charges I'm proposing pre-ramp load testing and schema audits to surface these early. If they surface during ramp, you'll see error spikes in coupon apply logs and checkout timeout escalations. Lead is copied. Details in risks/engineer.md.","from":"engineer","to":"support"},{"ts":"2026-04-23T04:08:39.649958+00:00","kind":"msg","label":"Ops flagging three engineering concerns from the pre-mortem: 1. **New coupon endpoint ins\u2026","full":"Ops flagging three engineering concerns from the pre-mortem: 1. **New coupon endpoint instrumentation**: '/v2/coupons/apply' was added this week. It needs to be stress-tested before Friday and have the right instrumentation for monitoring (success rate, error types, latency breakdown). If metrics aren't available, ops can't see when it degrades during Monday ramp. 2. **Redis session store failover risk**: Single-node async replication is risky over a thin weekend. If it fails over Friday night to Sunday, the async window means data loss is possible. Recommend either (a) speed up the failover test and add alerts (ops does), or (b) switch to sync replication or multi-node for this launch period. 3. **Feature flag control plane failover**: The flag service is critical for the 0% \u2192 100% ramp. It needs a failover test Friday afternoon to verify behavior if the service goes down and to make sure on-call can force a rollback manually. I'm adding monitoring and runbook updates to cover ops side of these. But wanted you to see the gaps that touch your code/design.","from":"ops","to":"engineer"},{"ts":"2026-04-23T04:08:41.791417+00:00","kind":"msg","label":"Ops flagging a critical escalation pattern: our last two launches had 'silent degradation\u2026","full":"Ops flagging a critical escalation pattern: our last two launches had 'silent degradation' \u2014 no ops alerts fired, but customers noticed. The first signal was always a support-ticket volume spike 20\u201360 minutes after impact started. This launch adds a new coupon endpoint and a session-heavy v2 checkout flow. Errors to watch for on Monday: 'session expired,' 'invalid coupon,' 'payment method not found,' or checkout timeouts (>5 seconds). If you see a sudden spike in any checkout-related complaints Monday morning during the ramp, escalate immediately to #ops-checkout or page ops-primary. Don't wait for ops to notice \u2014 you'll see it before the dashboard does. I'm adding alerts to catch these earlier this time, but wanted to make sure you know the pattern and that support escalation is part of our early-signal plan.","from":"ops","to":"support"},{"ts":"2026-04-23T04:09:03.351845+00:00","kind":"done","label":"t_002 done \u2192 risks/ops.md","from":"ops","to":"lead"},{"ts":"2026-04-23T04:09:04.174600+00:00","kind":"done","label":"t_001 done \u2192 risks/engineer.md","from":"engineer","to":"lead"},{"ts":"2026-04-23T04:09:04.734095+00:00","kind":"done","label":"t_003 done \u2192 risks/support.md","from":"support","to":"lead"},{"ts":"2026-04-23T04:10:18.003629+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Compliance / audit log integrity plan","who":"lead"},{"ts":"2026-04-23T04:10:20.799936+00:00","kind":"note","label":"creates task: Post-mortem follow-up: PM availability / decision authority\u2026","who":"lead"},{"ts":"2026-04-23T04:10:23.950172+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Consolidate coupon endpoint risks (t\u2026","who":"lead"},{"ts":"2026-04-23T04:10:27.467319+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Ramp metrics / go-no-go criteria","who":"lead"},{"ts":"2026-04-23T04:10:31.870124+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Feedback loop / support escalation (\u2026","who":"lead"},{"ts":"2026-04-23T04:10:35.134005+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Data reconciliation / rollback integ\u2026","who":"lead"},{"ts":"2026-04-23T04:10:37.618108+00:00","kind":"note","label":"creates task: Post-mortem follow-up: Customer comms / rollback messaging","who":"lead"},{"ts":"2026-04-23T04:10:48.328840+00:00","kind":"assign","label":"dispatch t_004","from":"lead","to":"engineer"},{"ts":"2026-04-23T04:10:48.542682+00:00","kind":"assign","label":"dispatch t_005","from":"lead","to":"ops"},{"ts":"2026-04-23T04:10:48.754843+00:00","kind":"assign","label":"dispatch t_006","from":"lead","to":"engineer"},{"ts":"2026-04-23T04:10:48.962043+00:00","kind":"assign","label":"dispatch t_007","from":"lead","to":"ops"},{"ts":"2026-04-23T04:10:49.172794+00:00","kind":"assign","label":"dispatch t_008","from":"lead","to":"ops"},{"ts":"2026-04-23T04:10:49.381732+00:00","kind":"assign","label":"dispatch t_009","from":"lead","to":"engineer"},{"ts":"2026-04-23T04:10:49.557686+00:00","kind":"assign","label":"dispatch t_010","from":"lead","to":"support"},{"ts":"2026-04-23T04:12:51.484671+00:00","kind":"done","label":"t_010 done \u2192 rollback_comms_plan.md","from":"support","to":"lead"},{"ts":"2026-04-23T04:12:53.669280+00:00","kind":"done","label":"t_004 done \u2192 audit_log_compliance_plan.md","from":"engineer","to":"lead"},{"ts":"2026-04-23T04:12:58.369836+00:00","kind":"msg","label":"Confirmed: Ops is ready for the support escalation protocol. Protocol: If you see 5+ tick\u2026","full":"Confirmed: Ops is ready for the support escalation protocol. Protocol: If you see 5+ tickets in 1 hour with the same symptom/keyword (e.g., 'coupon didn't apply,' 'session expired,' 'payment declined'), escalate immediately to #ops-escalation with format: '[PATTERN] symptom, N tickets in last 60 min, first 3 attached.' Ops commits to triaging within 15 minutes when escalated via this channel. This applies Friday evening through Monday. I've also drafted decision_authority.md (attached to PM) that clarifies the support-to-ops feedback loop as part of the 'silent degradation' early-signal strategy. You're the canary. When you escalate, ops will respond fast.","from":"ops","to":"support"},{"ts":"2026-04-23T04:13:00.854708+00:00","kind":"msg","label":"I've drafted decision_authority.md clarifying decision-making and escalation paths for Fr\u2026","full":"I've drafted decision_authority.md clarifying decision-making and escalation paths for Friday ship through Monday ramp conclusion. Key ops-to-eng moments: - If error rate/latency degrades during ramp, ops pages you immediately (no waiting). - You confirm if it's v2-specific using stratified metrics. - If confirmed v2 issue, ops escalates to PM. If you hit a schema mismatch during rollback testing, or detect idempotency-key duplicates during ramp, ops escalates to compliance/legal immediately (audit-log integrity is a blocker). Document will be shared Thursday with PM + lead. Your feedback welcome if you see gaps.","from":"ops","to":"engineer"},{"ts":"2026-04-23T04:13:03.005163+00:00","kind":"done","label":"t_005 done \u2192 decision_authority.md","from":"ops","to":"lead"},{"ts":"2026-04-23T04:15:21.373811+00:00","kind":"done","label":"t_006 done \u2192 consolidated_coupon_plan.md","from":"engineer","to":"lead"},{"ts":"2026-04-23T04:15:33.378288+00:00","kind":"msg","label":"I've drafted ramp_metrics_plan.md defining the stratified metrics dashboard, automated al\u2026","full":"I've drafted ramp_metrics_plan.md defining the stratified metrics dashboard, automated alerts, and go/no-go criteria for each ramp stage. Critical asks for you: 1. **Dashboard (7 panels):** Datadog dashboard with v1 vs v2 side-by-side for conversion, error rate, latency p50/p95/p99, coupon success, coupon latency, error breakdown, Redis health. Must be live by Friday morning. 2. **Metric instrumentation:** Confirm these metrics are available in your codebase: - 'checkout.error_rate{feature_flag: v2}' - 'checkout.latency_p99{feature_flag: v2}' - 'checkout.coupon_endpoint.error_rate' - 'redis.session_store.read_latency_p99' - 'redis.replication_lag_ms' 3. **Staging end-to-end test:** Friday afternoon, simulate 0%\u2192100% ramp in staging and verify dashboard populates correctly. Go/no-go criteria are in the document. Do these thresholds look reasonable to you, or should we adjust? Also: Can you confirm rollback test (v1 against v2-migrated schema) is in your load test plans for Friday?","from":"ops","to":"engineer"},{"ts":"2026-04-23T04:15:35.286810+00:00","kind":"msg","label":"One more thing on the plan: it assumes we have stratified metrics (v1 vs v2 separate, not\u2026","full":"One more thing on the plan: it assumes we have stratified metrics (v1 vs v2 separate, not blended). If your current instrumentation only reports blended metrics, we'll need to either: - Add feature-flag-aware instrumentation (split metrics by flag state) this week, OR - Use sampling/post-processing to infer v2-only metrics from logs Which is feasible? If neither, we need to escalate to PM/lead that we'll launch without clear go/no-go visibility, which changes the risk profile.","from":"ops","to":"engineer"},{"ts":"2026-04-23T04:15:39.383919+00:00","kind":"done","label":"t_007 done \u2192 ramp_metrics_plan.md","from":"ops","to":"lead"},{"ts":"2026-04-23T04:17:16.460298+00:00","kind":"done","label":"t_009 done \u2192 rollback_integrity_plan.md","from":"engineer","to":"lead"},{"ts":"2026-04-23T04:17:20.408555+00:00","kind":"msg","label":"I've finalized the support\u2192ops escalation protocol (support_ops_escalation_protocol.md).\u2026","full":"I've finalized the support\u2192ops escalation protocol (support_ops_escalation_protocol.md). **Friday morning briefing (REQUIRED):** - Time: Friday 2026-04-24 at 14:00 UTC (2 hours before ship) - Duration: 30 minutes - Attendees: All 6 support agents (including weekend staff), support lead, ops-secondary - Lead: Ops-primary (me) - Purpose: Train the team on the escalation threshold (5+ tickets with same keyword in 1 hour), channels (#ops-escalation + #checkout-launch-ops), format, and SLA (ops responds in 15 min) This is critical. The protocol makes support the early-signal system for ops during the launch. Without this briefing, support won't know to escalate, and ops will stay blind to customer issues for 30\u201360 min. **Can you confirm:** 1. All 6 support agents + weekend staff can attend Friday 14:00 UTC? 2. Which support lead should I coordinate with to schedule this and send the calendar invite? I'm also attaching a support-ready briefing agenda in the protocol doc so support lead can review and prep.","from":"ops","to":"support"},{"ts":"2026-04-23T04:17:23.433993+00:00","kind":"msg","label":"I've finalized the support\u2192ops escalation protocol. You are ops-secondary on-call Friday\u2026","full":"I've finalized the support\u2192ops escalation protocol. You are ops-secondary on-call Friday evening through Sunday. **Key responsibility:** If support escalates a [PATTERN] message to #ops-escalation and ops-primary (me) doesn't respond within 5 min, you assess whether it's urgent (check the ramp metrics dashboard) and either: 1. Reach out to ops-primary in Slack, or 2. If ops-primary is truly unreachable, post in #checkout-launch-ops and DM ops-primary's manager **You do NOT page engineer on-call.** Your role is to unblock ops-primary so they can make the decision. **Friday morning briefing (QUICK, 10 min):** - Time: Friday 14:00 UTC or 13:00 UTC (flexible) - Purpose: Cover your escalation procedure, response targets, and when to page ops-primary - Lead: Me I'll send the calendar invite Friday morning. Can you confirm you're available for a quick 10-min sync Friday morning (before ship at 16:00 UTC)? Also: Can you confirm that the ramp metrics dashboard will be ready by Friday morning so I can use it during weekend triage?","from":"ops","to":"engineer"},{"ts":"2026-04-23T04:17:25.490757+00:00","kind":"done","label":"t_008 done \u2192 support_ops_escalation_protocol.md","from":"ops","to":"lead"},{"ts":"2026-04-23T04:19:56.774468+00:00","kind":"note","label":"finalize()","who":"lead"}]}</script>
+<script>
+(() => {
+  'use strict';
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const data = JSON.parse(document.getElementById('data').textContent);
+  const agents = data.agents;
+  const events = data.events;
+
+  // Layout
+  const COL_W = 210;
+  const LEFT_PAD = 32;
+  const RIGHT_PAD = 32;
+  const TOP_PAD = 56;
+  const BOTTOM_PAD = 32;
+  const ROW_H = 58;
+
+  const svgW = LEFT_PAD + RIGHT_PAD + Math.max(1, agents.length) * COL_W;
+  const svgH = TOP_PAD + Math.max(1, events.length) * ROW_H + BOTTOM_PAD;
+
+  const xForAgent = (name) => {
+    const i = agents.indexOf(name);
+    const idx = i < 0 ? agents.length : i;
+    return LEFT_PAD + idx * COL_W + COL_W / 2;
+  };
+  const yForEvent = (i) => TOP_PAD + i * ROW_H + ROW_H / 2;
+
+  const stage = document.getElementById('stage');
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+  // Arrow markers
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const mk = (id, color) => `
+    <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+    </marker>`;
+  defs.innerHTML =
+    mk('mk-blue',  '#2563eb') +
+    mk('mk-green', '#16a34a') +
+    mk('mk-red',   '#dc2626') +
+    mk('mk-cyan',  '#0891b2');
+  svg.appendChild(defs);
+
+  // Lane labels + vertical lifelines
+  agents.forEach((a) => {
+    const x = xForAgent(a);
+    const label = document.createElementNS(SVG_NS, 'text');
+    label.setAttribute('x', x);
+    label.setAttribute('y', 28);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('class', 'lane-label');
+    label.textContent = a;
+    svg.appendChild(label);
+
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('x1', x);
+    line.setAttribute('y1', 40);
+    line.setAttribute('x2', x);
+    line.setAttribute('y2', svgH - BOTTOM_PAD);
+    line.setAttribute('class', 'lane-line');
+    svg.appendChild(line);
+  });
+
+  // Now-line (sweeps down as playback advances)
+  const nowLine = document.createElementNS(SVG_NS, 'line');
+  nowLine.setAttribute('x1', LEFT_PAD);
+  nowLine.setAttribute('x2', svgW - RIGHT_PAD);
+  nowLine.setAttribute('y1', TOP_PAD - 8);
+  nowLine.setAttribute('y2', TOP_PAD - 8);
+  nowLine.setAttribute('class', 'now-line');
+  nowLine.setAttribute('opacity', '0');
+  svg.appendChild(nowLine);
+
+  // Pre-render every event element (hidden initially)
+  const elements = events.map((e, i) => {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', 'event hidden');
+    g.setAttribute('data-idx', String(i));
+
+    const y = yForEvent(i);
+
+    if (e.kind === 'note') {
+      const who = e.who || 'lead';
+      const x = xForAgent(who);
+      const text = e.label || '';
+      const width = Math.min(COL_W - 20, Math.max(120, text.length * 6.5 + 20));
+      const height = 26;
+      const rect = document.createElementNS(SVG_NS, 'rect');
+      rect.setAttribute('x', x - width / 2);
+      rect.setAttribute('y', y - height / 2);
+      rect.setAttribute('width', width);
+      rect.setAttribute('height', height);
+      rect.setAttribute('rx', 4);
+      rect.setAttribute('class', 'note-bg');
+      g.appendChild(rect);
+
+      const t = document.createElementNS(SVG_NS, 'text');
+      t.setAttribute('x', x);
+      t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('class', 'note-text');
+      t.textContent = text;
+      g.appendChild(t);
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent = text;
+      g.appendChild(full);
+    } else {
+      const x1 = xForAgent(e.from);
+      const x2 = xForAgent(e.to);
+      const arrowCls =
+        e.kind === 'done' ? 'arrow dashed' :
+        e.kind === 'failed' ? 'arrow failed' :
+        e.kind === 'msg' ? 'arrow msg' : 'arrow solid';
+      const marker =
+        e.kind === 'done' ? 'mk-green' :
+        e.kind === 'failed' ? 'mk-red' :
+        e.kind === 'msg' ? 'mk-cyan' : 'mk-blue';
+
+      // Arrow path. Slight vertical offset at src/dst so a later bubble
+      // below doesn't sit on the line.
+      const path = document.createElementNS(SVG_NS, 'path');
+      const dir = x2 > x1 ? 1 : -1;
+      const pad = 8 * dir;
+      path.setAttribute('d', `M ${x1 + pad} ${y} L ${x2 - pad} ${y}`);
+      path.setAttribute('class', arrowCls);
+      path.setAttribute('marker-end', `url(#${marker})`);
+      path.setAttribute('pathLength', '100');
+      if (e.kind === 'done') {
+        // keep dashed look, but still animate via dashoffset on a wrapper
+        path.setAttribute('stroke-dasharray', '6 4');
+      } else if (e.kind === 'failed') {
+        path.setAttribute('stroke-dasharray', '2 3');
+      } else {
+        path.setAttribute('stroke-dasharray', '100');
+        path.setAttribute('stroke-dashoffset', '100');
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      }
+      g.appendChild(path);
+
+      // Bubble with truncated label above the arrow
+      const label = (e.label || '').slice(0, 110);
+      if (label) {
+        const midX = (x1 + x2) / 2;
+        const bubbleY = y - 18;
+        const w = Math.min(Math.abs(x2 - x1) - 30, label.length * 6.2 + 16);
+        const bw = Math.max(60, w);
+        const h = 18;
+        const rect = document.createElementNS(SVG_NS, 'rect');
+        rect.setAttribute('x', midX - bw / 2);
+        rect.setAttribute('y', bubbleY - h / 2);
+        rect.setAttribute('width', bw);
+        rect.setAttribute('height', h);
+        rect.setAttribute('rx', 3);
+        rect.setAttribute('class', 'bubble-bg ' + (e.kind || 'msg'));
+        g.appendChild(rect);
+
+        const t = document.createElementNS(SVG_NS, 'text');
+        t.setAttribute('x', midX);
+        t.setAttribute('y', bubbleY + 4);
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('class', 'bubble-text');
+        t.textContent = label;
+        g.appendChild(t);
+      }
+
+      const full = document.createElementNS(SVG_NS, 'title');
+      full.textContent =
+        (e.from || '?') + ' → ' + (e.to || '?') + ' [' + e.kind + ']\n' +
+        (e.label || '');
+      g.appendChild(full);
+    }
+
+    svg.appendChild(g);
+    return g;
+  });
+
+  stage.appendChild(svg);
+
+  // Playback state
+  let idx = -1;                 // index of the last revealed event; -1 = nothing
+  let playing = false;
+  let timer = null;
+  const BASE_DELAY = 850;       // ms/event at 1x
+  const speedEl = document.getElementById('speed');
+  const scrubEl = document.getElementById('scrubber');
+  const progEl  = document.getElementById('progress');
+  const playBtn = document.getElementById('btn-play');
+  const backBtn = document.getElementById('btn-back');
+  const nextBtn = document.getElementById('btn-next');
+  const resetBtn = document.getElementById('btn-reset');
+  const endBtn = document.getElementById('btn-end');
+  scrubEl.max = String(events.length);
+
+  const delay = () => BASE_DELAY / parseFloat(speedEl.value || '1');
+
+  function reveal(i, instant) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('hidden');
+    g.classList.add('visible');
+    const path = g.querySelector('path');
+    const dashed = path && path.getAttribute('stroke-dasharray') === '100';
+    if (dashed) {
+      if (instant) {
+        path.style.transition = 'none';
+        path.setAttribute('stroke-dashoffset', '0');
+        // Re-enable transition for next time
+        void path.getBoundingClientRect();
+        path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+      } else {
+        requestAnimationFrame(() =>
+          path.setAttribute('stroke-dashoffset', '0'));
+      }
+    }
+  }
+  function hide(i) {
+    const g = elements[i];
+    if (!g) return;
+    g.classList.remove('visible');
+    g.classList.add('hidden');
+    const path = g.querySelector('path');
+    if (path && path.getAttribute('stroke-dasharray') === '100') {
+      path.style.transition = 'none';
+      path.setAttribute('stroke-dashoffset', '100');
+      void path.getBoundingClientRect();
+      path.style.transition = 'stroke-dashoffset 0.45s ease-out';
+    }
+  }
+
+  function markCurrent() {
+    elements.forEach((g, i) => {
+      if (i === idx) g.classList.add('current');
+      else g.classList.remove('current');
+    });
+    if (idx >= 0) {
+      nowLine.setAttribute('opacity', '0.6');
+      const y = yForEvent(idx);
+      nowLine.setAttribute('y1', y);
+      nowLine.setAttribute('y2', y);
+      // Auto-scroll the element into view when we've passed below the fold
+      const g = elements[idx];
+      if (g && g.scrollIntoView) {
+        const r = g.getBoundingClientRect();
+        const inView = r.top >= 100 && r.bottom <= window.innerHeight - 20;
+        if (!inView) g.scrollIntoView({block: 'center', behavior: 'smooth'});
+      }
+    } else {
+      nowLine.setAttribute('opacity', '0');
+    }
+  }
+  function updateProgress() {
+    const n = idx + 1;
+    progEl.textContent = n + ' / ' + events.length;
+    scrubEl.value = String(n);
+    backBtn.disabled = idx < 0;
+    nextBtn.disabled = idx >= events.length - 1;
+  }
+  function setTo(n, instant) {
+    // n = number of events revealed (0..events.length)
+    const target = n - 1;
+    if (target > idx) {
+      for (let i = idx + 1; i <= target; i++) reveal(i, instant);
+    } else if (target < idx) {
+      for (let i = idx; i > target; i--) hide(i);
+    }
+    idx = target;
+    markCurrent();
+    updateProgress();
+  }
+  function stepNext() {
+    if (idx >= events.length - 1) { pause(); return; }
+    idx++;
+    reveal(idx, false);
+    markCurrent();
+    updateProgress();
+  }
+  function stepBack() {
+    if (idx < 0) return;
+    hide(idx);
+    idx--;
+    markCurrent();
+    updateProgress();
+  }
+  function play() {
+    if (idx >= events.length - 1) setTo(0, true);
+    playing = true;
+    playBtn.textContent = '⏸';
+    const tick = () => {
+      stepNext();
+      if (playing && idx < events.length - 1) {
+        timer = setTimeout(tick, delay());
+      } else {
+        pause();
+      }
+    };
+    timer = setTimeout(tick, delay());
+  }
+  function pause() {
+    playing = false;
+    playBtn.textContent = '▶';
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  playBtn.addEventListener('click', () => playing ? pause() : play());
+  nextBtn.addEventListener('click', () => { pause(); stepNext(); });
+  backBtn.addEventListener('click', () => { pause(); stepBack(); });
+  resetBtn.addEventListener('click', () => { pause(); setTo(0, true); });
+  endBtn.addEventListener('click',   () => { pause(); setTo(events.length, true); });
+  scrubEl.addEventListener('input', (ev) => {
+    pause(); setTo(parseInt(ev.target.value, 10), true);
+  });
+  document.addEventListener('keydown', (ev) => {
+    if (ev.target && /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); playing ? pause() : play(); }
+    else if (ev.key === 'ArrowRight') { ev.preventDefault(); pause(); stepNext(); }
+    else if (ev.key === 'ArrowLeft')  { ev.preventDefault(); pause(); stepBack(); }
+    else if (ev.key === 'Home')       { ev.preventDefault(); pause(); setTo(0, true); }
+    else if (ev.key === 'End')        { ev.preventDefault(); pause(); setTo(events.length, true); }
+  });
+
+  updateProgress();
+  markCurrent();
+})();
+</script>
+</body>
+</html>

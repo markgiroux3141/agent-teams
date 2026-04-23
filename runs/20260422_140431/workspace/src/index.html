@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Flight Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border: 1px solid #0f0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <div>Flight Simulator v1</div>
+        <div id="speed">Speed: 0</div>
+        <div id="altitude">Alt: 0</div>
+        <div id="position">Pos: (0, 0, 0)</div>
+        <div style="margin-top: 10px; font-size: 12px;">
+            WASD/Arrows: Move | Space: Up | Ctrl: Down
+        </div>
+    </div>
+
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Game configuration -->
+    <script src="config.js"></script>
+
+    <!-- Game modules -->
+    <script src="terrain.js"></script>
+    <script src="plane.js"></script>
+    <script src="controls.js"></script>
+    <script src="camera.js"></script>
+
+    <!-- Game initialization and main loop -->
+    <script>
+        // ============ Game Namespace ============
+        const Game = {
+            scene: null,
+            camera: null,
+            renderer: null,
+            terrain: null,
+            plane: null,
+            planeState: null,
+            lastTime: 0,
+
+            // Initialize the game
+            init() {
+                // Scene setup
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(
+                    CONFIG.camera.fov,
+                    window.innerWidth / window.innerHeight,
+                    CONFIG.camera.near,
+                    CONFIG.camera.far
+                );
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setClearColor(CONFIG.scene.skyColor);
+                document.body.appendChild(this.renderer.domElement);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(CONFIG.scene.ambientLightColor, CONFIG.scene.ambientLightIntensity);
+                this.scene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(CONFIG.scene.directionalLightColor, CONFIG.scene.directionalLightIntensity);
+                directionalLight.position.set(...CONFIG.scene.directionalLightPosition);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = CONFIG.scene.shadowMapSize;
+                directionalLight.shadow.mapSize.height = CONFIG.scene.shadowMapSize;
+                this.scene.add(directionalLight);
+
+                // Fog
+                this.scene.fog = new THREE.Fog(CONFIG.scene.fogColor, CONFIG.scene.fogNear, CONFIG.scene.fogFar);
+
+                // Terrain
+                this.terrain = generateTerrain(this.scene);
+
+                // Plane
+                this.plane = createPlane(this.scene);
+                this.planeState = createPlaneState();
+                this.plane.rotation.order = 'YXZ'; // Set once at init, not every frame
+
+                // Input
+                setupInputHandlers();
+
+                // Camera initial position
+                this.camera.position.set(0, 120, 50);
+                this.camera.lookAt(0, 0, 0);
+
+                // Window resize handler
+                window.addEventListener('resize', () => this.onWindowResize());
+
+                // Start animation loop
+                this.lastTime = Date.now();
+                requestAnimationFrame(() => this.animate());
+            },
+
+            // Main animation loop
+            animate() {
+                requestAnimationFrame(() => this.animate());
+
+                const now = Date.now();
+                const deltaTime = Math.min((now - this.lastTime) / 1000, CONFIG.physics.deltaTimeCap);
+                this.lastTime = now;
+
+                updatePlaneInput(this.plane, this.planeState, deltaTime);
+                updateCamera(this.camera, this.plane, this.planeState);
+                this.updateHUD();
+
+                this.renderer.render(this.scene, this.camera);
+            },
+
+            // Update HUD display
+            updateHUD() {
+                document.getElementById('speed').textContent = `Speed: ${this.planeState.speed.toFixed(0)}`;
+                document.getElementById('altitude').textContent = `Alt: ${this.plane.position.y.toFixed(0)}m`;
+                document.getElementById('position').textContent = `Pos: (${this.plane.position.x.toFixed(0)}, ${this.plane.position.y.toFixed(0)}, ${this.plane.position.z.toFixed(0)})`;
+            },
+
+            // Handle window resize
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        };
+
+        // Initialize and start the game
+        Game.init();
+    </script>
+</body>
+</html>

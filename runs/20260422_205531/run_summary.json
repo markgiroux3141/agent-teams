@@ -1,0 +1,112 @@
+{
+  "goal": "Run the incident postmortem. Pool evidence from all four investigators, force cross-domain triangulation on contradictions and gaps, converge on a root-cause hypothesis supported by a specific join of evidence, and deliver remediation with named owners.",
+  "team": "incident-postmortem",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 7
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "sre",
+      "result_ref": "findings/sre.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "observability",
+      "result_ref": "findings/observability.md",
+      "note": null
+    },
+    {
+      "task_id": "t_003",
+      "status": "completed",
+      "assigned_to": "releng",
+      "result_ref": "findings/releng.md",
+      "note": null
+    },
+    {
+      "task_id": "t_004",
+      "status": "completed",
+      "assigned_to": "support",
+      "result_ref": "findings/support.md",
+      "note": null
+    },
+    {
+      "task_id": "t_005",
+      "status": "completed",
+      "assigned_to": "releng",
+      "result_ref": "findings/releng_followup_user_session.md",
+      "note": null
+    },
+    {
+      "task_id": "t_006",
+      "status": "completed",
+      "assigned_to": "observability",
+      "result_ref": "observability_followup.md",
+      "note": null
+    },
+    {
+      "task_id": "t_007",
+      "status": "completed",
+      "assigned_to": "sre",
+      "result_ref": "follow_up_session_analysis.md",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "lead": {
+        "cost_usd": 0.30994200000000005,
+        "input_tokens": 142,
+        "output_tokens": 11376,
+        "cache_read": 385632,
+        "cache_write": 41978,
+        "turns": 3
+      },
+      "observability": {
+        "cost_usd": 0.12846695000000002,
+        "input_tokens": 81,
+        "output_tokens": 6796,
+        "cache_read": 172010,
+        "cache_write": 21797,
+        "turns": 2
+      },
+      "releng": {
+        "cost_usd": 0.17890689999999998,
+        "input_tokens": 165,
+        "output_tokens": 8503,
+        "cache_read": 440374,
+        "cache_write": 33655,
+        "turns": 2
+      },
+      "sre": {
+        "cost_usd": 0.12964844999999997,
+        "input_tokens": 95,
+        "output_tokens": 6658,
+        "cache_read": 203708,
+        "cache_write": 23199,
+        "turns": 2
+      },
+      "support": {
+        "cost_usd": 0.1194275,
+        "input_tokens": 81,
+        "output_tokens": 4658,
+        "cache_read": 165193,
+        "cache_write": 21016,
+        "turns": 2
+      }
+    },
+    "total": {
+      "cost_usd": 0.8663917999999999,
+      "input_tokens": 564,
+      "output_tokens": 37991,
+      "cache_read": 1366917,
+      "cache_write": 141645,
+      "turns": 11
+    }
+  }
+}

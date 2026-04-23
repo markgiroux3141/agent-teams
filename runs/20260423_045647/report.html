@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MAT run 20260423_045647</title>
+<style>
+
+body { font: 14px/1.5 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+       color: #0f172a; background: #f8fafc; margin: 0; }
+.wrap { max-width: 1300px; margin: 24px auto; padding: 0 16px; }
+h1 { font-size: 22px; margin: 0 0 8px; }
+h2 { font-size: 17px; margin: 28px 0 10px; padding-bottom: 4px;
+     border-bottom: 1px solid #e2e8f0; }
+section { margin-bottom: 28px; }
+.meta { display: grid; grid-template-columns: max-content 1fr; column-gap: 16px;
+        row-gap: 4px; font-size: 13px; margin-bottom: 8px; }
+.meta dt { color: #64748b; }
+.meta dd { margin: 0; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+        font-size: 12px; font-weight: 600; }
+.pill.finalized { background: #dcfce7; color: #166534; }
+.pill.interrupted { background: #fef3c7; color: #92400e; }
+.pill.incomplete { background: #fee2e2; color: #991b1b; }
+.legend { display: flex; gap: 14px; font-size: 12px; margin-bottom: 6px; color: #475569; }
+.legend .sw { display: inline-block; width: 14px; height: 10px; border-radius: 2px;
+              margin-right: 4px; vertical-align: middle; }
+.timeline svg { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; }
+.timeline .grid line { stroke: #e2e8f0; }
+.timeline .lane-label { font: 12px/1 Consolas, monospace; fill: #334155; }
+.timeline .axis text { font: 11px/1 Consolas, monospace; fill: #64748b; }
+.timeline .round-boundary { stroke: #cbd5e1; stroke-dasharray: 3 3; }
+.dag { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+.dag .node rect { stroke: #1e293b; stroke-width: 1; }
+.dag .node text { font: 12px/1 Consolas, monospace; }
+.dag .edge { stroke: #94a3b8; fill: none; marker-end: url(#arrow); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+         gap: 12px; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+.card h3 { margin: 0 0 8px; font-size: 15px; }
+.card table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.card td { padding: 3px 6px; border-bottom: 1px dashed #f1f5f9; }
+.card td:last-child { text-align: right; font-family: Consolas, monospace; }
+table.messages, table.events, table.tasks { width: 100%; border-collapse: collapse;
+         font-size: 12px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+table.messages td, table.messages th,
+table.events td, table.events th,
+table.tasks td, table.tasks th {
+    padding: 6px 8px; border-bottom: 1px solid #f1f5f9; text-align: left;
+    vertical-align: top;
+}
+table.messages th, table.events th, table.tasks th { background: #f8fafc; font-weight: 600; }
+details.artifact { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px;
+                   padding: 8px 12px; margin-bottom: 6px; }
+details.artifact summary { cursor: pointer; font-family: Consolas, monospace;
+                           font-size: 13px; }
+details.artifact pre { background: #f1f5f9; padding: 10px; overflow-x: auto;
+                       font-size: 12px; border-radius: 4px; max-height: 420px; }
+.folder-header { margin: 14px 0 4px; font-size: 13px; color: #475569;
+                 font-family: Consolas, monospace; }
+.empty { color: #64748b; font-style: italic; }
+.status-completed { background: #dcfce7; }
+.status-failed { background: #fee2e2; }
+.status-in_progress { background: #fef3c7; }
+.status-assigned, .status-created, .status-claimed { background: #e0e7ff; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Run <code>20260423_045647</code></h1>
+<dl class="meta">
+<dt>Goal</dt><dd>Ship a recipes website. Take the vague brief through two rounds of team deliberation, produce a SPEC.md that pins every cross-team contract, then dispatch parallel build tasks with no further coordination. Verify the produced files form a working static site.</dd>
+<dt>Team</dt><dd><code>recipes-website</code></dd>
+<dt>Started</dt><dd>2026-04-23T04:56:47.528362+00:00</dd>
+<dt>Duration</dt><dd>547.7 s</dd>
+<dt>Status</dt><dd><span class="pill finalized">finalized</span></dd>
+<dt>Total cost</dt><dd>$2.0159
+  (16 turns, 668 in / 85685 out,
+  cache_r=2071353)</dd>
+<dt>Sibling</dt><dd><a href="report.md">report.md</a></dd>
+</dl>
+</header>
+<section><h2>Timeline</h2><div class="legend"><span><span class="sw" style="background:#94a3b8"></span>lead turn</span><span><span class="sw" style="background:#2563eb"></span>task dispatch</span><span><span class="sw" style="background:#16a34a"></span>reply dispatch</span><span><span class="sw" style="background:#ea580c"></span>nudge</span><span><span class="sw" style="background:#dc2626"></span>failed / timeout</span></div><div class="timeline"><svg viewBox="0 0 1200 260" width="100%" preserveAspectRatio="xMinYMin meet"><g class="axis"><line x1="140.0" y1="24" x2="140.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="140.0" y="20" text-anchor="middle">0.0s</text><line x1="352.0" y1="24" x2="352.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="352.0" y="20" text-anchor="middle">109.5s</text><line x1="564.0" y1="24" x2="564.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="564.0" y="20" text-anchor="middle">219.1s</text><line x1="776.0" y1="24" x2="776.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="776.0" y="20" text-anchor="middle">328.6s</text><line x1="988.0" y1="24" x2="988.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="988.0" y="20" text-anchor="middle">438.1s</text><line x1="1200.0" y1="24" x2="1200.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="1200.0" y="20" text-anchor="middle">547.7s</text></g><text class="lane-label" x="132" y="66.0" text-anchor="end">lead</text><line x1="140" y1="40" x2="1200" y2="40" stroke="#f1f5f9" /><text class="lane-label" x="132" y="110.0" text-anchor="end">backend</text><line x1="140" y1="84" x2="1200" y2="84" stroke="#f1f5f9" /><text class="lane-label" x="132" y="154.0" text-anchor="end">frontend</text><line x1="140" y1="128" x2="1200" y2="128" stroke="#f1f5f9" /><text class="lane-label" x="132" y="198.0" text-anchor="end">ux</text><line x1="140" y1="172" x2="1200" y2="172" stroke="#f1f5f9" /><text class="lane-label" x="132" y="242.0" text-anchor="end">writer</text><line x1="140" y1="216" x2="1200" y2="216" stroke="#f1f5f9" /><line x1="140" y1="260" x2="1200" y2="260" stroke="#e2e8f0" /><line class="round-boundary" x1="204.1" y1="40" x2="204.1" y2="260" /><line class="round-boundary" x1="555.2" y1="40" x2="555.2" y2="260" /><line class="round-boundary" x1="842.4" y1="40" x2="842.4" y2="260" /><rect x="145.2" y="46" width="58.9" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 30.45s · 20 tool calls</title></rect><line x1="154.7" y1="46" x2="154.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:55.127540+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/project_context.md&quot;}</title></line><line x1="155.1" y1="46" x2="155.1" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:55.320654+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/backend.md&quot;}</title></line><line x1="155.5" y1="46" x2="155.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:55.555121+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/frontend.md&quot;}</title></line><line x1="156.0" y1="46" x2="156.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:55.793711+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/ux.md&quot;}</title></line><line x1="156.1" y1="46" x2="156.1" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:55.856362+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/writer.md&quot;}</title></line><line x1="158.6" y1="46" x2="158.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:57.145548+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;}</title></line><line x1="161.6" y1="46" x2="161.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:58.665168+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\project_context.md&quot;}</title></line><line x1="162.0" y1="46" x2="162.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:58.891170+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\backend.md&quot;}</title></line><line x1="162.0" y1="46" x2="162.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:58.894170+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\frontend.md&quot;}</title></line><line x1="162.4" y1="46" x2="162.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:59.093668+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\ux.md&quot;}</title></line><line x1="162.8" y1="46" x2="162.8" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:56:59.284701+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\writer.md&quot;}</title></line><line x1="179.8" y1="46" x2="179.8" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:08.097335+00:00
+mcp__coord__write_scratchpad
+{&quot;filename&quot;: &quot;DONE_CRITERIA.md&quot;, &quot;content&quot;: &quot;# Done Criteria &amp; Scope\n\n## The vague goal (from stakeholder)\n\&quot;Build us a recipes website.\&quot;\n\nThat&#x27;s it. No further detail. Unreachable today. Team m</title></line><line x1="187.2" y1="46" x2="187.2" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:11.892740+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Propose \u2014 backend&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md and briefs/backend.md. Write proposals/backend.md in PROPOSAL format. \n\nPROPOSAL format:\n## My slice\n- &lt;what you</title></line><line x1="188.4" y1="46" x2="188.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:12.518344+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Propose \u2014 frontend&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md and briefs/frontend.md. Write proposals/frontend.md in PROPOSAL format.\n\nPROPOSAL format:\n## My slice\n- &lt;what y</title></line><line x1="189.6" y1="46" x2="189.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:13.148551+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Propose \u2014 ux&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md and briefs/ux.md. Write proposals/ux.md in PROPOSAL format.\n\nPROPOSAL format:\n## My slice\n- &lt;what you propose to buil</title></line><line x1="190.6" y1="46" x2="190.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:13.656419+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Propose \u2014 writer&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md and briefs/writer.md. Write proposals/writer.md in PROPOSAL format.\n\nPROPOSAL format:\n## My slice\n- &lt;what you pro</title></line><line x1="193.4" y1="46" x2="193.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:15.123763+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_001&quot;, &quot;agent&quot;: &quot;backend&quot;}</title></line><line x1="193.8" y1="46" x2="193.8" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:15.344791+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_002&quot;, &quot;agent&quot;: &quot;frontend&quot;}</title></line><line x1="194.2" y1="46" x2="194.2" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:15.546623+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_003&quot;, &quot;agent&quot;: &quot;ux&quot;}</title></line><line x1="194.5" y1="46" x2="194.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:15.683112+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_004&quot;, &quot;agent&quot;: &quot;writer&quot;}</title></line><rect x="204.1" y="90" width="168.7" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>backend · task · t_001 · 87.14s · 15 tool calls</title></rect><line x1="208.9" y1="90" x2="208.9" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.121544+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="209.2" y1="90" x2="209.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.268443+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/backend.md&quot;}</title></line><line x1="274.9" y1="90" x2="274.9" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:57.244570+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;}</title></line><line x1="277.7" y1="90" x2="277.7" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:58.674272+00:00
+Read
+{&quot;file_path&quot;: &quot;DONE_CRITERIA.md&quot;}</title></line><line x1="277.8" y1="90" x2="277.8" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:58.735488+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/backend.md&quot;}</title></line><line x1="289.2" y1="90" x2="289.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:04.593222+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/frontend.md&quot;}</title></line><line x1="289.2" y1="90" x2="289.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:04.595720+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/writer.md&quot;}</title></line><line x1="289.4" y1="90" x2="289.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:04.724576+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/ux.md&quot;}</title></line><line x1="312.7" y1="90" x2="312.7" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:16.760512+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;writer&quot;, &quot;content&quot;: &quot;Proposed recipe schema. Does this cover what you need?\n\n```\n{\n  id: string (unique),\n  name: string,\n  description: string (1-2 sentences),\n  category: string (brea</title></line><line x1="315.0" y1="90" x2="315.0" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:17.938212+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;frontend&quot;, &quot;content&quot;: &quot;Data loading approach: frontend embeds a `&lt;script type=\&quot;application/json\&quot; id=\&quot;recipes-data\&quot;&gt;` block in index.html (containing the JSON recipes). Backend&#x27;s app.js rea</title></line><line x1="318.3" y1="90" x2="318.3" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:19.671402+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="329.3" y1="90" x2="329.3" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:25.311092+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;frontend&quot;, &quot;content&quot;: &quot;Schema confirmed with writer \u2014 you&#x27;re good. For data loading: I&#x27;m proposing you embed `&lt;script type=\&quot;application/json\&quot; id=\&quot;recipes-data\&quot;&gt;...&lt;/script&gt;` in index.</title></line><line x1="331.4" y1="90" x2="331.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:26.412524+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;Scope: search bar (by name/description/ingredients) and category filter buttons (breakfast|main|dessert). Both live above the recipe grid. Will be visible on page load.\n\nFro</title></line><line x1="358.0" y1="90" x2="358.0" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:40.140045+00:00
+Write
+{&quot;file_path&quot;: &quot;proposals/backend.md&quot;, &quot;content&quot;: &quot;# Backend Proposal\n\n## My slice\n\nI&#x27;m building:\n1. **Recipe data schema** \u2014 a JSON structure that covers writer&#x27;s content needs (name, catego</title></line><line x1="362.6" y1="90" x2="362.6" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:42.529215+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_001&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;proposals/backend.md&quot;}</title></line><rect x="204.1" y="134" width="160.9" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>frontend · task · t_002 · 83.15s · 13 tool calls</title></rect><line x1="208.9" y1="134" x2="208.9" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.112087+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="209.2" y1="134" x2="209.2" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.272442+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/frontend.md&quot;}</title></line><line x1="271.5" y1="134" x2="271.5" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:55.458946+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*.md&quot;}</title></line><line x1="274.3" y1="134" x2="274.3" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:56.908442+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\DONE_CRITERIA.md&quot;}</title></line><line x1="274.7" y1="134" x2="274.7" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:57.114985+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\frontend.md&quot;}</title></line><line x1="275.0" y1="134" x2="275.0" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:57.255046+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\project_context.md&quot;}</title></line><line x1="279.0" y1="134" x2="279.0" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:59.325174+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\backend.md&quot;}</title></line><line x1="279.4" y1="134" x2="279.4" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:59.538008+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\ux.md&quot;}</title></line><line x1="279.5" y1="134" x2="279.5" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:59.620045+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\writer.md&quot;}</title></line><line x1="304.7" y1="134" x2="304.7" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:12.600571+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;Hi UX! Proposing CSS class prefix and structure for the recipes site. I&#x27;m planning to use `rx-` as the prefix for all recipe-related elements.\n\nMajor classes I&#x27;ll emit:\n- `</title></line><line x1="312.4" y1="134" x2="312.4" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:16.597949+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Hi Backend! Proposing the DOM structure and hooks you&#x27;ll need to inject content.\n\nI&#x27;m doing a single-page design with:\n- `&lt;input id=\&quot;search-input\&quot;&gt;` for search (you&#x27;</title></line><line x1="347.8" y1="134" x2="347.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:34.900786+00:00
+Write
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\proposals\\frontend.md&quot;, &quot;content&quot;: &quot;# Proposal \u2014 Frontend\n\n## My slice\n\nI will produce `index.html` (si</title></line><line x1="352.2" y1="134" x2="352.2" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:37.173741+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_002&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;proposals/frontend.md&quot;}</title></line><rect x="204.1" y="222" width="140.9" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>writer · task · t_004 · 72.82s · 16 tool calls</title></rect><line x1="210.1" y1="222" x2="210.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.734653+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="210.2" y1="222" x2="210.2" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:23.778003+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/writer.md&quot;}</title></line><line x1="234.5" y1="222" x2="234.5" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:36.376606+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;}</title></line><line x1="237.1" y1="222" x2="237.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:37.699266+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\DONE_CRITERIA.md&quot;}</title></line><line x1="237.5" y1="222" x2="237.5" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:37.905997+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\writer.md&quot;}</title></line><line x1="237.7" y1="222" x2="237.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:38.016372+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\project_context.md&quot;}</title></line><line x1="247.3" y1="222" x2="247.3" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:42.987133+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\backend.md&quot;}</title></line><line x1="247.4" y1="222" x2="247.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:42.998026+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\ux.md&quot;}</title></line><line x1="247.4" y1="222" x2="247.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:43.027813+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\briefs\\frontend.md&quot;}</title></line><line x1="264.1" y1="222" x2="264.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:51.639165+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Hi backend \u2014 writer here. Before I propose my recipe set, I need to confirm the schema. I&#x27;m planning 8 recipes with these fields per recipe:\n\nREQUIRED:\n- name (st</title></line><line x1="269.7" y1="222" x2="269.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:54.522866+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;Hi UX \u2014 writer here. Your brief asked what I&#x27;ll write. Here&#x27;s what shapes my decisions:\n\nFor recipe titles: I&#x27;ll keep them SHORT \u2014 2\u20134 words when possible (e.</title></line><line x1="272.5" y1="222" x2="272.5" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:56.011346+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="303.4" y1="222" x2="303.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:11.978074+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;Perfect, your questions match mine exactly. Here&#x27;s my content plan:\n\n1. **Titles**: SHORT \u2014 2\u20134 words max (e.g., \&quot;Fluffy Pancakes\&quot;, \&quot;Grilled Salmon\&quot;, \&quot;Chocola</title></line><line x1="305.4" y1="222" x2="305.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:13.004915+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="329.7" y1="222" x2="329.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:25.566598+00:00
+Write
+{&quot;file_path&quot;: &quot;proposals/writer.md&quot;, &quot;content&quot;: &quot;# Proposal \u2014 Recipe Writer\n\n## My slice\n\nI will write **8 complete recipes** across **3 categories** (breakfast, main, dessert) with the follo</title></line><line x1="334.4" y1="222" x2="334.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:27.981894+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_004&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;proposals/writer.md&quot;}</title></line><rect x="204.1" y="178" width="213.6" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>ux · task · t_003 · 110.35s · 17 tool calls</title></rect><line x1="208.3" y1="178" x2="208.3" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:22.816559+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="208.4" y1="178" x2="208.4" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:22.879812+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/ux.md&quot;}</title></line><line x1="234.8" y1="178" x2="234.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:36.505060+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;, &quot;path&quot;: &quot;.&quot;}</title></line><line x1="237.8" y1="178" x2="237.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:38.056457+00:00
+Read
+{&quot;file_path&quot;: &quot;DONE_CRITERIA.md&quot;}</title></line><line x1="237.9" y1="178" x2="237.9" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:38.107250+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/ux.md&quot;}</title></line><line x1="237.9" y1="178" x2="237.9" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:38.132244+00:00
+Read
+{&quot;file_path&quot;: &quot;project_context.md&quot;}</title></line><line x1="253.7" y1="178" x2="253.7" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:46.273899+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;frontend&quot;, &quot;content&quot;: &quot;Hi! UX here. Before I lock in my visual direction, I need to confirm the CSS class names you&#x27;re committing to emit. I&#x27;m planning a warm, editorial card-based layout for </title></line><line x1="257.0" y1="178" x2="257.0" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:48.002633+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;writer&quot;, &quot;content&quot;: &quot;Hey! UX here. I&#x27;m designing the card containers for the recipe list, and I need to know your content density:\n\n1. Recipe titles \u2014 a few words (e.g., \&quot;Rustic Bread\</title></line><line x1="258.6" y1="178" x2="258.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:48.795375+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Hi backend! UX here. Quick scope question: are we showing recipe filters/search on the list view, or is it a straight grid of all recipes?\n\nThis affects the overall lay</title></line><line x1="262.1" y1="178" x2="262.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:57:50.612515+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="313.3" y1="178" x2="313.3" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:17.065564+00:00
+Write
+{&quot;file_path&quot;: &quot;proposals/ux.md&quot;, &quot;content&quot;: &quot;# UX Proposal \u2014 Recipes Website\n\n## My slice\n\nI&#x27;m proposing a **warm, editorial, card-based design** that feels like a favorite cookbook, not a Sa</title></line><line x1="319.1" y1="178" x2="319.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:20.079730+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="336.9" y1="178" x2="336.9" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:29.253846+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;writer&quot;, &quot;content&quot;: &quot;Perfect! Your content plan is exactly what I need. SHORT titles and punchy 1\u20132 sentence descriptions = roomy card grid (more breathing room).\n\nHere&#x27;s my answer to y</title></line><line x1="343.1" y1="178" x2="343.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:32.460373+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;frontend&quot;, &quot;content&quot;: &quot;Perfect class contract! I&#x27;ll style every `rx-*` you listed. A few confirmations:\n\n1. **`rx-card-image` structure:** YES, include the placeholder div. I&#x27;ll style it to </title></line><line x1="348.2" y1="178" x2="348.2" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:35.102078+00:00
+Read
+{&quot;file_path&quot;: &quot;proposals/ux.md&quot;}</title></line><line x1="394.2" y1="178" x2="394.2" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:58:58.884804+00:00
+Write
+{&quot;file_path&quot;: &quot;proposals/ux.md&quot;, &quot;content&quot;: &quot;# UX Proposal \u2014 Recipes Website\n\n## My slice\n\nI&#x27;m proposing a **warm, editorial, card-based design** that feels like a favorite cookbook, not a Sa</title></line><line x1="400.6" y1="178" x2="400.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:02.161678+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_003&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;proposals/ux.md&quot;}</title></line><rect x="417.7" y="46" width="137.4" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 71.02s · 7 tool calls</title></rect><line x1="424.9" y1="46" x2="424.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:14.723542+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\proposals\\backend.md&quot;}</title></line><line x1="424.9" y1="46" x2="424.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:14.728043+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\proposals\\frontend.md&quot;}</title></line><line x1="425.3" y1="46" x2="425.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:14.913088+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\proposals\\ux.md&quot;}</title></line><line x1="425.7" y1="46" x2="425.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:15.140824+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\proposals\\writer.md&quot;}</title></line><line x1="425.7" y1="46" x2="425.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T04:59:15.142824+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="540.4" y1="46" x2="540.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:14.397105+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Write SPEC.md (Phase 2)&quot;, &quot;description&quot;: &quot;You are the technical arbiter. Read all four proposals (proposals/*.md) and the negotiation messages below. Your job: **write SPEC.md** that codifi</title></line><line x1="546.0" y1="46" x2="546.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:17.323175+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_005&quot;, &quot;agent&quot;: &quot;backend&quot;}</title></line><rect x="555.2" y="90" width="164.4" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>backend · task · t_005 · 84.96s · 6 tool calls</title></rect><line x1="560.8" y1="90" x2="560.8" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:24.926205+00:00
+Read
+{&quot;file_path&quot;: &quot;proposals/frontend.md&quot;}</title></line><line x1="561.2" y1="90" x2="561.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:25.164447+00:00
+Read
+{&quot;file_path&quot;: &quot;proposals/ux.md&quot;}</title></line><line x1="561.6" y1="90" x2="561.6" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:25.342500+00:00
+Read
+{&quot;file_path&quot;: &quot;proposals/writer.md&quot;}</title></line><line x1="561.6" y1="90" x2="561.6" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:25.347748+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="699.3" y1="90" x2="699.3" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:01:36.517524+00:00
+Write
+{&quot;file_path&quot;: &quot;SPEC.md&quot;, &quot;content&quot;: &quot;# Recipes Website \u2014 SPEC.md\n\n## Architecture\n\nSingle-page static site with vanilla HTML/CSS/JavaScript. Recipe list view on load, detail modal on card cli</title></line><line x1="706.9" y1="90" x2="706.9" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:01:40.452734+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_005&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;SPEC.md&quot;}</title></line><rect x="555.2" y="178" width="14.9" height="32" fill="#16a34a" fill-opacity="0.85" rx="2" ry="2"><title>ux · reply · 7.71s · 2 tool calls</title></rect><line x1="557.6" y1="178" x2="557.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:23.267110+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="565.2" y1="178" x2="565.2" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:27.243645+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Perfect \u2014 that&#x27;s locked into my proposal. I&#x27;m designing visual treatment for:\n- `.rx-search-input` (search field)\n- `.rx-filter-button` (category buttons: breakfas</title></line><rect x="555.2" y="134" width="25.6" height="32" fill="#16a34a" fill-opacity="0.85" rx="2" ry="2"><title>frontend · reply · 13.21s · 3 tool calls</title></rect><line x1="558.1" y1="134" x2="558.1" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:23.540133+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="569.8" y1="134" x2="569.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:29.596950+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;Perfect! Locked. I&#x27;m emitting all the `rx-*` classes you listed. \n\nOn `rx-card-image`: Confirmed. Single emoji character per category in that div \u2014 I&#x27;ll put it there em</title></line><line x1="572.8" y1="134" x2="572.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:31.149353+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Locked on both fronts:\n\n1. **Data loading:** YES, I&#x27;ll embed `&lt;script type=\&quot;application/json\&quot; id=\&quot;recipes-data\&quot;&gt;...&lt;/script&gt;` in index.html. You read it in app.js v</title></line><rect x="555.2" y="222" width="21.2" height="32" fill="#16a34a" fill-opacity="0.85" rx="2" ry="2"><title>writer · reply · 10.97s · 3 tool calls</title></rect><line x1="557.7" y1="222" x2="557.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:23.334222+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="570.1" y1="222" x2="570.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:29.760114+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;backend&quot;, &quot;content&quot;: &quot;Excellent. Your schema covers everything. The `image_emoji` field is a nice touch \u2014 I won&#x27;t populate it myself, but it&#x27;s there if frontend needs to inject category i</title></line><line x1="570.3" y1="222" x2="570.3" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:00:29.848112+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;ux&quot;, &quot;content&quot;: &quot;YES \u2014 that vibe is exactly right. Roomy, warm, cookbook aesthetic. Your card dimensions (280\u2013320px wide, 200\u2013240px tall) are perfect for the descriptions I&#x27;m wr</title></line><rect x="719.7" y="46" width="122.7" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 63.38s · 9 tool calls</title></rect><line x1="724.8" y1="46" x2="724.8" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:01:49.702434+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\SPEC.md&quot;}</title></line><line x1="765.7" y1="46" x2="765.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:10.814317+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Build \u2014 frontend&quot;, &quot;description&quot;: &quot;You own: `index.html` (root)\n\n**Your deliverable:** Single semantic HTML page with all `.rx-*` classes that ux will style and backend will wire. Em</title></line><line x1="785.6" y1="46" x2="785.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:21.073592+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Build \u2014 ux&quot;, &quot;description&quot;: &quot;You own: `styles.css` (root)\n\n**Your deliverable:** All CSS styling for the warm, editorial recipes site. Style all `.rx-*` classes from the HTML. No ext</title></line><line x1="806.3" y1="46" x2="806.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:31.785609+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Build \u2014 backend&quot;, &quot;description&quot;: &quot;You own: `app.js` (root)\n\n**Your deliverable:** Vanilla JavaScript that loads recipes from HTML, implements search + filter, renders recipe cards, a</title></line><line x1="824.4" y1="46" x2="824.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:41.132577+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Build \u2014 writer&quot;, &quot;description&quot;: &quot;You own: Recipe content (the JSON recipes array that goes in index.html)\n\n**Your deliverable:** 8 complete recipes in JSON format, ready for frontend</title></line><line x1="827.9" y1="46" x2="827.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:42.944091+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_006&quot;, &quot;agent&quot;: &quot;frontend&quot;}</title></line><line x1="828.4" y1="46" x2="828.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:43.214770+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_007&quot;, &quot;agent&quot;: &quot;ux&quot;}</title></line><line x1="828.7" y1="46" x2="828.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:43.385524+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_008&quot;, &quot;agent&quot;: &quot;backend&quot;}</title></line><line x1="828.9" y1="46" x2="828.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:43.449452+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_009&quot;, &quot;agent&quot;: &quot;writer&quot;}</title></line><rect x="842.4" y="178" width="144.5" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>ux · task · t_007 · 74.64s · 3 tool calls</title></rect><line x1="848.2" y1="178" x2="848.2" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:53.423626+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="888.8" y1="178" x2="888.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:03:14.429425+00:00
+Write
+{&quot;file_path&quot;: &quot;styles.css&quot;, &quot;content&quot;: &quot;/* ============================================================================\n   Recipes Website \u2014 Warm Editorial Design\n   Plain CSS, no frameworks. R</title></line><line x1="907.8" y1="178" x2="907.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:03:24.239550+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_007&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;styles.css&quot;}</title></line><rect x="842.4" y="134" width="184.2" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>frontend · task · t_006 · 95.16s · 5 tool calls</title></rect><line x1="855.7" y1="134" x2="855.7" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:57.329362+00:00
+Glob
+{&quot;pattern&quot;: &quot;SPEC.md&quot;}</title></line><line x1="855.8" y1="134" x2="855.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:57.340363+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*.json&quot;}</title></line><line x1="858.8" y1="134" x2="858.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:58.890782+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\SPEC.md&quot;}</title></line><line x1="913.3" y1="134" x2="913.3" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:03:27.083868+00:00
+Write
+{&quot;file_path&quot;: &quot;index.html&quot;, &quot;content&quot;: &quot;&lt;!DOCTYPE html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n&lt;head&gt;\n  &lt;meta charset=\&quot;UTF-8\&quot;&gt;\n  &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1.0\&quot;&gt;\n  &lt;title&gt;</title></line><line x1="996.3" y1="134" x2="996.3" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:09.932408+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_006&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;index.html&quot;}</title></line><rect x="842.4" y="90" width="161.3" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>backend · task · t_008 · 83.33s · 3 tool calls</title></rect><line x1="845.1" y1="90" x2="845.1" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:02:51.814693+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="908.4" y1="90" x2="908.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:03:24.531378+00:00
+Write
+{&quot;file_path&quot;: &quot;app.js&quot;, &quot;content&quot;: &quot;// Load recipes from embedded JSON\nconst recipesData = document.getElementById(&#x27;recipes-data&#x27;).textContent;\nconst recipes = JSON.parse(recipesData);\n\n// Emoji m</title></line><line x1="988.9" y1="90" x2="988.9" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:06.149456+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_008&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;app.js&quot;}</title></line><rect x="842.4" y="222" width="178.2" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>writer · task · t_009 · 92.05s · 2 tool calls</title></rect><line x1="902.0" y1="222" x2="902.0" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:03:21.226952+00:00
+Write
+{&quot;file_path&quot;: &quot;recipes.json&quot;, &quot;content&quot;: &quot;[\n  {\n    \&quot;id\&quot;: \&quot;fluffy-pancakes\&quot;,\n    \&quot;name\&quot;: \&quot;Fluffy Pancakes\&quot;,\n    \&quot;description\&quot;: \&quot;Golden, tender pancakes with a crispy exterior. Perfect w</title></line><line x1="998.2" y1="222" x2="998.2" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:10.915636+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_009&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;recipes.json&quot;}</title></line><rect x="1026.6" y="46" width="170.3" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 87.99s · 5 tool calls</title></rect><line x1="1033.0" y1="46" x2="1033.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:28.940898+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\index.html&quot;}</title></line><line x1="1033.5" y1="46" x2="1033.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:29.154378+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\styles.css&quot;}</title></line><line x1="1033.9" y1="46" x2="1033.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:29.366756+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\app.js&quot;}</title></line><line x1="1034.0" y1="46" x2="1034.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:04:29.419968+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260423_045647\\workspace\\recipes.json&quot;}</title></line><line x1="1180.1" y1="46" x2="1180.1" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-23T05:05:44.931298+00:00
+mcp__coord__finalize
+{&quot;synthesis&quot;: &quot;# Recipes website \u2014 build report\n\n## What was built\n\nA single-page recipes website with vanilla HTML/CSS/JavaScript. The site displays a searchable, filterable grid of recipe c</title></line></svg></div></section>
+<section><h2>Task graph</h2><div class="dag"><svg viewBox="0 0 480 552" width="100%" preserveAspectRatio="xMinYMin meet"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/></marker></defs><path class="edge" d="M 210 40 C 250 40, 215 40, 255 40" /><path class="edge" d="M 210 104 C 250 104, 215 40, 255 40" /><path class="edge" d="M 210 168 C 250 168, 215 40, 255 40" /><path class="edge" d="M 210 232 C 250 232, 215 40, 255 40" /><g class="node"><title>t_001 [completed]
+Propose — backend
+assigned: backend
+ref: proposals/backend.md
+deps: (none)</title><rect x="30" y="20" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="36"><tspan font-weight="700">t_001</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="52">Propose — backend</text></g><g class="node"><title>t_002 [completed]
+Propose — frontend
+assigned: frontend
+ref: proposals/frontend.md
+deps: (none)</title><rect x="30" y="84" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="100"><tspan font-weight="700">t_002</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="116">Propose — frontend</text></g><g class="node"><title>t_003 [completed]
+Propose — ux
+assigned: ux
+ref: proposals/ux.md
+deps: (none)</title><rect x="30" y="148" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="164"><tspan font-weight="700">t_003</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="180">Propose — ux</text></g><g class="node"><title>t_004 [completed]
+Propose — writer
+assigned: writer
+ref: proposals/writer.md
+deps: (none)</title><rect x="30" y="212" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="228"><tspan font-weight="700">t_004</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="244">Propose — writer</text></g><g class="node"><title>t_005 [completed]
+Write SPEC.md (Phase 2)
+assigned: backend
+ref: SPEC.md
+deps: t_001, t_002, t_003, t_004</title><rect x="250" y="20" width="180" height="40" rx="4" fill="#dcfce7" /><text x="258" y="36"><tspan font-weight="700">t_005</tspan> <tspan fill="#64748b">completed</tspan></text><text x="258" y="52">Write SPEC.md (Phase 2)</text></g><g class="node"><title>t_006 [completed]
+Build — frontend
+assigned: frontend
+ref: index.html
+deps: (none)</title><rect x="30" y="276" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="292"><tspan font-weight="700">t_006</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="308">Build — frontend</text></g><g class="node"><title>t_007 [completed]
+Build — ux
+assigned: ux
+ref: styles.css
+deps: (none)</title><rect x="30" y="340" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="356"><tspan font-weight="700">t_007</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="372">Build — ux</text></g><g class="node"><title>t_008 [completed]
+Build — backend
+assigned: backend
+ref: app.js
+deps: (none)</title><rect x="30" y="404" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="420"><tspan font-weight="700">t_008</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="436">Build — backend</text></g><g class="node"><title>t_009 [completed]
+Build — writer
+assigned: writer
+ref: recipes.json
+deps: (none)</title><rect x="30" y="468" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="484"><tspan font-weight="700">t_009</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="500">Build — writer</text></g></svg></div></section>
+<section><h2>Per-agent breakdown</h2><div class="cards"><div class="card">
+<h3>lead</h3>
+<table>
+<tr><td>turns</td><td>4</td></tr>
+<tr><td>cost</td><td>$0.6620</td></tr>
+<tr><td>input tok</td><td>154</td></tr>
+<tr><td>output tok</td><td>26405</td></tr>
+<tr><td>cache read</td><td>584837</td></tr>
+<tr><td>cache write</td><td>78087</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>19</td></tr><tr><td>mcp__coord__create_task</td><td>9</td></tr><tr><td>mcp__coord__assign_task</td><td>9</td></tr><tr><td>Glob</td><td>1</td></tr><tr><td>mcp__coord__write_scratchpad</td><td>1</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr><tr><td>mcp__coord__finalize</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>backend</h3>
+<table>
+<tr><td>turns</td><td>3</td></tr>
+<tr><td>cost</td><td>$0.4228</td></tr>
+<tr><td>input tok</td><td>132</td></tr>
+<tr><td>output tok</td><td>20835</td></tr>
+<tr><td>cache read</td><td>437378</td></tr>
+<tr><td>cache write</td><td>47174</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>10</td></tr><tr><td>mcp__coord__send_message</td><td>4</td></tr><tr><td>mcp__coord__read_messages</td><td>3</td></tr><tr><td>Write</td><td>3</td></tr><tr><td>mcp__coord__update_task</td><td>3</td></tr><tr><td>Glob</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>frontend</h3>
+<table>
+<tr><td>turns</td><td>3</td></tr>
+<tr><td>cost</td><td>$0.2893</td></tr>
+<tr><td>input tok</td><td>118</td></tr>
+<tr><td>output tok</td><td>12833</td></tr>
+<tr><td>cache read</td><td>327367</td></tr>
+<tr><td>cache write</td><td>38131</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>9</td></tr><tr><td>mcp__coord__send_message</td><td>4</td></tr><tr><td>Glob</td><td>3</td></tr><tr><td>Write</td><td>2</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>ux</h3>
+<table>
+<tr><td>turns</td><td>3</td></tr>
+<tr><td>cost</td><td>$0.3685</td></tr>
+<tr><td>input tok</td><td>139</td></tr>
+<tr><td>output tok</td><td>14645</td></tr>
+<tr><td>cache read</td><td>403543</td></tr>
+<tr><td>cache write</td><td>34823</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>6</td></tr><tr><td>mcp__coord__send_message</td><td>6</td></tr><tr><td>mcp__coord__read_messages</td><td>4</td></tr><tr><td>Write</td><td>3</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>Glob</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>writer</h3>
+<table>
+<tr><td>turns</td><td>3</td></tr>
+<tr><td>cost</td><td>$0.2733</td></tr>
+<tr><td>input tok</td><td>125</td></tr>
+<tr><td>output tok</td><td>10967</td></tr>
+<tr><td>cache read</td><td>318228</td></tr>
+<tr><td>cache write</td><td>30657</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>8</td></tr><tr><td>mcp__coord__send_message</td><td>5</td></tr><tr><td>mcp__coord__read_messages</td><td>3</td></tr><tr><td>Write</td><td>2</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>Glob</td><td>1</td></tr></table>
+</div></div></section>
+<section><h2>Artifacts</h2><div class="folder-header">briefs/</div><details class="artifact"><summary>briefs/backend.md <span class="empty">· 1,913 B</span></summary><pre># Backend dev brief
+
+You&#x27;re the backend / data dev on this small team. The ask is &quot;build
+a recipes website&quot; with no further detail.
+
+## What you&#x27;re responsible for
+
+- The data layer: how recipes are represented, stored, loaded.
+- Any client-side logic (search, filter, sort, routing) that makes
+  the site functional beyond static browsing.
+- Phase 2: you write `SPEC.md`. You&#x27;re the technical arbiter.
+
+## What&#x27;s on your mind
+
+- There&#x27;s no server and no build step. That constrains us. Options
+  for data:
+  - Separate JSON file loaded via `fetch()` — clean, but `fetch`
+    against `file://` is blocked in most browsers for security. If
+    the site must open via double-click, this fails.
+  - Inline data in a `&lt;script&gt;` tag (as a global `const RECIPES
+    = [...]`). Works on `file://`, but then writer&#x27;s content has
+    to be embedded in a JS file, not a pure data file.
+  - Inline data in a `&lt;script type=&quot;application/json&quot;&gt;` tag, read
+    by JS. Works on `file://`, keeps writer&#x27;s content in
+    JSON-shaped form.
+  - A build step to inline everything — no, we can&#x27;t run that.
+- Suggest the `&lt;script type=&quot;application/json&quot;&gt;` approach in your
+  proposal — it lets writer produce pure JSON content that lives in
+  the HTML file (frontend includes it as a block), and JS reads it
+  via `document.getElementById(&#x27;recipes-data&#x27;).textContent`.
+  Alternatively, have writer produce `data/recipes.json` and have
+  backend inline it at the top of `app.js` as a const. Think about
+  which is cleaner.
+
+## What you need from others
+
+- From writer: field list per recipe. Confirm the schema covers
+  what they want to say.
+- From frontend: the DOM structure they&#x27;ll emit so you know where
+  your JS is injecting content.
+- From ux: nothing blocking; they design to frontend&#x27;s classes.
+
+## What you should NOT try to own
+
+- CSS. That&#x27;s ux.
+- HTML layout. That&#x27;s frontend.
+- Recipe content itself. That&#x27;s writer.
+</pre></details><details class="artifact"><summary>briefs/frontend.md <span class="empty">· 1,900 B</span></summary><pre># Frontend dev brief
+
+You&#x27;re the frontend dev on this small team. The ask is &quot;build a
+recipes website&quot; with no further detail.
+
+## What you&#x27;re responsible for
+
+- HTML structure: page layout, semantic markup, the DOM skeleton
+  that backend&#x27;s JS populates and ux&#x27;s CSS styles.
+- Naming the CSS classes that ux will target. You own the
+  class-naming contract.
+- Page shape: one page or two? (List view + detail view, vs. all
+  inline.)
+
+## What&#x27;s on your mind
+
+- The site has to open from `file://` (double-click index.html). No
+  dev server. That means no JS module imports, no `fetch` of local
+  files in most browsers.
+- Framework question: the team is small and the scope is small. You
+  lean strongly toward **vanilla HTML + CSS + one small JS file**.
+  React or Vue would need a build step. Don&#x27;t fight for a framework
+  unless you have a specific reason — you don&#x27;t.
+- A single `index.html` with the recipe list + detail-on-click (via
+  a modal or expanding card) is simpler than two HTML files with
+  navigation between them. Propose that unless the team pushes back.
+- Class naming: pick a consistent prefix (e.g. `rx-`) so ux can
+  target your markup cleanly. Think through the major elements:
+  page header, recipe card, card title, card meta (time /
+  category), card image placeholder, detail view container,
+  ingredients list, steps list, search input, category filter.
+
+## What you need from others
+
+- From ux: confirm the class naming convention you propose is
+  what they want to style against.
+- From backend: confirm the DOM hooks they need (search input id,
+  filter button classes, recipe-card-list container id) match
+  what you&#x27;re planning to emit.
+
+## What you should NOT try to own
+
+- CSS values — only class names. Colors, spacing, typography are
+  ux&#x27;s choices.
+- The data shape — that&#x27;s backend. You just declare where to put it.
+- Recipe content — that&#x27;s writer.
+</pre></details><details class="artifact"><summary>briefs/ux.md <span class="empty">· 1,689 B</span></summary><pre># UX designer brief
+
+You&#x27;re the UX designer on this small team. The ask is &quot;build a
+recipes website&quot; with no further detail.
+
+## What you&#x27;re responsible for
+
+- Visual direction: mood, color palette, typography, spacing scale.
+- Responsive behavior.
+- Styling every class name frontend commits to emitting.
+
+## What&#x27;s on your mind
+
+- You believe recipe sites fail when they copy the &quot;clean modern
+  SaaS&quot; look. Recipes are personal; the design should feel like
+  someone&#x27;s favorite cookbook, not a dashboard. Lean warm — a cream
+  or off-white background, a serif heading font paired with a clean
+  sans body, a single saturated accent color (a warm red, a mustard,
+  or a deep green).
+- A card grid on the list view feels right. Cards should read at a
+  glance: title, time, category, and a line or two of description.
+- Images — the team cannot produce binary files, and external image
+  URLs are brittle for a demo. Suggest either: (a) no images, rely
+  on strong typography, or (b) an emoji/unicode glyph per category
+  as a decorative marker. Pick one in your proposal.
+- Responsive: at 768px and below, the grid should collapse to a
+  single column. Touch targets comfortable.
+
+## What you need from others
+
+- From frontend: the list of CSS class names they commit to
+  emitting. You need these before you can design systematically.
+- From writer: content density — short titles (a few words) or
+  longer? Descriptions punchy or narrative? You size the card for
+  the content they&#x27;ll produce.
+
+## What you should NOT try to own
+
+- HTML structure — that&#x27;s frontend. You design for whatever markup
+  they commit to.
+- Data schema — not your call.
+- Recipe content — writer.
+</pre></details><details class="artifact"><summary>briefs/writer.md <span class="empty">· 1,772 B</span></summary><pre># Recipe writer brief
+
+You&#x27;re the recipe writer on this small team. The ask is &quot;build a
+recipes website&quot; with no further detail.
+
+## What you&#x27;re responsible for
+
+- The recipe content. Which recipes. Their ingredients, steps,
+  descriptions. The editorial voice.
+
+## What&#x27;s on your mind
+
+- Scope: with one afternoon, 6–10 recipes feels right. Enough to
+  show variety, not so much the site feels thin if the team
+  underestimates. Propose 8 and let the team push back.
+- Categories: you like a simple 3-category cut — **breakfast**,
+  **main**, **dessert**. Gives the filter UI something to do
+  without being overwhelming. You might want a 4th (snack or
+  side) but keep the default simple.
+- Fields per recipe you want:
+  - name, category, time (minutes), servings, description
+    (1–2 sentences), ingredients (list of strings with amounts),
+    steps (ordered list of actions).
+  - Optional: difficulty, dietary tags (vegetarian, gluten-free).
+    Nice-to-have, not required.
+- Voice: you hate &quot;embark on a culinary journey&quot; copy. You write
+  like a friend who actually cooks — practical, warm, no pretension.
+  Descriptions should give the cook a reason to make the dish, not
+  sell it like marketing.
+- Content density: descriptions 1–2 sentences MAX. Titles short
+  (2–4 words when possible). Long recipe steps are fine — be clear
+  over being brief in instructions.
+
+## What you need from others
+
+- From backend: the schema must cover your needed fields. Negotiate
+  now if backend&#x27;s proposed schema is missing something.
+- From ux: how much space will my description have? Are you
+  designing a dense card or a roomy one? Answer shapes how long I
+  write.
+
+## What you should NOT try to own
+
+- Anything technical. Not your lane. You produce content.
+</pre></details><div class="folder-header">proposals/</div><details class="artifact"><summary>proposals/backend.md <span class="empty">· 4,492 B</span></summary><pre># Backend Proposal
+
+## My slice
+
+I&#x27;m building:
+1. **Recipe data schema** — a JSON structure that covers writer&#x27;s content needs (name, category, time, servings, description, ingredients, steps, optional difficulty/dietary_tags)
+2. **Data-loading mechanism** — frontend will embed a `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` block in index.html containing the full recipes array. app.js reads it via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parses on page load. This works from file:// with no server.
+3. **Search + category filter logic** — app.js wires the search input (`#search-input`) and category filter buttons (`.rx-filter-button[data-category]`) to re-render the recipe list. Filters apply together (AND logic: category AND search term both match).
+4. **Modal detail view logic** — clicking a recipe card (`.rx-card`) opens the detail modal (`#recipe-detail`), populated with full ingredients and steps. Clicking outside the modal closes it.
+
+## Schema
+
+```json
+{
+  &quot;id&quot;: &quot;string (required, unique identifier)&quot;,
+  &quot;name&quot;: &quot;string (required)&quot;,
+  &quot;description&quot;: &quot;string (required, 1–2 sentences)&quot;,
+  &quot;category&quot;: &quot;string (required, one of: breakfast, main, dessert)&quot;,
+  &quot;time_minutes&quot;: &quot;number (required, integer)&quot;,
+  &quot;servings&quot;: &quot;number (required, integer)&quot;,
+  &quot;ingredients&quot;: &quot;array of strings (required, e.g. &#x27;2 cups flour&#x27;)&quot;,
+  &quot;steps&quot;: &quot;array of strings (required, ordered instructions)&quot;,
+  &quot;difficulty&quot;: &quot;string (optional, one of: easy, medium, hard)&quot;,
+  &quot;dietary_tags&quot;: &quot;array of strings (optional, e.g. &#x27;vegetarian&#x27;, &#x27;gluten_free&#x27;)&quot;,
+  &quot;image_emoji&quot;: &quot;string (optional, single unicode character for category marker)&quot;
+}
+```
+
+Example recipe:
+```json
+{
+  &quot;id&quot;: &quot;scrambled-eggs&quot;,
+  &quot;name&quot;: &quot;Scrambled Eggs&quot;,
+  &quot;description&quot;: &quot;Soft, creamy eggs. Takes 5 minutes. Perfect for breakfast.&quot;,
+  &quot;category&quot;: &quot;breakfast&quot;,
+  &quot;time_minutes&quot;: 5,
+  &quot;servings&quot;: 2,
+  &quot;ingredients&quot;: [&quot;3 large eggs&quot;, &quot;1 tablespoon butter&quot;, &quot;salt and pepper to taste&quot;],
+  &quot;steps&quot;: [&quot;Crack eggs into a bowl and whisk.&quot;, &quot;Melt butter in a pan over medium heat.&quot;, &quot;Pour in eggs and stir constantly until cooked through.&quot;, &quot;Season and serve.&quot;],
+  &quot;difficulty&quot;: &quot;easy&quot;,
+  &quot;dietary_tags&quot;: [&quot;vegetarian&quot;],
+  &quot;image_emoji&quot;: &quot;🥚&quot;
+}
+```
+
+## What I need from others
+
+### From frontend
+- Embed recipes data as `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` in index.html. The JSON array will be generated by writer, you include it verbatim.
+- Emit the following DOM hooks exactly:
+  - `&lt;input id=&quot;search-input&quot;&gt;` — I&#x27;ll wire `input` event
+  - `&lt;button class=&quot;rx-filter-button&quot; data-category=&quot;breakfast&quot;&gt;` (repeat for main, dessert) — I&#x27;ll wire `click` event
+  - `&lt;div id=&quot;recipe-list&quot; class=&quot;rx-recipe-list&quot;&gt;` — I&#x27;ll inject recipe cards into this
+  - `&lt;article class=&quot;rx-card&quot; data-recipe-id=&quot;[id]&quot;&gt;` — I&#x27;ll populate these; you provide the nested structure (title, image, meta, description)
+  - `&lt;div id=&quot;recipe-detail&quot; class=&quot;rx-detail-modal&quot;&gt;` — I&#x27;ll populate when a card is clicked
+  - Inside modal: `&lt;div class=&quot;rx-ingredients-list&quot;&gt;` and `&lt;div class=&quot;rx-steps-list&quot;&gt;` — I&#x27;ll fill these on card click
+- Provide the exact nested HTML structure inside `.rx-card` so I know which classes to target when re-rendering.
+
+### From ux
+- Nothing blocking. You style the classes frontend commits to.
+
+### From writer
+- Provide 8 recipes as a JSON array matching the schema above. I&#x27;ll confirm the format before you finalize.
+- Confirm the categories are exactly: breakfast, main, dessert (no others in Phase 1).
+
+## Implementation details
+
+**app.js will:**
+- Load recipes on page load: `const data = JSON.parse(document.getElementById(&#x27;recipes-data&#x27;).textContent); const recipes = data;`
+- Maintain a &quot;filtered&quot; state (current search term, selected categories).
+- On search input, filter recipes by name/description/ingredients and re-render.
+- On filter button click, toggle the category (multi-select) and re-render.
+- On recipe card click, show detail modal with full recipe.
+- On modal background click, hide modal.
+- No external libraries. Vanilla DOM manipulation.
+
+**Constraints addressed:**
+- Works from `file://` — no fetch, data is embedded in HTML.
+- No build step — frontend manually embeds JSON into script tag, I read it raw.
+- No external JS libraries.
+
+## Open decisions for the team
+
+**None.** Schema confirmed with writer, DOM hooks confirmed with frontend, data-loading approach confirmed with frontend. Ready to write SPEC.md once all proposals are in.
+</pre></details><details class="artifact"><summary>proposals/frontend.md <span class="empty">· 5,882 B</span></summary><pre># Proposal — Frontend
+
+## My slice
+
+I will produce `index.html` (single page) with vanilla HTML, a DOM skeleton that backend&#x27;s JS can populate with recipe data, and a consistent set of CSS classes that ux will style.
+
+**Page design:**
+- Single `index.html` file that opens via double-click
+- Recipe list view at page load (grid of recipe cards)
+- Clicking a card opens a modal detail view (stays on same page)
+- Search input at the top for full-text search
+- Category filter buttons (breakfast, main, dessert, etc.)
+- No navigation between pages; modal close returns to list
+
+**HTML structure:**
+- Semantic markup: `&lt;main&gt;`, `&lt;article&gt;` for cards, `&lt;section&gt;` for ingredient/step lists
+- No inline styles or onclick handlers — all class-based hooks for ux and backend
+- Responsive meta tag, basic accessibility (alt text patterns, label associations)
+
+**CSS class system:**
+Prefix: `rx-` (recipes). Major classes:
+
+```html
+&lt;!-- Page header --&gt;
+&lt;header class=&quot;rx-header&quot;&gt;
+  &lt;h1 class=&quot;rx-title&quot;&gt;Recipes&lt;/h1&gt;
+  &lt;input id=&quot;search-input&quot; type=&quot;text&quot; placeholder=&quot;Search...&quot; class=&quot;rx-search-input&quot;&gt;
+  &lt;div class=&quot;rx-filter-buttons&quot;&gt;
+    &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;breakfast&quot;&gt;Breakfast&lt;/button&gt;
+    &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;main&quot;&gt;Main&lt;/button&gt;
+    &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;dessert&quot;&gt;Dessert&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;!-- Recipe list grid --&gt;
+&lt;main class=&quot;rx-main&quot;&gt;
+  &lt;div id=&quot;recipe-list&quot; class=&quot;rx-recipe-list&quot;&gt;
+    &lt;!-- Backend injects &lt;article class=&quot;rx-card&quot;&gt; elements here --&gt;
+    &lt;article class=&quot;rx-card&quot; data-recipe-id=&quot;1&quot;&gt;
+      &lt;div class=&quot;rx-card-image&quot;&gt;🍳&lt;/div&gt;
+      &lt;h2 class=&quot;rx-card-title&quot;&gt;Scrambled Eggs&lt;/h2&gt;
+      &lt;div class=&quot;rx-card-meta&quot;&gt;
+        &lt;span class=&quot;rx-card-time&quot;&gt;5 min&lt;/span&gt;
+        &lt;span class=&quot;rx-card-category&quot;&gt;breakfast&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;rx-card-description&quot;&gt;Creamy, simple, never fails.&lt;/p&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;!-- Detail modal (hidden by default, shown on card click) --&gt;
+&lt;div id=&quot;recipe-detail&quot; class=&quot;rx-detail-modal rx-detail-modal--hidden&quot;&gt;
+  &lt;div class=&quot;rx-detail-content&quot;&gt;
+    &lt;button id=&quot;detail-close&quot; class=&quot;rx-detail-close&quot;&gt;×&lt;/button&gt;
+    &lt;h2 class=&quot;rx-detail-title&quot;&gt;Recipe Title&lt;/h2&gt;
+    &lt;div class=&quot;rx-detail-meta&quot;&gt;
+      &lt;span class=&quot;rx-detail-time&quot;&gt;30 min&lt;/span&gt;
+      &lt;span class=&quot;rx-detail-servings&quot;&gt;Serves 4&lt;/span&gt;
+      &lt;span class=&quot;rx-detail-category&quot;&gt;main&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;rx-detail-description&quot;&gt;Full description here.&lt;/p&gt;
+    
+    &lt;section class=&quot;rx-detail-section&quot;&gt;
+      &lt;h3 class=&quot;rx-detail-heading&quot;&gt;Ingredients&lt;/h3&gt;
+      &lt;ul id=&quot;ingredients-list&quot; class=&quot;rx-ingredients-list&quot;&gt;
+        &lt;!-- Backend injects &lt;li&gt; items --&gt;
+      &lt;/ul&gt;
+    &lt;/section&gt;
+    
+    &lt;section class=&quot;rx-detail-section&quot;&gt;
+      &lt;h3 class=&quot;rx-detail-heading&quot;&gt;Steps&lt;/h3&gt;
+      &lt;ol id=&quot;steps-list&quot; class=&quot;rx-steps-list&quot;&gt;
+        &lt;!-- Backend injects &lt;li&gt; items --&gt;
+      &lt;/ol&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+```
+
+**File structure:**
+- `index.html` — everything above
+- `styles.css` — all styling (ux owns this)
+- `app.js` — all JS logic and interactivity (backend owns this)
+
+## What I need from others (contracts)
+
+### From backend:
+- **Data format &amp; location**: You decide if recipes data is inline `&lt;script type=&quot;application/json&quot;&gt;` in HTML, or baked into `app.js` as a const. Tell me which, so I know what&#x27;s expected.
+- **JS injection points**: Confirm I&#x27;ve provided the right container IDs (`recipe-list`, `ingredients-list`, `steps-list`) and that my class names match what you&#x27;ll query.
+- **Event hooks**: Confirm search-input `id=&quot;search-input&quot;` and filter buttons with `data-category` attributes are what you need to wire event listeners.
+- **Data schema**: What fields does each recipe have? I need to know so I can emit the right class names for each field in the card template (e.g., `rx-card-time`, `rx-card-category`, `rx-card-description`).
+
+### From ux:
+- **Image handling**: Do you want emoji/unicode glyphs in the `rx-card-image` divs, or no image area at all? I&#x27;ll include the div either way, but your choice affects how you style the card layout.
+- **Class name confirm**: Do the `rx-` prefix and class names above feel right to style against?
+- **Responsive breakpoint**: You mentioned 768px as the collapse point (list → single column). I&#x27;ll assume that&#x27;s your target; confirm if you need different.
+- **Detail modal behavior**: Should the modal be a full-screen overlay, or a centered box? I&#x27;ll provide the base structure; you style it. Just confirm no surprising expectations.
+
+### From writer:
+- **Content density**: How long are your recipe descriptions (your brief says 1–2 sentences)? I size `rx-card-description` accordingly.
+- **Recipe count &amp; categories**: You proposed 8 recipes in breakfast/main/dessert. Confirm final count and any 4th category (snack, side?) so backend knows the filter buttons to emit.
+
+## Open decisions for the team
+
+1. **Detail view modality**: Full-screen overlay or centered modal box?
+   - *My preference: centered modal with semi-transparent backdrop, keeps focus tight.*
+
+2. **Category filter: multi-select or single?**
+   - *My preference: single category at a time (one button active), simpler UX. But if you want multi-select, I&#x27;ll adjust the structure.*
+
+3. **Empty state messaging**:
+   - If search returns no results, should the page show &quot;No recipes found&quot; or similar?
+   - *My preference: yes, small message in the recipe-list area.*
+
+4. **Image handling** (flagged to ux, but team decision):
+   - Emoji glyphs per category, or skip images and rely on typography?
+   - *My preference: emoji. Clean, works offline, no external requests.*
+
+5. **Recipe detail: inline or modal?**
+   - *Decision made (modal), but flagging in case team prefers separate recipe.html pages.*
+   - Single-page modal is simpler and avoids complex routing; I recommend keeping it.
+</pre></details><details class="artifact"><summary>proposals/ux.md <span class="empty">· 7,425 B</span></summary><pre># UX Proposal — Recipes Website
+
+## My slice
+
+I&#x27;m proposing a **warm, editorial, card-based design** that feels like a favorite cookbook, not a SaaS dashboard.
+
+### Design direction
+
+**Mood:** Approachable, handcrafted, timeless. The site should feel like the owner cares about food and the presentation — think a well-designed cookbook or a food blog with real taste.
+
+**Color palette:**
+
+| Token | Role | Value | Usage |
+|-------|------|-------|-------|
+| `--rx-bg` | Page background | `#FAF7F2` (warm off-white) | Body, page container |
+| `--rx-surface` | Card surface | `#FFFBF7` (soft cream) | Card backgrounds, elevated surfaces |
+| `--rx-text-primary` | Body text | `#2B2520` (dark brown) | Headings, recipe titles, body copy |
+| `--rx-text-secondary` | Metadata | `#6B6459` (muted brown) | Time, yield, category labels |
+| `--rx-accent` | Interactive, highlights | `#C85A17` (burnt orange) | Links, hover states, category badges |
+| `--rx-border` | Soft dividers | `#E8E3DC` (warm gray) | Card borders, subtle rules |
+
+### Typography
+
+- **Headings:** Merriweather (serif, Georgia fallback) — warm, readable, editorial authority.
+  - Google Fonts link: `https://fonts.googleapis.com/css2?family=Merriweather:wght@700&amp;display=swap`
+- **Body/UI:** -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif — clean, modern, accessible.
+- **Line height:** 1.6 on body text (generous, readable).
+- **Font sizes:** 
+  - Recipe title (`.rx-card-title`): 1.5rem / 24px, serif, dark brown
+  - Card metadata (`.rx-card-meta`, `.rx-card-time`, `.rx-card-category`): 0.875rem / 14px, secondary text color
+  - Description (`.rx-card-description`): 1rem / 16px, body text, line-height 1.5
+
+### Layout
+
+**List view:**
+- **Grid:** 3 columns on desktop (≥1024px), 2 columns on tablet (768–1023px), 1 column on mobile (&lt;768px).
+- **Card anatomy (`.rx-card`):**
+  - Category emoji/glyph (`.rx-card-image`) — single emoji character, sized prominently for visual anchor
+  - Recipe title (`.rx-card-title`) — short, 2–4 words max (e.g., &quot;Fluffy Pancakes&quot;)
+  - Metadata (`.rx-card-meta`): time, yield, category as small labels
+  - Description (`.rx-card-description`) — 1–2 punchy sentences (e.g., &quot;Crispy edges, fluffy center, ready in 20 minutes.&quot;)
+- **Card spacing:** 20px padding inside cards, 20px gap between cards. Roomy, not cramped.
+- **Card dimensions (design intent):** ~280–320px wide, height flexible (~200–240px typical).
+- **Hover state:** Subtle shadow lift or border accent on hover to signal interactivity.
+
+**Responsive behavior:**
+- At ≥1024px: 3-column grid
+- At 768–1023px: 2-column grid
+- Below 768px: single column, full width with 16px side margins
+- Touch targets: minimum 44×44px for interactive elements (e.g., modal close button)
+
+**Page-level:**
+- Header (`.rx-header`) with logo/title
+- Search input (`.rx-search-input`) and filter buttons (`.rx-filter-button`) if included
+- Recipe grid container (`.rx-recipe-list`)
+- Page container: max-width ~1200px, centered, 24px margins on desktop, 16px on mobile
+
+**Detail view (modal):**
+- Modal overlay (`.rx-detail-modal`) — full-screen overlay with semi-transparent backdrop
+- Inside modal: ingredients list (`.rx-ingredients-list`), steps list (`.rx-steps-list`)
+- Close affordance: intuitive, touch-friendly (e.g., button, X in corner)
+
+### Image strategy
+
+**Confirmed:** One emoji/unicode character per recipe card, placed in `.rx-card-image`. Each category gets a consistent glyph (e.g., 🍳 for breakfast, 🍽️ for main, 🍰 for dessert). This is lightweight, no external URLs, adds visual warmth without cuteness.
+
+---
+
+## What I need from others (contracts)
+
+### From frontend — LOCKED IN ✓
+
+I will style these CSS classes:
+
+**Page-level:**
+- `.rx-header`
+- `.rx-search-input`
+- `.rx-filter-button`
+
+**List view:**
+- `.rx-recipe-list` (grid container)
+- `.rx-card` (individual recipe card)
+- `.rx-card-image` (emoji/glyph placeholder, single character)
+- `.rx-card-title` (recipe name)
+- `.rx-card-description` (1–2 sentence description)
+- `.rx-card-meta` (time, yield, category metadata)
+- `.rx-card-time`
+- `.rx-card-category`
+
+**Detail view (modal):**
+- `.rx-detail-modal` (modal container/overlay)
+- `.rx-ingredients-list`
+- `.rx-steps-list`
+
+**Frontend commits to:** Emitting all these classes in your HTML. I won&#x27;t style by tag selectors, only by class. `.rx-card-image` should be a single character wide — I&#x27;ll style it to hold the emoji glyph.
+
+**Google Fonts:** Frontend will add this `&lt;link&gt;` to `&lt;head&gt;`:
+```html
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Merriweather:wght@700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+```
+
+### From writer — LOCKED IN ✓
+
+**Content plan:**
+- **Titles:** SHORT — 2–4 words max (e.g., &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Lava Cake&quot;).
+- **Descriptions:** ONE punchy sentence, maybe two if the first is brief. Practical tone: why you&#x27;d make it, no marketing fluff.
+- **Images:** Emoji glyphs per category (no emoji embedded in description text; frontend handles glyph placement in `.rx-card-image`).
+
+**Writer commits to:** Keeping descriptions punchy and short so they fit 1–2 lines on a ~280–320px wide card. I&#x27;m designing roomy spacing; descriptions will have breathing room.
+
+### From backend
+
+1. **Data structure:** Each recipe object should include:
+   - `title` (string, 2–4 words)
+   - `description` (string, 1–2 sentences)
+   - `time` or `duration` (for &quot;15 min&quot; metadata)
+   - `category` (string, for emoji mapping: &quot;breakfast&quot;, &quot;main&quot;, &quot;dessert&quot;, etc.)
+2. **Search/filter scope:** Frontend&#x27;s message mentions `rx-filter-button`, so filters are in scope. I&#x27;ll style those buttons; backend handles the logic.
+
+---
+
+## Open decisions for the team
+
+### 1. Tablet column count — RESOLVED
+**Decision:** 2 columns at 768–1023px. Writer&#x27;s short content and roomy spacing make this work well; text measure stays readable.
+
+### 2. Accent color tone — PROPOSED
+**My choice:** Burnt orange (`#C85A17`) — warm, food-forward, earthy. Feels like spices and clay, not SaaS.
+
+**Alternatives if team disagrees:**
+- Deep mustard (`#D4A574`) — warmer, earthier
+- Sage green (`#7B9D83`) — cooler, more modern
+- Warm red (`#B84D3A`) — slightly more classic
+
+**Any objections?**
+
+### 3. Detail view modal depth
+**My proposal:** Full-screen modal overlay with semi-transparent backdrop. Click card → modal appears. Escape or close button dismisses it.
+
+**Assumption:** Frontend&#x27;s single-page design (no separate recipe.html) works well for this. No page reload needed.
+
+---
+
+## Deliverables
+
+1. **Design tokens (above):** Color palette + typography specs.
+2. **`styles.css`:** Plain CSS, no frameworks. Styles all `rx-*` classes for list view, detail view, and page header. Includes media query at 768px for responsive collapse.
+3. **Responsive behavior:** 3 → 2 → 1 column at breakpoints. Touch-friendly spacing.
+4. **Google Fonts link:** Frontend adds to `&lt;head&gt;`.
+
+---
+
+## Notes
+
+- **No CSS frameworks** — vanilla CSS with custom properties (`--rx-bg`, `--rx-text-primary`, etc.).
+- **No build step.** Plain CSS, zero dependencies.
+- **Offline-compatible:** Google Fonts only external resource; can be replaced with system fonts if needed.
+- **Single-page app:** I&#x27;m styling for list view + modal detail view. Frontend handles routing/modal logic.
+- **Images:** Only emoji glyphs; no external image URLs or binary assets.
+</pre></details><details class="artifact"><summary>proposals/writer.md <span class="empty">· 2,977 B</span></summary><pre># Proposal — Recipe Writer
+
+## My slice
+
+I will write **8 complete recipes** across **3 categories** (breakfast, main, dessert) with the following content per recipe:
+
+- **Name** — short titles, 2–4 words (e.g., &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Lava Cake&quot;)
+- **Category** — breakfast | main | dessert
+- **Time** — cooking time in minutes (integer)
+- **Servings** — integer
+- **Description** — 1–2 sentences, warm and practical voice. Why you&#x27;d make this dish, not marketing fluff.
+- **Ingredients** — ordered array of strings formatted as &quot;amount unit ingredient&quot; (e.g., &quot;2 cups flour&quot;, &quot;1 can chickpeas&quot;)
+- **Steps** — ordered array of instruction strings, clear and conversational
+
+Recipe list (proposed):
+
+**Breakfast (3)**
+- Fluffy Pancakes
+- Avocado Toast
+- Shakshuka
+
+**Main (3)**
+- Grilled Salmon
+- Pasta Carbonara
+- Chicken Stir-Fry
+
+**Dessert (2)**
+- Chocolate Lava Cake
+- Lemon Bars
+
+## What I need from others (contracts)
+
+**From backend:**
+- Confirm the data schema will support: name, category, time, servings, description, ingredients (array), steps (array).
+- Optionally: difficulty (easy/medium/hard), dietary_tags (vegetarian, vegan, gluten_free, etc.). These are nice-to-have; I can work without them if the schema doesn&#x27;t support.
+- Confirm the format for ingredients strings (e.g., &quot;2 cups flour&quot; vs. structured object). I assume flat strings per the brief.
+
+**From UX:**
+- Confirm card design is punchy and compact: short titles (2–4 words) will fit cleanly, descriptions (1–2 sentences) sit on 1–2 lines without forcing tall cards.
+- Confirm you&#x27;re using emoji/unicode glyphs per category (e.g., 🍳 breakfast, 🍽️ main, 🍰 dessert) so I know the visual style. I won&#x27;t embed emoji in my recipe text.
+
+**From frontend:**
+- No direct needs; backend and UX class contracts will shape how my content flows.
+
+## Open decisions for the team
+
+1. **Difficulty and dietary tags**: Should I include optional fields in each recipe (difficulty: easy/medium/hard, dietary_tags: [&quot;vegetarian&quot;], etc.)? I can write these, but backend needs to commit to the schema fields, and UX needs to decide if cards have space to display them.
+   - *Preferred: include difficulty for all recipes and dietary_tags where relevant (vegetarian, vegan, gluten-free). Adds useful filterable metadata without cluttering the proposal.*
+
+2. **Recipe diversity**: The 8 recipes span global styles (Mediterranean salmon, Italian carbonara, Asian stir-fry, Middle Eastern shakshuka, American pancakes). Should I stay international or narrow to a specific cuisine?
+   - *Preferred: stay international. Shows recipe breadth, tests the site&#x27;s versatility, and most home cooks want variety.*
+
+3. **Cooking difficulty**: Should all 8 recipes be accessible (weeknight-friendly, 30-60 min cook time) or include one or two more ambitious dishes?
+   - *Preferred: stick to accessible weeknight recipes. The site should encourage cooking, not intimidate.*
+</pre></details><div class="folder-header">root/</div><details class="artifact"><summary>app.js <span class="empty">· 7,152 B</span></summary><pre>// Load recipes from embedded JSON
+const recipesData = document.getElementById(&#x27;recipes-data&#x27;).textContent;
+const recipes = JSON.parse(recipesData);
+
+// Emoji mapping (category -&gt; emoji)
+const categoryEmoji = {
+  breakfast: &quot;🍳&quot;,
+  main: &quot;🍽️&quot;,
+  dessert: &quot;🍰&quot;
+};
+
+// State
+let currentSearch = &#x27;&#x27;;
+let activeCategory = null;
+
+// DOM elements
+const searchInput = document.getElementById(&#x27;search-input&#x27;);
+const filterButtons = document.querySelectorAll(&#x27;.rx-filter-button&#x27;);
+const recipeList = document.getElementById(&#x27;recipe-list&#x27;);
+const recipeDetail = document.getElementById(&#x27;recipe-detail&#x27;);
+const detailCloseButton = document.getElementById(&#x27;detail-close&#x27;);
+const detailContent = recipeDetail.querySelector(&#x27;.rx-detail-content&#x27;);
+
+// Initialize on page load
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  // Wire search input (real-time filtering)
+  searchInput.addEventListener(&#x27;input&#x27;, (e) =&gt; {
+    currentSearch = e.target.value;
+    renderRecipeList();
+  });
+
+  // Wire filter buttons (single-select toggle)
+  filterButtons.forEach(button =&gt; {
+    button.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+      const category = button.getAttribute(&#x27;data-category&#x27;);
+
+      // Toggle: if clicking active button, deactivate; otherwise activate
+      if (activeCategory === category) {
+        activeCategory = null;
+        button.removeAttribute(&#x27;data-active&#x27;);
+      } else {
+        // Deactivate all buttons
+        filterButtons.forEach(btn =&gt; btn.removeAttribute(&#x27;data-active&#x27;));
+        // Activate clicked button
+        activeCategory = category;
+        button.setAttribute(&#x27;data-active&#x27;, &#x27;true&#x27;);
+      }
+
+      renderRecipeList();
+    });
+  });
+
+  // Wire modal close button
+  detailCloseButton.addEventListener(&#x27;click&#x27;, closeModal);
+
+  // Wire backdrop click (close modal when clicking outside content)
+  recipeDetail.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+    // Only close if clicking the backdrop, not the content
+    if (!detailContent.contains(e.target)) {
+      closeModal();
+    }
+  });
+
+  // Initial render
+  renderRecipeList();
+});
+
+/**
+ * Filter recipes based on current search and category
+ * AND logic: must match both search AND category (if both are active)
+ */
+function getFilteredRecipes() {
+  return recipes.filter(recipe =&gt; {
+    // Check category filter
+    if (activeCategory &amp;&amp; recipe.category !== activeCategory) {
+      return false;
+    }
+
+    // Check search filter (across name, description, and ingredients)
+    if (currentSearch.trim()) {
+      const searchLower = currentSearch.toLowerCase();
+
+      const nameMatch = recipe.name.toLowerCase().includes(searchLower);
+      const descriptionMatch = recipe.description.toLowerCase().includes(searchLower);
+      const ingredientsMatch = recipe.ingredients.some(ingredient =&gt;
+        ingredient.toLowerCase().includes(searchLower)
+      );
+
+      if (!nameMatch &amp;&amp; !descriptionMatch &amp;&amp; !ingredientsMatch) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+/**
+ * Render the recipe list (cards or empty state)
+ */
+function renderRecipeList() {
+  const filtered = getFilteredRecipes();
+
+  // Clear the list
+  recipeList.innerHTML = &#x27;&#x27;;
+
+  if (filtered.length === 0) {
+    // Show empty state
+    const emptyState = document.createElement(&#x27;div&#x27;);
+    emptyState.className = &#x27;rx-empty-state&#x27;;
+    emptyState.textContent = &#x27;No recipes found. Try adjusting your search or filters.&#x27;;
+    recipeList.appendChild(emptyState);
+    return;
+  }
+
+  // Render each recipe card
+  filtered.forEach(recipe =&gt; {
+    const card = createRecipeCard(recipe);
+    recipeList.appendChild(card);
+  });
+}
+
+/**
+ * Create a recipe card element
+ */
+function createRecipeCard(recipe) {
+  const article = document.createElement(&#x27;article&#x27;);
+  article.className = &#x27;rx-card&#x27;;
+  article.setAttribute(&#x27;data-recipe-id&#x27;, recipe.id);
+
+  // Build card HTML (matching frontend&#x27;s expected structure)
+  article.innerHTML = `
+    &lt;div class=&quot;rx-card-image&quot;&gt;${categoryEmoji[recipe.category]}&lt;/div&gt;
+    &lt;h2 class=&quot;rx-card-title&quot;&gt;${escapeHtml(recipe.name)}&lt;/h2&gt;
+    &lt;div class=&quot;rx-card-meta&quot;&gt;
+      &lt;span class=&quot;rx-card-time&quot;&gt;${recipe.time} min&lt;/span&gt;
+      &lt;span class=&quot;rx-card-category&quot;&gt;${escapeHtml(recipe.category)}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;rx-card-description&quot;&gt;${escapeHtml(recipe.description)}&lt;/p&gt;
+  `;
+
+  // Wire card click to open modal with this recipe
+  article.addEventListener(&#x27;click&#x27;, () =&gt; {
+    openModal(recipe);
+  });
+
+  return article;
+}
+
+/**
+ * Open detail modal and populate with recipe data
+ */
+function openModal(recipe) {
+  // Populate modal text content
+  const detailTitle = recipeDetail.querySelector(&#x27;.rx-detail-title&#x27;);
+  const detailTime = recipeDetail.querySelector(&#x27;.rx-detail-time&#x27;);
+  const detailServings = recipeDetail.querySelector(&#x27;.rx-detail-servings&#x27;);
+  const detailCategory = recipeDetail.querySelector(&#x27;.rx-detail-category&#x27;);
+  const detailDescription = recipeDetail.querySelector(&#x27;.rx-detail-description&#x27;);
+  const ingredientsList = document.getElementById(&#x27;ingredients-list&#x27;);
+  const stepsList = document.getElementById(&#x27;steps-list&#x27;);
+
+  detailTitle.textContent = recipe.name;
+  detailTime.textContent = `${recipe.time} min`;
+  detailServings.textContent = `Serves ${recipe.servings}`;
+  detailCategory.textContent = recipe.category;
+  detailDescription.textContent = recipe.description;
+
+  // Clear and populate ingredients list
+  ingredientsList.innerHTML = &#x27;&#x27;;
+  recipe.ingredients.forEach(ingredient =&gt; {
+    const li = document.createElement(&#x27;li&#x27;);
+    li.textContent = ingredient;
+    ingredientsList.appendChild(li);
+  });
+
+  // Clear and populate steps list
+  stepsList.innerHTML = &#x27;&#x27;;
+  recipe.steps.forEach(step =&gt; {
+    const li = document.createElement(&#x27;li&#x27;);
+    li.textContent = step;
+    stepsList.appendChild(li);
+  });
+
+  // Handle optional difficulty and dietary_tags
+  const detailMeta = recipeDetail.querySelector(&#x27;.rx-detail-meta&#x27;);
+
+  // Remove any existing difficulty/dietary tags from previous modal opens
+  const existingDifficulty = detailMeta.querySelector(&#x27;.rx-detail-difficulty&#x27;);
+  const existingTags = detailMeta.querySelector(&#x27;.rx-detail-dietary-tags&#x27;);
+  if (existingDifficulty) existingDifficulty.remove();
+  if (existingTags) existingTags.remove();
+
+  // Add difficulty if present
+  if (recipe.difficulty) {
+    const diffSpan = document.createElement(&#x27;span&#x27;);
+    diffSpan.className = &#x27;rx-detail-difficulty&#x27;;
+    diffSpan.textContent = `Difficulty: ${recipe.difficulty}`;
+    detailMeta.appendChild(diffSpan);
+  }
+
+  // Add dietary tags if present
+  if (recipe.dietary_tags &amp;&amp; recipe.dietary_tags.length &gt; 0) {
+    const tagsSpan = document.createElement(&#x27;span&#x27;);
+    tagsSpan.className = &#x27;rx-detail-dietary-tags&#x27;;
+    tagsSpan.textContent = recipe.dietary_tags.join(&#x27;, &#x27;);
+    detailMeta.appendChild(tagsSpan);
+  }
+
+  // Show modal (remove hidden state)
+  recipeDetail.classList.remove(&#x27;rx-detail-modal--hidden&#x27;);
+}
+
+/**
+ * Close detail modal
+ */
+function closeModal() {
+  recipeDetail.classList.add(&#x27;rx-detail-modal--hidden&#x27;);
+}
+
+/**
+ * Utility: escape HTML to prevent XSS
+ */
+function escapeHtml(text) {
+  const div = document.createElement(&#x27;div&#x27;);
+  div.textContent = text;
+  return div.innerHTML;
+}
+</pre></details><details class="artifact"><summary>DONE_CRITERIA.md <span class="empty">· 1,667 B</span></summary><pre># Done Criteria &amp; Scope
+
+## The vague goal (from stakeholder)
+&quot;Build us a recipes website.&quot;
+
+That&#x27;s it. No further detail. Unreachable today. Team must decide everything else.
+
+## The roster
+- **backend** — data schema, client-side search/filter logic, writes SPEC.md in Phase 2.
+- **frontend** — HTML structure, routing, interactivity, CSS class contracts.
+- **ux** — visual style (colors, typography, layout, responsive behavior).
+- **writer** — recipe content (ingredients, steps, descriptions, tone).
+
+## Ground rules
+
+### Output is a STATIC site
+- No server, no build step, no package manager.
+- Users open `workspace/index.html` directly via double-click in a browser.
+- Works from `file://` protocol with no local fetch limitations.
+
+### Technology constraints
+- **Vanilla HTML/CSS/JS is the default.** A framework is only allowed if the team can execute it with zero build step — they cannot, so no React, Vue, webpack, etc.
+- **All file paths are relative.** No absolute URLs to external CDNs, except optional Google Fonts for typography.
+- **Images**: must use emoji/unicode placeholders OR external https URLs (unsplash, etc.). Team cannot produce binary files.
+
+### What success looks like
+- `workspace/index.html` opens in a browser and shows a recipes list with styling and actual recipe content.
+- Clicking a recipe (if detail pages were in scope) reveals the full recipe.
+- No JavaScript errors in console on load.
+- The site feels intentional — a choice of style, not a random assemblage.
+
+## Deliverable
+`OUTPUT.md` — the lead&#x27;s final report with file inventory, contract compliance, and view command.
+</pre></details><details class="artifact"><summary>index.html <span class="empty">· 12,682 B</span></summary><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Recipes&lt;/title&gt;
+  &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Merriweather:wght@700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Page Header --&gt;
+  &lt;header class=&quot;rx-header&quot;&gt;
+    &lt;h1 class=&quot;rx-title&quot;&gt;Recipes&lt;/h1&gt;
+    &lt;input id=&quot;search-input&quot; type=&quot;text&quot; placeholder=&quot;Search recipes...&quot; class=&quot;rx-search-input&quot; aria-label=&quot;Search recipes&quot;&gt;
+    &lt;div class=&quot;rx-filter-buttons&quot;&gt;
+      &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;breakfast&quot; aria-pressed=&quot;false&quot;&gt;Breakfast&lt;/button&gt;
+      &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;main&quot; aria-pressed=&quot;false&quot;&gt;Main&lt;/button&gt;
+      &lt;button class=&quot;rx-filter-button&quot; data-category=&quot;dessert&quot; aria-pressed=&quot;false&quot;&gt;Dessert&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;!-- Main Content --&gt;
+  &lt;main class=&quot;rx-main&quot;&gt;
+    &lt;!-- Recipe List Grid --&gt;
+    &lt;div id=&quot;recipe-list&quot; class=&quot;rx-recipe-list&quot;&gt;
+      &lt;!-- Backend injects recipe cards here --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Empty State (shown when no recipes match) --&gt;
+    &lt;div id=&quot;empty-state&quot; class=&quot;rx-empty-state&quot; style=&quot;display: none;&quot;&gt;
+      No recipes found. Try adjusting your search or filters.
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;!-- Detail Modal --&gt;
+  &lt;div id=&quot;recipe-detail&quot; class=&quot;rx-detail-modal rx-detail-modal--hidden&quot;&gt;
+    &lt;div class=&quot;rx-detail-content&quot;&gt;
+      &lt;button id=&quot;detail-close&quot; class=&quot;rx-detail-close&quot; aria-label=&quot;Close recipe details&quot;&gt;×&lt;/button&gt;
+
+      &lt;h2 class=&quot;rx-detail-title&quot;&gt;&lt;/h2&gt;
+
+      &lt;div class=&quot;rx-detail-meta&quot;&gt;
+        &lt;span class=&quot;rx-detail-time&quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;rx-detail-servings&quot;&gt;&lt;/span&gt;
+        &lt;span class=&quot;rx-detail-category&quot;&gt;&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;p class=&quot;rx-detail-description&quot;&gt;&lt;/p&gt;
+
+      &lt;section class=&quot;rx-detail-section&quot;&gt;
+        &lt;h3 class=&quot;rx-detail-heading&quot;&gt;Ingredients&lt;/h3&gt;
+        &lt;ul id=&quot;ingredients-list&quot; class=&quot;rx-ingredients-list&quot;&gt;
+          &lt;!-- Backend injects ingredients here --&gt;
+        &lt;/ul&gt;
+      &lt;/section&gt;
+
+      &lt;section class=&quot;rx-detail-section&quot;&gt;
+        &lt;h3 class=&quot;rx-detail-heading&quot;&gt;Steps&lt;/h3&gt;
+        &lt;ol id=&quot;steps-list&quot; class=&quot;rx-steps-list&quot;&gt;
+          &lt;!-- Backend injects steps here --&gt;
+        &lt;/ol&gt;
+      &lt;/section&gt;
+
+      &lt;div id=&quot;detail-tags&quot; class=&quot;rx-detail-tags&quot; style=&quot;display: none;&quot;&gt;
+        &lt;!-- Backend injects dietary tags and difficulty here --&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Recipes Data (embedded JSON) --&gt;
+  &lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;
+[
+  {
+    &quot;id&quot;: &quot;fluffy-pancakes&quot;,
+    &quot;name&quot;: &quot;Fluffy Pancakes&quot;,
+    &quot;description&quot;: &quot;Golden, tender pancakes with a crispy exterior. Perfect weekend breakfast that&#x27;s easier than you&#x27;d think.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;2 cups all-purpose flour&quot;,
+      &quot;2 tablespoons sugar&quot;,
+      &quot;2 teaspoons baking powder&quot;,
+      &quot;1 teaspoon salt&quot;,
+      &quot;2 cups milk&quot;,
+      &quot;2 eggs&quot;,
+      &quot;2 tablespoons melted butter&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Whisk flour, sugar, baking powder, and salt in a large bowl.&quot;,
+      &quot;In another bowl, whisk milk, eggs, and melted butter until combined.&quot;,
+      &quot;Pour wet ingredients into dry ingredients and stir until just combined (lumpy is okay).&quot;,
+      &quot;Heat a buttered skillet or griddle over medium heat.&quot;,
+      &quot;Pour 1/4 cup batter onto the hot surface for each pancake.&quot;,
+      &quot;Cook until bubbles form on the surface, then flip and cook until golden brown.&quot;,
+      &quot;Serve warm with maple syrup and butter.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;avocado-toast&quot;,
+    &quot;name&quot;: &quot;Avocado Toast&quot;,
+    &quot;description&quot;: &quot;Creamy avocado on crispy sourdough with a pinch of salt and a squeeze of lemon. Simple, satisfying breakfast.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 10,
+    &quot;servings&quot;: 2,
+    &quot;ingredients&quot;: [
+      &quot;2 slices sourdough bread&quot;,
+      &quot;1 ripe avocado&quot;,
+      &quot;1 tablespoon olive oil&quot;,
+      &quot;Salt and pepper to taste&quot;,
+      &quot;1 lemon&quot;,
+      &quot;Red pepper flakes (optional)&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Toast the sourdough slices until golden and crispy.&quot;,
+      &quot;Cut the avocado in half, remove the pit, and scoop the flesh into a bowl.&quot;,
+      &quot;Mash lightly with a fork, leaving some texture.&quot;,
+      &quot;Drizzle olive oil into the mashed avocado and stir gently.&quot;,
+      &quot;Spread the mixture evenly onto each toast slice.&quot;,
+      &quot;Season with salt, pepper, and a squeeze of fresh lemon juice.&quot;,
+      &quot;Sprinkle with red pepper flakes if desired and serve immediately.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;, &quot;vegan&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;shakshuka&quot;,
+    &quot;name&quot;: &quot;Shakshuka&quot;,
+    &quot;description&quot;: &quot;Eggs poached in spiced tomato sauce with peppers and onions. A Middle Eastern breakfast that feels fancy but comes together in 25 minutes.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 25,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;2 tablespoons olive oil&quot;,
+      &quot;1 medium onion, diced&quot;,
+      &quot;1 red bell pepper, sliced&quot;,
+      &quot;2 cloves garlic, minced&quot;,
+      &quot;1 can (14 oz) crushed tomatoes&quot;,
+      &quot;1 teaspoon paprika&quot;,
+      &quot;1/2 teaspoon cumin&quot;,
+      &quot;Salt and pepper to taste&quot;,
+      &quot;4 eggs&quot;,
+      &quot;Fresh cilantro or parsley for garnish&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Heat olive oil in a large skillet over medium heat.&quot;,
+      &quot;Add diced onion and sauté until softened, about 5 minutes.&quot;,
+      &quot;Stir in bell pepper and garlic, cooking for another 3 minutes.&quot;,
+      &quot;Add crushed tomatoes, paprika, and cumin. Simmer for 5-7 minutes until the sauce thickens slightly.&quot;,
+      &quot;Season with salt and pepper to taste.&quot;,
+      &quot;Create 4 small wells in the sauce and crack an egg into each well.&quot;,
+      &quot;Cover and simmer until the egg whites are set but yolks are still soft, about 5-7 minutes.&quot;,
+      &quot;Garnish with fresh cilantro or parsley and serve with crusty bread.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;grilled-salmon&quot;,
+    &quot;name&quot;: &quot;Grilled Salmon&quot;,
+    &quot;description&quot;: &quot;Pan-seared salmon fillet with a crispy skin and moist, flaky center. A restaurant-quality main that&#x27;s done in 30 minutes.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 30,
+    &quot;servings&quot;: 2,
+    &quot;ingredients&quot;: [
+      &quot;2 salmon fillets (6 oz each)&quot;,
+      &quot;2 tablespoons olive oil&quot;,
+      &quot;1 lemon&quot;,
+      &quot;Salt and pepper to taste&quot;,
+      &quot;2 cloves garlic, minced&quot;,
+      &quot;Fresh dill or thyme (optional)&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Pat salmon fillets dry with a paper towel and season generously with salt and pepper.&quot;,
+      &quot;Heat olive oil in a large skillet over medium-high heat until it shimmers.&quot;,
+      &quot;Place salmon skin-side up in the pan and cook for 4-5 minutes until the skin is crispy and golden.&quot;,
+      &quot;Carefully flip the fillets and cook for another 3-4 minutes until cooked through.&quot;,
+      &quot;Squeeze fresh lemon juice over the salmon and garnish with minced garlic and herbs if desired.&quot;,
+      &quot;Serve immediately with your choice of roasted vegetables or a simple salad.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: []
+  },
+  {
+    &quot;id&quot;: &quot;pasta-carbonara&quot;,
+    &quot;name&quot;: &quot;Pasta Carbonara&quot;,
+    &quot;description&quot;: &quot;Creamy, luxurious pasta with bacon and egg. No cream needed—the magic is in the technique. Ready in 20 minutes.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;1 pound spaghetti or linguine&quot;,
+      &quot;6 slices bacon or pancetta, chopped&quot;,
+      &quot;4 egg yolks&quot;,
+      &quot;1 cup freshly grated Pecorino Romano cheese&quot;,
+      &quot;Salt and freshly ground black pepper to taste&quot;,
+      &quot;Fresh parsley for garnish (optional)&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Bring a large pot of salted water to a boil and cook pasta until al dente.&quot;,
+      &quot;While pasta cooks, cook chopped bacon in a large skillet over medium heat until crispy, about 5-7 minutes.&quot;,
+      &quot;In a small bowl, whisk together egg yolks and most of the grated cheese.&quot;,
+      &quot;Reserve 1 cup of pasta water, then drain the pasta.&quot;,
+      &quot;Add the hot pasta to the bacon skillet (remove from heat) and toss quickly.&quot;,
+      &quot;Pour the egg-cheese mixture over the pasta and toss vigorously, adding pasta water a little at a time until creamy.&quot;,
+      &quot;Season with salt and lots of freshly ground black pepper.&quot;,
+      &quot;Serve immediately, topped with remaining cheese and fresh parsley if desired.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: []
+  },
+  {
+    &quot;id&quot;: &quot;chicken-stir-fry&quot;,
+    &quot;name&quot;: &quot;Chicken Stir-Fry&quot;,
+    &quot;description&quot;: &quot;Tender chicken and crisp vegetables in a savory-sweet sauce served over rice. Quick, healthy, and deeply satisfying.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 25,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;1.5 pounds chicken breast, cut into bite-sized pieces&quot;,
+      &quot;3 tablespoons vegetable oil&quot;,
+      &quot;2 cups broccoli florets&quot;,
+      &quot;1 red bell pepper, sliced&quot;,
+      &quot;1 medium onion, sliced&quot;,
+      &quot;3 cloves garlic, minced&quot;,
+      &quot;3 tablespoons soy sauce&quot;,
+      &quot;1 tablespoon sesame oil&quot;,
+      &quot;1 teaspoon ginger, minced&quot;,
+      &quot;2 teaspoons cornstarch mixed with 2 tablespoons water&quot;,
+      &quot;Cooked rice for serving&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Heat 1 tablespoon oil in a wok or large skillet over high heat.&quot;,
+      &quot;Cook chicken in batches until golden, about 5-7 minutes per batch. Set aside.&quot;,
+      &quot;Add remaining oil and stir-fry broccoli, bell pepper, and onion for 3-4 minutes until just tender-crisp.&quot;,
+      &quot;Add garlic and ginger, stirring constantly for 30 seconds.&quot;,
+      &quot;Return chicken to the pan and add soy sauce and sesame oil.&quot;,
+      &quot;Stir the cornstarch slurry and add to the pan, cooking until the sauce thickens, about 1 minute.&quot;,
+      &quot;Taste and adjust seasoning as needed.&quot;,
+      &quot;Serve immediately over cooked rice.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: []
+  },
+  {
+    &quot;id&quot;: &quot;chocolate-lava-cake&quot;,
+    &quot;name&quot;: &quot;Chocolate Lava Cake&quot;,
+    &quot;description&quot;: &quot;Individual molten chocolate cakes with a flowing center. Feels indulgent but takes just 20 minutes from start to plate.&quot;,
+    &quot;category&quot;: &quot;dessert&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;6 ounces dark chocolate, chopped&quot;,
+      &quot;6 tablespoons butter&quot;,
+      &quot;2 eggs&quot;,
+      &quot;2 egg yolks&quot;,
+      &quot;1/4 cup sugar&quot;,
+      &quot;2 tablespoons all-purpose flour&quot;,
+      &quot;Pinch of salt&quot;,
+      &quot;Butter and cocoa powder for ramekins&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Preheat oven to 425°F. Butter and dust 4 ramekins with cocoa powder.&quot;,
+      &quot;Melt chocolate and butter together over low heat or in a microwave, stirring frequently.&quot;,
+      &quot;In a bowl, whisk eggs, egg yolks, and sugar until pale and thick, about 3 minutes.&quot;,
+      &quot;Fold in the melted chocolate mixture gently.&quot;,
+      &quot;Fold in flour and salt until just combined.&quot;,
+      &quot;Divide batter evenly among the ramekins.&quot;,
+      &quot;Bake for 12-14 minutes until edges are firm but centers still jiggle slightly when gently shaken.&quot;,
+      &quot;Invert onto plates and serve immediately with vanilla ice cream or whipped cream.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;lemon-bars&quot;,
+    &quot;name&quot;: &quot;Lemon Bars&quot;,
+    &quot;description&quot;: &quot;Tart, buttery lemon filling on a shortbread crust. These bars are bright, zesty, and perfect for sharing (if you can resist eating them all).&quot;,
+    &quot;category&quot;: &quot;dessert&quot;,
+    &quot;time&quot;: 40,
+    &quot;servings&quot;: 12,
+    &quot;ingredients&quot;: [
+      &quot;1 cup all-purpose flour&quot;,
+      &quot;1/4 cup powdered sugar&quot;,
+      &quot;6 tablespoons cold butter&quot;,
+      &quot;2 eggs&quot;,
+      &quot;1 cup sugar&quot;,
+      &quot;3 tablespoons all-purpose flour&quot;,
+      &quot;1/2 teaspoon baking powder&quot;,
+      &quot;1/4 teaspoon salt&quot;,
+      &quot;4 tablespoons fresh lemon juice&quot;,
+      &quot;1 tablespoon lemon zest&quot;,
+      &quot;Additional powdered sugar for dusting&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Preheat oven to 350°F. Line an 8x8-inch baking pan with parchment paper.&quot;,
+      &quot;For the crust: mix 1 cup flour and 1/4 cup powdered sugar. Cut in cold butter until mixture resembles coarse crumbs.&quot;,
+      &quot;Press evenly into the prepared pan and bake for 10-12 minutes until golden.&quot;,
+      &quot;While crust bakes, whisk eggs and sugar together until well combined.&quot;,
+      &quot;Fold in flour, baking powder, and salt.&quot;,
+      &quot;Stir in lemon juice and lemon zest.&quot;,
+      &quot;Pour lemon mixture over the warm crust.&quot;,
+      &quot;Bake for 15-20 minutes until the filling is set but still slightly jiggly in the center.&quot;,
+      &quot;Cool completely, then dust generously with powdered sugar and cut into squares.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  }
+]
+  &lt;/script&gt;
+
+  &lt;!-- Application Logic --&gt;
+  &lt;script src=&quot;app.js&quot; defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></details><details class="artifact"><summary>OUTPUT.md <span class="empty">· 5,928 B</span></summary><pre># Recipes website — build report
+
+## What was built
+
+A single-page recipes website with vanilla HTML/CSS/JavaScript. The site displays a searchable, filterable grid of recipe cards (3 columns on desktop, 2 on tablet, 1 on mobile) with a warm, editorial design. Clicking a recipe card opens a full-screen modal showing ingredients, steps, cooking time, servings, and optional difficulty/dietary tags. The design uses a cream and burnt-orange palette with Merriweather serif headings. All 8 recipes are embedded in the HTML as JSON; the site works from file:// protocol with no server or build step.
+
+## Files produced
+
+| Path | Size | Owner | Status |
+|------|------|-------|--------|
+| `index.html` | 4.5 KB | frontend | ✅ Complete, valid semantic markup, all `.rx-*` classes present, Google Fonts link, embedded recipes JSON |
+| `styles.css` | 8 KB | ux | ⚠️ **Defective**: Critical CSS class name mismatches prevent modal from displaying (see issues below) |
+| `app.js` | 6 KB | backend | ✅ Complete, logic correct: search, filter, modal state, emoji injection all implemented per spec |
+| `recipes.json` | 7.5 KB | writer | ✅ Complete, valid JSON, 8 recipes with schema compliance; **unused** (recipes embedded in HTML instead) |
+
+## Contract compliance
+
+| Contract | Status | Notes |
+|----------|--------|-------|
+| **File ownership** | ✅ OK | Each role owns their file; clear separation |
+| **CSS class naming** | ❌ VIOLATED | `.rx-modal-content` / `.rx-modal-close` / `.rx-detail-modal.active` don&#x27;t exist in HTML; should be `.rx-detail-content` / `.rx-detail-close` / `.rx-detail-modal:not(.--hidden)` |
+| **Modal state class** | ❌ VIOLATED | CSS expects `.active` class; app.js uses `.--hidden` (per SPEC). Modal won&#x27;t display. |
+| **Recipe schema** | ✅ OK | recipes.json matches schema exactly (8 recipes, 3 categories, required + optional fields) |
+| **Search/filter logic** | ✅ OK | Real-time, case-insensitive, substring match, AND logic, single-select category filter all working |
+| **Responsive grid** | ✅ OK | 3 → 2 → 1 column breakpoints implemented correctly |
+| **Typography &amp; colors** | ✅ OK | Merriweather + system sans, warm palette (#FAF7F2, #C85A17, etc.) as specified |
+| **Data integration** | ⚠️ PARTIAL | Recipes embedded in HTML; recipes.json produced but not referenced by the site |
+| **Accessibility** | ✅ OK | Aria labels, 44px touch targets, focus visible, reduced-motion respected |
+
+## Known issues / TODOs
+
+### Critical (breaks functionality)
+1. **Modal won&#x27;t display on card click:**
+   - `styles.css` line 293 uses `.rx-detail-modal.active` selector, but app.js toggles `.rx-detail-modal--hidden` class
+   - **Fix:** Change `.rx-detail-modal.active { display: flex; }` to `.rx-detail-modal:not(.rx-detail-modal--hidden) { display: flex; }`
+
+2. **Modal inner content box unstyled:**
+   - `styles.css` line 299 targets `.rx-modal-content` (wrong), HTML emits `.rx-detail-content`
+   - **Fix:** Rename CSS selector from `.rx-modal-content` to `.rx-detail-content`
+
+3. **Close button unstyled:**
+   - `styles.css` line 310 targets `.rx-modal-close` (wrong), HTML emits `.rx-detail-close`
+   - **Fix:** Rename CSS selector from `.rx-modal-close` to `.rx-detail-close`
+
+### Minor (cosmetic/organizational)
+4. **recipes.json not used:** Writer produced a valid recipes JSON file, but frontend embedded their own recipe versions in HTML instead. The two datasets are slightly out of sync (different ingredient counts, similar descriptions). recipes.json is valid and could be used if the build process changes in future.
+
+5. **Content density:** Frontend&#x27;s embedded recipes have slightly more detailed descriptions than writer&#x27;s JSON; both are within spec (1–2 sentences) but the versions diverged.
+
+### What works
+- ✅ Page layout, card grid, responsive design
+- ✅ Search input, category filter buttons, filter state UI
+- ✅ Recipe card rendering (title, time, category, emoji, description)
+- ✅ Search logic (case-insensitive, substring, real-time)
+- ✅ Filter toggle logic (single-select per spec)
+- ✅ Empty state message when no results
+- ✅ All accessibility features (aria labels, keyboard focus, 44px targets)
+- ✅ Google Fonts fallback to Georgia
+- ⚠️ Modal structure (HTML correct, but CSS selectors broken—can&#x27;t display)
+
+## How to view &amp; fix
+
+1. **As-is** (broken): Open `workspace/index.html` in a browser. The page will load and display the recipe grid, but clicking a card will **not** open the modal (CSS class mismatch prevents it).
+
+2. **To fix (3 lines of CSS):**
+   - Edit `styles.css`
+   - Line 293: Replace `.rx-detail-modal.active` with `.rx-detail-modal:not(.rx-detail-modal--hidden)`
+   - Line 299: Replace `.rx-modal-content` with `.rx-detail-content`
+   - Line 310: Replace `.rx-modal-close` with `.rx-detail-close`
+   - Save and reload `index.html` in browser → full functionality restored
+
+3. **After fixes:** The site will support recipe search (by name/description/ingredients), single-category filter, recipe detail modal with ingredients/steps, and responsive layout across all breakpoints.
+
+## Conclusion
+
+**Core architecture is sound.** The HTML structure is clean, the JavaScript logic is correct and robust (with XSS prevention), the CSS design is warm and accessible, and the recipe content is practical and well-written. The Phase 2 SPEC successfully aligned the team; Phase 3 build executed that spec well.
+
+**Three CSS selector typos prevent the modal from working.** These are straightforward fixes (renaming class selectors to match the HTML contract). Once corrected, the site will be fully functional and ready to show stakeholders.
+
+The team&#x27;s experiment succeeded: tight SPEC enabled four agents to work independently and produce a coherent result. The issues found are local and fixable, not systemic disagreements.</pre></details><details class="artifact"><summary>project_context.md <span class="empty">· 1,929 B</span></summary><pre># Project — recipes website
+
+**Ask:** &quot;Build us a recipes website.&quot;
+
+That&#x27;s it. That&#x27;s the brief. The stakeholder gave us no further detail
+and is unreachable today. We have the rest of the day to ship
+something we can show them tomorrow.
+
+## What we know implicitly
+
+- It&#x27;s a website. It needs to run in a browser.
+- It&#x27;s about recipes. There needs to be recipe content on it.
+- &quot;Us&quot; means this small team: one backend dev, one frontend dev, one
+  ux designer, one recipe writer, plus me (tech lead / PM).
+- No infrastructure — the team has a shared workspace directory. No
+  servers, no deployments, no package managers, no build pipeline.
+  Whatever we produce has to be a static site that opens by
+  double-clicking `index.html`.
+
+## What we don&#x27;t know (the team must decide)
+
+- How many recipes?
+- What categories / structure?
+- Visual style?
+- Framework? (The tech lead will strongly discourage anything that
+  needs a build step, because we can&#x27;t run one here.)
+- How recipes are stored, loaded, filtered.
+- What interactivity, if any (search? filter? sort?).
+- Single-page or multi-page?
+
+## The process
+
+The team will go through two rounds of deliberation:
+1. Each role proposes their slice and what contracts they need from
+   the others.
+2. Backend writes a SPEC.md that codifies every team-level decision.
+
+Then the team BUILDS in parallel with no further coordination. This
+is deliberate: we&#x27;re testing whether the SPEC is tight enough.
+
+## What success looks like
+
+- `workspace/index.html` opens in a browser and shows a recipes list
+  with styling and actual recipe content.
+- Clicking a recipe (if detail pages were in scope) shows the full
+  recipe.
+- No JavaScript errors in the console on load.
+- The site feels intentional — a choice of style, not a random mix.
+
+## Output
+
+`OUTPUT.md` — the lead&#x27;s report covering what was built, files
+produced, any contract violations caught, and the view command.
+</pre></details><details class="artifact"><summary>recipes.json <span class="empty">· 9,850 B</span></summary><pre>[
+  {
+    &quot;id&quot;: &quot;fluffy-pancakes&quot;,
+    &quot;name&quot;: &quot;Fluffy Pancakes&quot;,
+    &quot;description&quot;: &quot;Golden, tender pancakes with a crispy exterior. Perfect weekend breakfast in 20 minutes.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;2 cups all-purpose flour&quot;,
+      &quot;2 tablespoons sugar&quot;,
+      &quot;2 teaspoons baking powder&quot;,
+      &quot;1 teaspoon salt&quot;,
+      &quot;2 eggs&quot;,
+      &quot;1.5 cups whole milk&quot;,
+      &quot;3 tablespoons butter, melted&quot;,
+      &quot;1 teaspoon vanilla extract&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Whisk together flour, sugar, baking powder, and salt in a large bowl.&quot;,
+      &quot;In another bowl, beat eggs and whisk in milk, melted butter, and vanilla.&quot;,
+      &quot;Pour wet ingredients into dry and stir until just combined. Don&#x27;t overmix; lumps are fine.&quot;,
+      &quot;Heat a buttered skillet or griddle over medium heat until a drop of water dances on the surface.&quot;,
+      &quot;Pour 1/4 cup batter per pancake and cook until edges look set and bubbles form on top, about 2–3 minutes.&quot;,
+      &quot;Flip and cook the other side until golden brown, about 1–2 minutes.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;avocado-toast&quot;,
+    &quot;name&quot;: &quot;Avocado Toast&quot;,
+    &quot;description&quot;: &quot;Creamy, rich, and ready in minutes. A weekday breakfast that feels intentional.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 5,
+    &quot;servings&quot;: 2,
+    &quot;ingredients&quot;: [
+      &quot;2 slices bread&quot;,
+      &quot;1 ripe avocado&quot;,
+      &quot;1/2 lemon&quot;,
+      &quot;Salt to taste&quot;,
+      &quot;Black pepper to taste&quot;,
+      &quot;2 tablespoons olive oil&quot;,
+      &quot;Red pepper flakes, optional&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Toast bread to your liking—golden and crisp but not burnt.&quot;,
+      &quot;While bread toasts, cut avocado in half, remove the pit, and scoop into a small bowl.&quot;,
+      &quot;Mash avocado lightly with a fork. Squeeze in lemon juice and season with salt and pepper.&quot;,
+      &quot;Spread avocado mixture generously on toast.&quot;,
+      &quot;Drizzle with olive oil, add a pinch of red pepper flakes if you like heat, and serve immediately.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;, &quot;vegan&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;shakshuka&quot;,
+    &quot;name&quot;: &quot;Shakshuka&quot;,
+    &quot;description&quot;: &quot;Eggs poached in a spiced tomato sauce with Middle Eastern warmth. Scoopable, satisfying, and deeply savory.&quot;,
+    &quot;category&quot;: &quot;breakfast&quot;,
+    &quot;time&quot;: 25,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;3 tablespoons olive oil&quot;,
+      &quot;1 large onion, diced&quot;,
+      &quot;4 garlic cloves, minced&quot;,
+      &quot;1 can (28 oz) crushed tomatoes&quot;,
+      &quot;1 teaspoon ground cumin&quot;,
+      &quot;1/2 teaspoon paprika&quot;,
+      &quot;Salt and pepper to taste&quot;,
+      &quot;4 eggs&quot;,
+      &quot;Fresh cilantro or parsley, optional&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Heat olive oil in a large skillet over medium heat. Add diced onion and cook until softened, about 5 minutes.&quot;,
+      &quot;Add minced garlic and cook for 1 minute until fragrant.&quot;,
+      &quot;Pour in crushed tomatoes, cumin, and paprika. Stir well and simmer for 8–10 minutes, breaking up tomatoes. Season with salt and pepper.&quot;,
+      &quot;Make 4 small wells in the sauce with the back of a spoon.&quot;,
+      &quot;Crack an egg into each well. Reduce heat to low, cover, and cook for 6–8 minutes until eggs are set to your liking.&quot;,
+      &quot;Garnish with fresh herbs and serve hot with crusty bread for scooping.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;grilled-salmon&quot;,
+    &quot;name&quot;: &quot;Grilled Salmon&quot;,
+    &quot;description&quot;: &quot;Flaky, buttery salmon with a crispy skin and subtle char. Simple, elegant, and ready in 20 minutes.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;4 salmon fillets, 6 oz each&quot;,
+      &quot;3 tablespoons olive oil&quot;,
+      &quot;1 lemon&quot;,
+      &quot;Salt and black pepper to taste&quot;,
+      &quot;2 teaspoons fresh dill, or 1 teaspoon dried&quot;,
+      &quot;2 garlic cloves, minced&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Preheat your grill to medium-high heat and oil the grates to prevent sticking.&quot;,
+      &quot;Pat salmon dry and brush lightly with olive oil. Season generously with salt and pepper.&quot;,
+      &quot;Place salmon skin-side down on the grill. Cook for 5–6 minutes without moving.&quot;,
+      &quot;Flip carefully and cook for another 3–4 minutes until the flesh is opaque and flakes easily.&quot;,
+      &quot;Transfer to a plate, squeeze fresh lemon over top, and sprinkle with dill.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: [&quot;gluten_free&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;pasta-carbonara&quot;,
+    &quot;name&quot;: &quot;Pasta Carbonara&quot;,
+    &quot;description&quot;: &quot;Creamy, peppery, pure Italian simplicity. Just eggs, cheese, and pasta—done right, it&#x27;s magic.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 20,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;1 pound spaghetti or linguine&quot;,
+      &quot;6 ounces pancetta or guanciale, diced&quot;,
+      &quot;4 large eggs, separated yolks from whites&quot;,
+      &quot;1 cup grated Pecorino Romano cheese&quot;,
+      &quot;Black pepper, freshly ground&quot;,
+      &quot;Salt for pasta water&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Bring a large pot of salted water to a boil and cook pasta until just al dente.&quot;,
+      &quot;While pasta cooks, render pancetta in a large skillet over medium heat until crispy. Remove from heat.&quot;,
+      &quot;Whisk egg yolks with grated cheese and a generous amount of black pepper in a bowl.&quot;,
+      &quot;Reserve 1 cup pasta water, then drain pasta.&quot;,
+      &quot;Add hot pasta to the skillet with pancetta. Toss off heat for 30 seconds.&quot;,
+      &quot;Pour egg-cheese mixture over pasta and toss constantly, adding pasta water a splash at a time until creamy and silky. Serve immediately.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;
+  },
+  {
+    &quot;id&quot;: &quot;chicken-stir-fry&quot;,
+    &quot;name&quot;: &quot;Chicken Stir-Fry&quot;,
+    &quot;description&quot;: &quot;Tender chicken with crisp vegetables in a savory sauce. Ready in 30 minutes and tastes way better than takeout.&quot;,
+    &quot;category&quot;: &quot;main&quot;,
+    &quot;time&quot;: 30,
+    &quot;servings&quot;: 4,
+    &quot;ingredients&quot;: [
+      &quot;1.5 pounds boneless, skinless chicken breast, sliced into strips&quot;,
+      &quot;3 tablespoons vegetable oil, divided&quot;,
+      &quot;1 large bell pepper, sliced&quot;,
+      &quot;2 cups snap peas&quot;,
+      &quot;2 medium carrots, julienned&quot;,
+      &quot;4 garlic cloves, minced&quot;,
+      &quot;1 tablespoon grated fresh ginger&quot;,
+      &quot;1/4 cup soy sauce&quot;,
+      &quot;2 tablespoons rice wine or rice vinegar&quot;,
+      &quot;1 tablespoon sesame oil&quot;,
+      &quot;1 teaspoon cornstarch&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Mix together soy sauce, rice wine, sesame oil, and cornstarch in a small bowl. Set aside.&quot;,
+      &quot;Heat 1 tablespoon oil in a large skillet or wok over high heat. Working in batches, cook chicken until golden and cooked through, about 3–4 minutes per batch. Remove to a plate.&quot;,
+      &quot;Add remaining 2 tablespoons oil to the pan. Add bell pepper, snap peas, and carrots. Stir-fry for 4–5 minutes until crisp-tender.&quot;,
+      &quot;Add garlic and ginger, cook for 1 minute until fragrant.&quot;,
+      &quot;Return chicken to the pan. Pour in sauce and toss constantly for 1–2 minutes until everything is coated and glossy.&quot;,
+      &quot;Serve over rice.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;medium&quot;,
+    &quot;dietary_tags&quot;: [&quot;gluten_free&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;chocolate-lava-cake&quot;,
+    &quot;name&quot;: &quot;Chocolate Lava Cake&quot;,
+    &quot;description&quot;: &quot;Warm, molten chocolate center with a tender cake exterior. Fancy enough for dinner guests, easy enough for a weeknight.&quot;,
+    &quot;category&quot;: &quot;dessert&quot;,
+    &quot;time&quot;: 15,
+    &quot;servings&quot;: 2,
+    &quot;ingredients&quot;: [
+      &quot;4 ounces dark chocolate, chopped&quot;,
+      &quot;6 tablespoons butter&quot;,
+      &quot;2 large eggs&quot;,
+      &quot;2 tablespoons sugar&quot;,
+      &quot;1/4 teaspoon salt&quot;,
+      &quot;1 teaspoon vanilla extract&quot;,
+      &quot;2 tablespoons all-purpose flour&quot;,
+      &quot;Butter and cocoa powder for ramekins&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Preheat your oven to 425°F. Butter two 6-ounce ramekins and dust lightly with cocoa powder.&quot;,
+      &quot;Melt chocolate and butter together in a heat-proof bowl over simmering water, or in 30-second microwave bursts, stirring between each.&quot;,
+      &quot;In another bowl, whisk eggs, sugar, salt, and vanilla until thick and pale, about 2 minutes.&quot;,
+      &quot;Fold the warm chocolate mixture into the eggs gently, then fold in flour until just combined.&quot;,
+      &quot;Divide batter between ramekins and place on a baking sheet.&quot;,
+      &quot;Bake for 10–12 minutes until the edges are firm but the center jiggles slightly when you gently shake the ramekin.&quot;,
+      &quot;Run a knife around the edges and invert onto dessert plates. Serve immediately, optionally with vanilla ice cream.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;hard&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  },
+  {
+    &quot;id&quot;: &quot;lemon-bars&quot;,
+    &quot;name&quot;: &quot;Lemon Bars&quot;,
+    &quot;description&quot;: &quot;Buttery shortbread base topped with bright, tart-sweet lemon custard. One of the few desserts that tastes like sunshine.&quot;,
+    &quot;category&quot;: &quot;dessert&quot;,
+    &quot;time&quot;: 45,
+    &quot;servings&quot;: 12,
+    &quot;ingredients&quot;: [
+      &quot;1 cup butter, softened&quot;,
+      &quot;2 cups all-purpose flour&quot;,
+      &quot;1/2 cup powdered sugar&quot;,
+      &quot;4 large eggs&quot;,
+      &quot;1.5 cups granulated sugar&quot;,
+      &quot;1/4 cup all-purpose flour&quot;,
+      &quot;1/4 teaspoon baking powder&quot;,
+      &quot;1/2 teaspoon salt&quot;,
+      &quot;1/2 cup fresh lemon juice&quot;,
+      &quot;2 tablespoons lemon zest&quot;,
+      &quot;Powdered sugar for dusting&quot;
+    ],
+    &quot;steps&quot;: [
+      &quot;Preheat oven to 350°F. Line a 9x13-inch baking pan with parchment paper.&quot;,
+      &quot;Mix softened butter, 2 cups flour, and 1/2 cup powdered sugar. Press firmly into the prepared pan.&quot;,
+      &quot;Bake the base for 12–15 minutes until golden and set.&quot;,
+      &quot;While base bakes, whisk together eggs, granulated sugar, 1/4 cup flour, baking powder, and salt.&quot;,
+      &quot;Stir in lemon juice and zest until combined.&quot;,
+      &quot;Pour lemon filling over the hot base and bake for 20–25 minutes until the top is set but still slightly jiggly in the very center.&quot;,
+      &quot;Cool completely, then dust generously with powdered sugar. Cut into squares and serve.&quot;
+    ],
+    &quot;difficulty&quot;: &quot;easy&quot;,
+    &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+  }
+]
+</pre></details><details class="artifact"><summary>SPEC.md <span class="empty">· 17,843 B</span></summary><pre># Recipes Website — SPEC.md
+
+## Architecture
+
+Single-page static site with vanilla HTML/CSS/JavaScript. Recipe list view on load, detail modal on card click. Data embedded in HTML, no server or build step. Opens via file:// protocol (double-click index.html).
+
+---
+
+## File ownership &amp; paths
+
+| Path | Owner | Description |
+|------|-------|-------------|
+| `index.html` | frontend | Page skeleton, semantic markup, recipe list grid, detail modal, `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` with embedded recipes array |
+| `styles.css` | ux | All styling, responsive grid (3 col → 2 col → 1 col), color palette, typography, modal overlay |
+| `app.js` | backend | Data loading, search/filter logic, modal open/close, event listeners, DOM injection for recipe cards and detail view |
+
+---
+
+## Recipe schema (JSON)
+
+Each recipe is a JSON object with the following structure:
+
+```json
+{
+  &quot;id&quot;: &quot;string (required, unique identifier, e.g. &#x27;fluffy-pancakes&#x27;)&quot;,
+  &quot;name&quot;: &quot;string (required, recipe title, 2–4 words)&quot;,
+  &quot;description&quot;: &quot;string (required, 1–2 sentences, practical and warm tone)&quot;,
+  &quot;category&quot;: &quot;string (required, one of: breakfast, main, dessert)&quot;,
+  &quot;time&quot;: &quot;number (required, cooking time in minutes, integer)&quot;,
+  &quot;servings&quot;: &quot;number (required, yield in servings, integer)&quot;,
+  &quot;ingredients&quot;: &quot;array of strings (required, formatted as &#x27;amount unit ingredient&#x27;, e.g. [&#x27;2 cups flour&#x27;, &#x27;1 can chickpeas&#x27;])&quot;,
+  &quot;steps&quot;: &quot;array of strings (required, ordered cooking instructions)&quot;,
+  &quot;difficulty&quot;: &quot;string (optional, one of: easy, medium, hard)&quot;,
+  &quot;dietary_tags&quot;: &quot;array of strings (optional, e.g. [&#x27;vegetarian&#x27;, &#x27;gluten_free&#x27;, &#x27;vegan&#x27;])&quot;
+}
+```
+
+**Example recipe:**
+```json
+{
+  &quot;id&quot;: &quot;fluffy-pancakes&quot;,
+  &quot;name&quot;: &quot;Fluffy Pancakes&quot;,
+  &quot;description&quot;: &quot;Golden, tender pancakes with a crispy exterior. Perfect weekend breakfast in 20 minutes.&quot;,
+  &quot;category&quot;: &quot;breakfast&quot;,
+  &quot;time&quot;: 20,
+  &quot;servings&quot;: 4,
+  &quot;ingredients&quot;: [
+    &quot;2 cups all-purpose flour&quot;,
+    &quot;2 tablespoons sugar&quot;,
+    &quot;2 teaspoons baking powder&quot;,
+    &quot;1 teaspoon salt&quot;,
+    &quot;2 cups milk&quot;,
+    &quot;2 eggs&quot;,
+    &quot;2 tablespoons melted butter&quot;
+  ],
+  &quot;steps&quot;: [
+    &quot;Whisk flour, sugar, baking powder, and salt in a large bowl.&quot;,
+    &quot;In another bowl, whisk milk, eggs, and melted butter until combined.&quot;,
+    &quot;Pour wet ingredients into dry ingredients and stir until just combined (lumpy is okay).&quot;,
+    &quot;Heat a buttered skillet or griddle over medium heat.&quot;,
+    &quot;Pour 1/4 cup batter onto the hot surface for each pancake.&quot;,
+    &quot;Cook until bubbles form on the surface, then flip and cook until golden brown.&quot;,
+    &quot;Serve warm with maple syrup and butter.&quot;
+  ],
+  &quot;difficulty&quot;: &quot;easy&quot;,
+  &quot;dietary_tags&quot;: [&quot;vegetarian&quot;]
+}
+```
+
+**Schema notes:**
+- `difficulty` and `dietary_tags` are optional; not every recipe requires them.
+- Ingredients are flat strings with amounts and units embedded, not structured objects.
+- Steps are ordered; backend preserves order when rendering the detail view.
+
+---
+
+## CSS contracts
+
+### Class naming convention
+
+All recipe-related classes use the **`rx-`** prefix (recipes). Frontend commits to emitting exactly these classes; ux styles against them.
+
+### Required class names (locked)
+
+**Page header:**
+- `.rx-header` — page header container
+- `.rx-title` — main page title (h1)
+- `.rx-search-input` — search input field (id: `search-input`)
+- `.rx-filter-button` — category filter buttons (attribute: `data-category=&quot;breakfast|main|dessert&quot;`)
+
+**Recipe list view:**
+- `.rx-recipe-list` — grid container (id: `recipe-list`)
+- `.rx-card` — individual recipe card (attribute: `data-recipe-id=&quot;[id]&quot;`)
+- `.rx-card-image` — emoji glyph placeholder (single character, category-based)
+- `.rx-card-title` — recipe name (h2)
+- `.rx-card-meta` — metadata container
+- `.rx-card-time` — cooking time (e.g. &quot;20 min&quot;)
+- `.rx-card-category` — category label (e.g. &quot;breakfast&quot;)
+- `.rx-card-description` — recipe description (paragraph, 1–2 sentences)
+
+**Detail modal:**
+- `.rx-detail-modal` — full-screen modal overlay (id: `recipe-detail`, hidden by default)
+- `.rx-detail-modal--hidden` — state class when modal is closed
+- `.rx-detail-content` — modal inner content box
+- `.rx-detail-close` — close button (id: `detail-close`, symbol: &quot;×&quot;)
+- `.rx-detail-title` — recipe name in modal (h2)
+- `.rx-detail-meta` — metadata container in modal
+- `.rx-detail-time` — time in modal
+- `.rx-detail-servings` — servings in modal (e.g. &quot;Serves 4&quot;)
+- `.rx-detail-category` — category in modal
+- `.rx-detail-description` — full description in modal
+- `.rx-detail-section` — section wrapper (ingredients, steps)
+- `.rx-detail-heading` — section heading (h3, &quot;Ingredients&quot;, &quot;Steps&quot;)
+- `.rx-ingredients-list` — unordered list of ingredients (id: `ingredients-list`, `&lt;ul&gt;`)
+- `.rx-steps-list` — ordered list of steps (id: `steps-list`, `&lt;ol&gt;`)
+
+### Design tokens (from UX proposal)
+
+**Colors (CSS custom properties):**
+```css
+--rx-bg: #FAF7F2;           /* warm off-white, page background */
+--rx-surface: #FFFBF7;      /* soft cream, card backgrounds */
+--rx-text-primary: #2B2520; /* dark brown, headings and primary text */
+--rx-text-secondary: #6B6459; /* muted brown, metadata labels */
+--rx-accent: #C85A17;       /* burnt orange, interactive elements */
+--rx-border: #E8E3DC;       /* warm gray, dividers */
+```
+
+**Typography:**
+- **Headings (`.rx-card-title`, `.rx-detail-title`, `.rx-detail-heading`):** Merriweather, Georgia, serif; font-weight 700; color `--rx-text-primary`
+- **Body/UI (`.rx-card-description`, `.rx-detail-description`, lists):** -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif; line-height 1.6; color `--rx-text-primary`
+- **Metadata (`.rx-card-meta`, `.rx-card-time`, `.rx-card-category`):** system sans; font-size 0.875rem; color `--rx-text-secondary`
+
+**Google Fonts link (frontend adds to `&lt;head&gt;`):**
+```html
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Merriweather:wght@700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+```
+(If Google Fonts fails to load, Georgia fallback renders serif headings.)
+
+**Responsive layout:**
+- Desktop (≥1024px): 3-column grid
+- Tablet (768–1023px): 2-column grid
+- Mobile (&lt;768px): 1-column grid (full width with side margins)
+
+**Touch targets:** Minimum 44×44px for interactive elements (buttons, close affordance).
+
+---
+
+## Content plan
+
+**Recipe count:** 8 recipes total
+**Categories:** breakfast (3), main (3), dessert (2)
+
+**Recipe list (proposed by writer):**
+
+| Recipe | Category | Time | Difficulty |
+|--------|----------|------|------------|
+| Fluffy Pancakes | breakfast | ~20 min | easy |
+| Avocado Toast | breakfast | ~10 min | easy |
+| Shakshuka | breakfast | ~25 min | medium |
+| Grilled Salmon | main | ~30 min | medium |
+| Pasta Carbonara | main | ~20 min | medium |
+| Chicken Stir-Fry | main | ~25 min | medium |
+| Chocolate Lava Cake | dessert | ~20 min | medium |
+| Lemon Bars | dessert | ~40 min | easy |
+
+**Content density per recipe:**
+- Title: 2–4 words (e.g., &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;)
+- Description: 1–2 sentences, practical tone, no marketing language
+- Ingredients: 6–12 items, formatted with amounts and units
+- Steps: 5–10 clear, conversational instructions
+- Difficulty and dietary tags: optional; writer includes where relevant
+
+---
+
+## Page routing &amp; UX flow
+
+**Single-page design (index.html):**
+1. User opens index.html in a browser (file:// protocol, no server).
+2. Page loads with recipe list visible (grid of `.rx-card` elements).
+3. Search input and category filter buttons visible above the grid.
+4. Clicking a recipe card opens a full-screen modal with the recipe detail (ingredients, steps, metadata).
+5. Clicking the close button (×) or the semi-transparent backdrop closes the modal and returns to the list.
+6. Typing in search input or clicking filter buttons re-renders the list in real-time without page reload.
+
+**Modal detail view:**
+- Modal is a full-screen overlay with semi-transparent background.
+- Content box is centered, scrollable if needed.
+- Close affordance: explicit close button (×) in top-right corner, 44×44px minimum.
+- Clicking the backdrop (semi-transparent area) also closes the modal (secondary affordance).
+- Modal content: recipe title, metadata (time, servings, category), full description, ingredients list, steps list.
+
+---
+
+## Data loading
+
+**Where recipes live:** Embedded in index.html as a `&lt;script type=&quot;application/json&quot;&gt;` tag.
+
+**Format:**
+```html
+&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;
+[
+  {
+    &quot;id&quot;: &quot;recipe-1&quot;,
+    &quot;name&quot;: &quot;...&quot;,
+    ...
+  },
+  {
+    &quot;id&quot;: &quot;recipe-2&quot;,
+    ...
+  }
+]
+&lt;/script&gt;
+```
+
+**How app.js loads it:**
+```javascript
+const recipesData = document.getElementById(&#x27;recipes-data&#x27;).textContent;
+const recipes = JSON.parse(recipesData);
+```
+
+**Why this approach:**
+- Works from file:// protocol (no fetch limitations).
+- No server or build step required.
+- Frontend controls where the data lives; writer provides the JSON; backend reads and uses it.
+- Data is loaded synchronously on page load, no async issues.
+
+---
+
+## Search &amp; filter behavior
+
+### Search scope and matching
+- **Scope:** Search matches against recipe `name`, `description`, and `ingredients` (all three combined).
+- **Case sensitivity:** Case-insensitive matching (typing &quot;chick&quot; finds &quot;Chicken Stir-Fry&quot;).
+- **Partial match:** Substring match (e.g., &quot;sal&quot; finds &quot;Grilled Salmon&quot;).
+- **Real-time:** Search results update on every keystroke (not submit-on-enter); user sees filtered results as they type.
+- **Search field:** `&lt;input id=&quot;search-input&quot;&gt;` (wired by backend&#x27;s JS)
+
+### Category filter behavior
+**Single-select behavior (not multi-select):**
+- Only one category button can be active at a time.
+- Clicking a category button activates it (shows active state); clicking the same button again deactivates it.
+- At most one `.rx-filter-button` has an active state (e.g., `data-active=&quot;true&quot;` or `.rx-filter-button--active` class).
+- Filter buttons: data-category=&quot;breakfast&quot;, data-category=&quot;main&quot;, data-category=&quot;dessert&quot;
+
+### Combined filtering (AND logic)
+- When both search AND category filter are active, only recipes matching BOTH conditions are shown.
+- Example: if search=&quot;salmon&quot; and category=&quot;main&quot; are both active, only recipes in the main category with &quot;salmon&quot; in name/description/ingredients are displayed.
+
+### Filter state and rendering
+- Backend&#x27;s app.js maintains current filter state: `currentSearch` (string) and `activeCategory` (string or null).
+- On search input event: update `currentSearch` and re-render list.
+- On filter button click: toggle `activeCategory` and re-render list.
+- Re-rendering: clear the recipe-list container, inject filtered recipe cards.
+
+---
+
+## Detail view content
+
+**In detail modal, display:**
+- Recipe title (from `name`)
+- Metadata: time, servings, category
+- Full description (from `description`)
+- **Ingredients section:**
+  - Heading: &quot;Ingredients&quot;
+  - List: each ingredient as a `&lt;li&gt;` in the `.rx-ingredients-list` `&lt;ul&gt;`
+- **Steps section:**
+  - Heading: &quot;Steps&quot;
+  - List: each step as a `&lt;li&gt;` in the `.rx-steps-list` `&lt;ol&gt;` (ordered)
+- **Optional detail view content (if writer provides them):**
+  - Difficulty: display as a metadata label (e.g., &quot;Difficulty: medium&quot;)
+  - Dietary tags: display as small badges or comma-separated labels (e.g., &quot;vegetarian, gluten-free&quot;)
+
+---
+
+## Empty state handling
+
+When a search + filter combination returns zero recipes:
+- Clear the recipe list container.
+- Display a simple message: &quot;No recipes found. Try adjusting your search or filters.&quot;
+- Frontend emits a placeholder div or paragraph with a class (e.g., `.rx-empty-state`); backend populates it with text.
+- UX styles `.rx-empty-state` (centered, secondary text color, appropriate spacing).
+
+---
+
+## Emoji mapping (category → glyph)
+
+Frontend&#x27;s app.js maintains a hardcoded emoji map (not in data):
+
+```javascript
+const categoryEmoji = {
+  breakfast: &quot;🍳&quot;,
+  main: &quot;🍽️&quot;,
+  dessert: &quot;🍰&quot;
+};
+```
+
+When rendering a recipe card, frontend looks up the emoji from the category and injects it into `.rx-card-image`.
+
+---
+
+## Implementation checklist (for build phase)
+
+### Frontend (index.html)
+- [ ] Single-page HTML skeleton with all `.rx-*` class names
+- [ ] Page header, search input, filter buttons
+- [ ] Recipe list container (`id=&quot;recipe-list&quot;`)
+- [ ] Recipe card template structure (`.rx-card` with nested classes)
+- [ ] Detail modal skeleton (`id=&quot;recipe-detail&quot;`)
+- [ ] `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` with recipes array
+- [ ] Google Fonts link in `&lt;head&gt;`
+- [ ] Responsive meta tag, semantic markup
+
+### UX (styles.css)
+- [ ] CSS custom properties for colors and typography
+- [ ] Styles for `.rx-*` classes (header, search, filter buttons)
+- [ ] Recipe card grid (3 → 2 → 1 columns at breakpoints)
+- [ ] Modal overlay and centered content box
+- [ ] Hover and active states for buttons
+- [ ] Responsive behavior (768px breakpoint)
+- [ ] Google Fonts fallback (Georgia for headings, system sans for body)
+
+### Backend (app.js)
+- [ ] Load recipes from `&lt;script id=&quot;recipes-data&quot;&gt;`
+- [ ] Wire search input event listener (real-time filtering)
+- [ ] Wire filter button event listeners (single-select toggle)
+- [ ] Render recipe cards into `.rx-recipe-list`
+- [ ] Handle empty state (&quot;No recipes found&quot;)
+- [ ] Wire card click to open detail modal
+- [ ] Populate detail modal on card click (title, metadata, description, ingredients, steps)
+- [ ] Handle difficulty and dietary_tags display in detail view (if present in data)
+- [ ] Wire modal close (close button and backdrop click)
+- [ ] Emoji lookup and injection into `.rx-card-image`
+
+### Writer (recipes JSON)
+- [ ] 8 recipes across 3 categories
+- [ ] Each recipe: id, name, category, time, servings, description, ingredients, steps
+- [ ] Optional: difficulty, dietary_tags
+- [ ] Practical, warm voice; short descriptions (1–2 sentences)
+- [ ] Short titles (2–4 words)
+
+---
+
+## Quoted agreements from proposals
+
+1. **Frontend proposal:** &quot;Single `index.html` file that opens via double-click. Recipe list view at page load (grid of recipe cards). Clicking a card opens a modal detail view (stays on same page).&quot;
+2. **Frontend proposal:** &quot;Responsive meta tag, basic accessibility (alt text patterns, label associations).&quot;
+3. **UX proposal:** &quot;3 columns on desktop (≥1024px), 2 columns on tablet (768–1023px), 1 column on mobile (&lt;768px).&quot;
+4. **UX proposal:** &quot;Full-screen overlay with semi-transparent backdrop&quot; for the modal.
+5. **UX proposal:** &quot;Merriweather (serif, Georgia fallback) — warm, readable, editorial authority. Body/UI: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, Roboto, sans-serif.&quot;
+6. **Writer proposal:** &quot;8 complete recipes across 3 categories (breakfast, main, dessert).&quot;
+7. **Backend proposal:** &quot;Data-loading mechanism — frontend will embed a `&lt;script type=&#x27;application/json&#x27; id=&#x27;recipes-data&#x27;&gt;` block in index.html containing the full recipes array.&quot;
+
+---
+
+## Decisions made (arbitrations)
+
+### Category filter: single-select (not multi-select)
+**Rationale:** This is a small site with 8 recipes. Single-select is simpler to implement, understand, and use. It aligns with frontend&#x27;s preference for simplicity given the team scope and timeline. Users can still search to narrow results; a radio-button filter is sufficient.
+
+### Modal close: both close button AND backdrop-click
+**Rationale:** Close button is explicit and accessible, with 44px minimum touch target (UX standard). Backdrop-click is a common pattern users expect. Both together provide good UX without adding complexity.
+
+### Difficulty &amp; dietary_tags: display in detail modal only (not list cards)
+**Rationale:** UX&#x27;s card design is compact and does not have room for these metadata fields. The detail view has plenty of space. Writer can include them; backend stores and emits them; frontend displays them in the modal. This keeps the list view clean while providing rich detail on demand.
+
+### Field name: `time` (not `time_minutes`)
+**Rationale:** Cleaner, shorter field name. The unit (minutes) is implicit from context and the metadata display (&quot;20 min&quot; in the UI).
+
+### Image emoji: hardcoded category map in frontend JS (not per-recipe data field)
+**Rationale:** UX designed &quot;one emoji/unicode character per recipe card, placed in `.rx-card-image`. Each category gets a consistent glyph.&quot; This suggests a consistent mapping per category, not variation per recipe. Keeping the emoji mapping in frontend JS (not data) avoids bloating the data schema and respects UX&#x27;s design intent for consistency.
+
+### Empty state: yes, backend implements &quot;No recipes found&quot;
+**Rationale:** User feedback when a search returns zero results is important UX. Simple to implement in app.js. Frontend provides the hook (a placeholder div); backend populates it.
+
+### Search: real-time, case-insensitive, substring match, scope = name + description + ingredients
+**Rationale:** Modern recipe sites search in real-time. Case-insensitive and substring matching are forgiving and expected. Searching across all three fields gives users power without overwhelming them.
+
+---
+
+## Summary
+
+This spec codifies a single-page, static recipes website with:
+- **Data:** 8 recipes in JSON, embedded in HTML, loaded via vanilla JS
+- **Structure:** Single index.html, one search input, single-select category filter, recipe grid, modal detail view
+- **Styling:** Warm, editorial design (cream cards, burnt orange accent, Merriweather headings) with responsive 3 → 2 → 1 column layout
+- **Interactivity:** Real-time search, category filter, modal open/close, no external libraries
+- **Compatibility:** Works on file:// protocol (no server), no build step, vanilla HTML/CSS/JS only
+
+All team members now have explicit contracts for their output. The build phase can proceed with confidence.
+</pre></details><details class="artifact"><summary>styles.css <span class="empty">· 9,400 B</span></summary><pre>/* ============================================================================
+   Recipes Website — Warm Editorial Design
+   Plain CSS, no frameworks. Responsive grid, modal overlay, warm palette.
+   ============================================================================ */
+
+/* Import Merriweather serif for headings */
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Merriweather:wght@700&amp;display=swap&#x27;);
+
+/* ============================================================================
+   CSS Custom Properties (Design Tokens)
+   ============================================================================ */
+
+:root {
+  /* Colors */
+  --rx-bg: #FAF7F2;           /* warm off-white, page background */
+  --rx-surface: #FFFBF7;      /* soft cream, card backgrounds */
+  --rx-text-primary: #2B2520; /* dark brown, headings and primary text */
+  --rx-text-secondary: #6B6459; /* muted brown, metadata labels */
+  --rx-accent: #C85A17;       /* burnt orange, interactive elements */
+  --rx-border: #E8E3DC;       /* warm gray, dividers */
+
+  /* Typography */
+  --rx-font-serif: Merriweather, Georgia, serif;
+  --rx-font-sans: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;
+
+  /* Spacing */
+  --rx-space-sm: 12px;
+  --rx-space-md: 16px;
+  --rx-space-lg: 20px;
+  --rx-space-xl: 24px;
+
+  /* Border radius */
+  --rx-radius: 4px;
+}
+
+/* ============================================================================
+   Reset &amp; Base Styles
+   ============================================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--rx-font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--rx-text-primary);
+  background-color: var(--rx-bg);
+}
+
+a {
+  color: var(--rx-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--rx-font-sans);
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--rx-radius);
+}
+
+/* ============================================================================
+   Page Layout &amp; Header
+   ============================================================================ */
+
+.rx-header {
+  padding: var(--rx-space-lg);
+  background-color: var(--rx-surface);
+  border-bottom: 1px solid var(--rx-border);
+  margin-bottom: var(--rx-space-xl);
+}
+
+.rx-header h1 {
+  font-family: var(--rx-font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--rx-text-primary);
+  margin: 0;
+}
+
+/* ============================================================================
+   Search &amp; Filter Controls
+   ============================================================================ */
+
+.rx-search-input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-family: var(--rx-font-sans);
+  color: var(--rx-text-primary);
+  background-color: var(--rx-surface);
+  border: 1px solid var(--rx-border);
+  border-radius: var(--rx-radius);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: var(--rx-space-lg);
+}
+
+.rx-search-input:focus {
+  outline: none;
+  border-color: var(--rx-accent);
+  box-shadow: 0 0 0 2px rgba(200, 90, 23, 0.1);
+}
+
+.rx-search-input::placeholder {
+  color: var(--rx-text-secondary);
+}
+
+.rx-filter-button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: var(--rx-space-md);
+  margin-bottom: var(--rx-space-md);
+  font-size: 0.875rem;
+  font-family: var(--rx-font-sans);
+  color: var(--rx-text-secondary);
+  background-color: var(--rx-surface);
+  border: 1px solid var(--rx-border);
+  border-radius: var(--rx-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rx-filter-button:hover {
+  border-color: var(--rx-accent);
+  color: var(--rx-accent);
+  background-color: rgba(200, 90, 23, 0.05);
+}
+
+.rx-filter-button.active {
+  color: white;
+  background-color: var(--rx-accent);
+  border-color: var(--rx-accent);
+}
+
+/* ============================================================================
+   Recipe List &amp; Card Grid
+   ============================================================================ */
+
+.rx-recipe-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--rx-space-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--rx-space-xl);
+}
+
+.rx-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--rx-space-lg);
+  background-color: var(--rx-surface);
+  border: 1px solid var(--rx-border);
+  border-radius: var(--rx-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 240px;
+}
+
+.rx-card:hover {
+  box-shadow: 0 4px 12px rgba(43, 37, 32, 0.1);
+  border-color: var(--rx-accent);
+}
+
+/* Emoji/glyph anchor in card image area */
+.rx-card-image {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: var(--rx-space-md);
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rx-card-title {
+  font-family: var(--rx-font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--rx-text-primary);
+  margin-bottom: var(--rx-space-md);
+  line-height: 1.3;
+}
+
+.rx-card-meta {
+  display: flex;
+  gap: var(--rx-space-md);
+  margin-bottom: var(--rx-space-md);
+  font-size: 0.875rem;
+  color: var(--rx-text-secondary);
+  flex-wrap: wrap;
+}
+
+.rx-card-time,
+.rx-card-category {
+  display: inline-block;
+}
+
+.rx-card-category {
+  background-color: rgba(200, 90, 23, 0.1);
+  color: var(--rx-accent);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.rx-card-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--rx-text-primary);
+  margin-top: auto;
+}
+
+/* ============================================================================
+   Responsive Grid (Desktop → Tablet → Mobile)
+   ============================================================================ */
+
+/* Tablet: 2 columns */
+@media (max-width: 1023px) {
+  .rx-recipe-list {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 var(--rx-space-lg);
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 767px) {
+  .rx-recipe-list {
+    grid-template-columns: 1fr;
+    gap: var(--rx-space-md);
+    padding: 0 var(--rx-space-md);
+  }
+
+  .rx-card {
+    min-height: auto;
+  }
+
+  .rx-search-input {
+    max-width: 100%;
+    margin-bottom: var(--rx-space-md);
+  }
+
+  .rx-filter-button {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+    margin-right: var(--rx-space-sm);
+  }
+
+  .rx-header {
+    padding: var(--rx-space-lg) var(--rx-space-md);
+    margin-bottom: var(--rx-space-lg);
+  }
+
+  .rx-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================================================
+   Detail View Modal
+   ============================================================================ */
+
+.rx-detail-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: var(--rx-space-lg);
+}
+
+.rx-detail-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rx-modal-content {
+  background-color: var(--rx-surface);
+  border-radius: var(--rx-radius);
+  padding: var(--rx-space-xl);
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.rx-modal-close {
+  position: absolute;
+  top: var(--rx-space-lg);
+  right: var(--rx-space-lg);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--rx-text-primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rx-modal-close:hover {
+  color: var(--rx-accent);
+}
+
+.rx-detail-title {
+  font-family: var(--rx-font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--rx-text-primary);
+  margin-bottom: var(--rx-space-lg);
+  padding-right: 50px;
+}
+
+.rx-detail-heading {
+  font-family: var(--rx-font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--rx-text-primary);
+  margin-top: var(--rx-space-lg);
+  margin-bottom: var(--rx-space-md);
+}
+
+.rx-detail-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--rx-text-primary);
+  margin-bottom: var(--rx-space-lg);
+}
+
+.rx-ingredients-list,
+.rx-steps-list {
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+}
+
+.rx-ingredients-list li,
+.rx-steps-list li {
+  margin-bottom: var(--rx-space-md);
+  padding-left: var(--rx-space-md);
+  line-height: 1.6;
+}
+
+/* ============================================================================
+   Empty State
+   ============================================================================ */
+
+.rx-empty-state {
+  text-align: center;
+  padding: var(--rx-space-xl);
+  color: var(--rx-text-secondary);
+  font-size: 1.125rem;
+}
+
+/* ============================================================================
+   Utility &amp; Accessibility
+   ============================================================================ */
+
+/* Focus visible for keyboard navigation */
+.rx-card:focus-visible,
+.rx-filter-button:focus-visible {
+  outline: 2px solid var(--rx-accent);
+  outline-offset: 2px;
+}
+
+/* Ensures text is readable on dark backgrounds (modal overlay) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</pre></details></section>
+<section><h2>Messages</h2><table class="messages">
+<thead><tr><th>ts</th><th>from → to</th><th>content</th></tr></thead>
+<tbody><tr><td>2026-04-23T04:57:46.275899+00:00</td><td>ux → frontend </td><td>Hi! UX here. Before I lock in my visual direction, I need to confirm the CSS class names you&#x27;re committing to emit. I&#x27;m planning a warm, editorial card-based layout for the recipe list. 
+
+Please give me:
+1. The CSS class-name prefix (e.g., `rx-`, `recipe-`, etc.)
+2. The full list of classes you&#x27;ll emit for the list view (e.g., `.rx-card`, `.rx-card-title`, etc.)
+3. Similarly for any detail/modal v</td></tr><tr><td>2026-04-23T04:57:46.275899+00:00</td><td>ux → lead cc (→ frontend)</td><td>Hi! UX here. Before I lock in my visual direction, I need to confirm the CSS class names you&#x27;re committing to emit. I&#x27;m planning a warm, editorial card-based layout for the recipe list. 
+
+Please give me:
+1. The CSS class-name prefix (e.g., `rx-`, `recipe-`, etc.)
+2. The full list of classes you&#x27;ll emit for the list view (e.g., `.rx-card`, `.rx-card-title`, etc.)
+3. Similarly for any detail/modal v</td></tr><tr><td>2026-04-23T04:57:48.003632+00:00</td><td>ux → lead cc (→ writer)</td><td>Hey! UX here. I&#x27;m designing the card containers for the recipe list, and I need to know your content density:
+
+1. Recipe titles — a few words (e.g., &quot;Rustic Bread&quot;) or longer (e.g., &quot;Rustic Sourdough with a Crispy Crust and Tangy Flavor&quot;)?
+2. Descriptions — punchy one-liner or a narrative sentence or two?
+3. Do you want images? The team can&#x27;t produce binary files, so I&#x27;m suggesting either: (a) no </td></tr><tr><td>2026-04-23T04:57:48.003632+00:00</td><td>ux → writer </td><td>Hey! UX here. I&#x27;m designing the card containers for the recipe list, and I need to know your content density:
+
+1. Recipe titles — a few words (e.g., &quot;Rustic Bread&quot;) or longer (e.g., &quot;Rustic Sourdough with a Crispy Crust and Tangy Flavor&quot;)?
+2. Descriptions — punchy one-liner or a narrative sentence or two?
+3. Do you want images? The team can&#x27;t produce binary files, so I&#x27;m suggesting either: (a) no </td></tr><tr><td>2026-04-23T04:57:48.796874+00:00</td><td>ux → backend </td><td>Hi backend! UX here. Quick scope question: are we showing recipe filters/search on the list view, or is it a straight grid of all recipes?
+
+This affects the overall layout complexity and whether I need to reserve space for a filter sidebar or search bar. What&#x27;s in scope for the first pass?</td></tr><tr><td>2026-04-23T04:57:48.796874+00:00</td><td>ux → lead cc (→ backend)</td><td>Hi backend! UX here. Quick scope question: are we showing recipe filters/search on the list view, or is it a straight grid of all recipes?
+
+This affects the overall layout complexity and whether I need to reserve space for a filter sidebar or search bar. What&#x27;s in scope for the first pass?</td></tr><tr><td>2026-04-23T04:57:51.642165+00:00</td><td>writer → backend </td><td>Hi backend — writer here. Before I propose my recipe set, I need to confirm the schema. I&#x27;m planning 8 recipes with these fields per recipe:
+
+REQUIRED:
+- name (string)
+- category (string — one of: breakfast, main, dessert)
+- time (integer, in minutes)
+- servings (integer)
+- description (string, 1–2 sentences)
+- ingredients (array of strings, formatted as &quot;amount unit ingredient&quot; e.g. &quot;2 cups flour</td></tr><tr><td>2026-04-23T04:57:51.642165+00:00</td><td>writer → lead cc (→ backend)</td><td>Hi backend — writer here. Before I propose my recipe set, I need to confirm the schema. I&#x27;m planning 8 recipes with these fields per recipe:
+
+REQUIRED:
+- name (string)
+- category (string — one of: breakfast, main, dessert)
+- time (integer, in minutes)
+- servings (integer)
+- description (string, 1–2 sentences)
+- ingredients (array of strings, formatted as &quot;amount unit ingredient&quot; e.g. &quot;2 cups flour</td></tr><tr><td>2026-04-23T04:57:54.524866+00:00</td><td>writer → lead cc (→ ux)</td><td>Hi UX — writer here. Your brief asked what I&#x27;ll write. Here&#x27;s what shapes my decisions:
+
+For recipe titles: I&#x27;ll keep them SHORT — 2–4 words when possible (e.g. &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Cake&quot;). Clear over clever.
+
+For descriptions: I&#x27;ll stick to 1–2 sentences max. Warm, practical voice — why you&#x27;d want to make it, no marketing fluff.
+
+Two questions for you:
+1. Is the card gr</td></tr><tr><td>2026-04-23T04:57:54.524866+00:00</td><td>writer → ux </td><td>Hi UX — writer here. Your brief asked what I&#x27;ll write. Here&#x27;s what shapes my decisions:
+
+For recipe titles: I&#x27;ll keep them SHORT — 2–4 words when possible (e.g. &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Cake&quot;). Clear over clever.
+
+For descriptions: I&#x27;ll stick to 1–2 sentences max. Warm, practical voice — why you&#x27;d want to make it, no marketing fluff.
+
+Two questions for you:
+1. Is the card gr</td></tr><tr><td>2026-04-23T04:58:11.981074+00:00</td><td>writer → lead cc (→ ux)</td><td>Perfect, your questions match mine exactly. Here&#x27;s my content plan:
+
+1. **Titles**: SHORT — 2–4 words max (e.g., &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Lava Cake&quot;). Clear and scannable.
+
+2. **Descriptions**: ONE punchy sentence, maybe two if the first is brief. Something that tells the cook WHY they&#x27;d want to make it (&quot;Crispy edges, fluffy center, ready in 20 minutes.&quot;) — no flowery marke</td></tr><tr><td>2026-04-23T04:58:11.981074+00:00</td><td>writer → ux </td><td>Perfect, your questions match mine exactly. Here&#x27;s my content plan:
+
+1. **Titles**: SHORT — 2–4 words max (e.g., &quot;Fluffy Pancakes&quot;, &quot;Grilled Salmon&quot;, &quot;Chocolate Lava Cake&quot;). Clear and scannable.
+
+2. **Descriptions**: ONE punchy sentence, maybe two if the first is brief. Something that tells the cook WHY they&#x27;d want to make it (&quot;Crispy edges, fluffy center, ready in 20 minutes.&quot;) — no flowery marke</td></tr><tr><td>2026-04-23T04:58:12.602604+00:00</td><td>frontend → lead cc (→ ux)</td><td>Hi UX! Proposing CSS class prefix and structure for the recipes site. I&#x27;m planning to use `rx-` as the prefix for all recipe-related elements.
+
+Major classes I&#x27;ll emit:
+- `rx-header` (page header)
+- `rx-search-input` (search field)
+- `rx-filter-button` (category filter buttons)
+- `rx-recipe-list` (the grid container)
+- `rx-card` (individual recipe card)
+- `rx-card-image` (image/placeholder area)
+-</td></tr><tr><td>2026-04-23T04:58:12.602604+00:00</td><td>frontend → ux </td><td>Hi UX! Proposing CSS class prefix and structure for the recipes site. I&#x27;m planning to use `rx-` as the prefix for all recipe-related elements.
+
+Major classes I&#x27;ll emit:
+- `rx-header` (page header)
+- `rx-search-input` (search field)
+- `rx-filter-button` (category filter buttons)
+- `rx-recipe-list` (the grid container)
+- `rx-card` (individual recipe card)
+- `rx-card-image` (image/placeholder area)
+-</td></tr><tr><td>2026-04-23T04:58:16.599450+00:00</td><td>frontend → backend </td><td>Hi Backend! Proposing the DOM structure and hooks you&#x27;ll need to inject content.
+
+I&#x27;m doing a single-page design with:
+- `&lt;input id=&quot;search-input&quot;&gt;` for search (you&#x27;ll wire the input event)
+- `&lt;button class=&quot;rx-filter-button&quot; data-category=&quot;breakfast&quot;&gt;` (etc. for each category — you&#x27;ll wire click handlers)
+- `&lt;div id=&quot;recipe-list&quot; class=&quot;rx-recipe-list&quot;&gt;` (container where you&#x27;ll inject `rx-card` e</td></tr><tr><td>2026-04-23T04:58:16.599450+00:00</td><td>frontend → lead cc (→ backend)</td><td>Hi Backend! Proposing the DOM structure and hooks you&#x27;ll need to inject content.
+
+I&#x27;m doing a single-page design with:
+- `&lt;input id=&quot;search-input&quot;&gt;` for search (you&#x27;ll wire the input event)
+- `&lt;button class=&quot;rx-filter-button&quot; data-category=&quot;breakfast&quot;&gt;` (etc. for each category — you&#x27;ll wire click handlers)
+- `&lt;div id=&quot;recipe-list&quot; class=&quot;rx-recipe-list&quot;&gt;` (container where you&#x27;ll inject `rx-card` e</td></tr><tr><td>2026-04-23T04:58:16.763044+00:00</td><td>backend → lead cc (→ writer)</td><td>Proposed recipe schema. Does this cover what you need?
+
+```
+{
+  id: string (unique),
+  name: string,
+  description: string (1-2 sentences),
+  category: string (breakfast|main|dessert),
+  time_minutes: number,
+  servings: number,
+  ingredients: string[] (with amounts),
+  steps: string[] (ordered),
+  difficulty?: string (easy|medium|hard),
+  dietary_tags?: string[] (vegetarian, gluten-free, etc),
+  </td></tr><tr><td>2026-04-23T04:58:16.763044+00:00</td><td>backend → writer </td><td>Proposed recipe schema. Does this cover what you need?
+
+```
+{
+  id: string (unique),
+  name: string,
+  description: string (1-2 sentences),
+  category: string (breakfast|main|dessert),
+  time_minutes: number,
+  servings: number,
+  ingredients: string[] (with amounts),
+  steps: string[] (ordered),
+  difficulty?: string (easy|medium|hard),
+  dietary_tags?: string[] (vegetarian, gluten-free, etc),
+  </td></tr><tr><td>2026-04-23T04:58:17.940712+00:00</td><td>backend → frontend </td><td>Data loading approach: frontend embeds a `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` block in index.html (containing the JSON recipes). Backend&#x27;s app.js reads it via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parses it. Writer produces the JSON, you embed it in the HTML.
+
+Works for file:// (no fetch), keeps concerns separated. Acceptable?</td></tr><tr><td>2026-04-23T04:58:17.940712+00:00</td><td>backend → lead cc (→ frontend)</td><td>Data loading approach: frontend embeds a `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;` block in index.html (containing the JSON recipes). Backend&#x27;s app.js reads it via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parses it. Writer produces the JSON, you embed it in the HTML.
+
+Works for file:// (no fetch), keeps concerns separated. Acceptable?</td></tr><tr><td>2026-04-23T04:58:25.312616+00:00</td><td>backend → frontend </td><td>Schema confirmed with writer — you&#x27;re good. For data loading: I&#x27;m proposing you embed `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;...&lt;/script&gt;` in index.html with the full recipes array. app.js reads it on load via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parses it.
+
+DOM hooks look solid. I&#x27;ll wire search input and filter buttons for category filtering. Clicking a card open</td></tr><tr><td>2026-04-23T04:58:25.312616+00:00</td><td>backend → lead cc (→ frontend)</td><td>Schema confirmed with writer — you&#x27;re good. For data loading: I&#x27;m proposing you embed `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;...&lt;/script&gt;` in index.html with the full recipes array. app.js reads it on load via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parses it.
+
+DOM hooks look solid. I&#x27;ll wire search input and filter buttons for category filtering. Clicking a card open</td></tr><tr><td>2026-04-23T04:58:26.429023+00:00</td><td>backend → lead cc (→ ux)</td><td>Scope: search bar (by name/description/ingredients) and category filter buttons (breakfast|main|dessert). Both live above the recipe grid. Will be visible on page load.
+
+Frontend is reserving space. You design the visual treatment for search input, filter buttons, and the recipe card grid. Does that work for layout planning?</td></tr><tr><td>2026-04-23T04:58:26.429023+00:00</td><td>backend → ux </td><td>Scope: search bar (by name/description/ingredients) and category filter buttons (breakfast|main|dessert). Both live above the recipe grid. Will be visible on page load.
+
+Frontend is reserving space. You design the visual treatment for search input, filter buttons, and the recipe card grid. Does that work for layout planning?</td></tr><tr><td>2026-04-23T04:58:29.255345+00:00</td><td>ux → lead cc (→ writer)</td><td>Perfect! Your content plan is exactly what I need. SHORT titles and punchy 1–2 sentence descriptions = roomy card grid (more breathing room).
+
+Here&#x27;s my answer to your questions:
+
+1. **Card spacing:** ROOMY. With your short, scannable titles and punchy descriptions, I&#x27;m designing for comfortable breathing room — larger padding, generous line-height. No cramming. This feels more &quot;favorite cookbook&quot;</td></tr><tr><td>2026-04-23T04:58:29.255345+00:00</td><td>ux → writer </td><td>Perfect! Your content plan is exactly what I need. SHORT titles and punchy 1–2 sentence descriptions = roomy card grid (more breathing room).
+
+Here&#x27;s my answer to your questions:
+
+1. **Card spacing:** ROOMY. With your short, scannable titles and punchy descriptions, I&#x27;m designing for comfortable breathing room — larger padding, generous line-height. No cramming. This feels more &quot;favorite cookbook&quot;</td></tr><tr><td>2026-04-23T04:58:32.461873+00:00</td><td>ux → frontend </td><td>Perfect class contract! I&#x27;ll style every `rx-*` you listed. A few confirmations:
+
+1. **`rx-card-image` structure:** YES, include the placeholder div. I&#x27;ll style it to hold a SINGLE EMOJI/UNICODE CHARACTER as the visual anchor (one per category — breakfast 🍳, main 🍽️, dessert 🍰, etc.). The writer and I agreed on this. Keep it simple: a single character in that div, styled to be prominent but not ov</td></tr><tr><td>2026-04-23T04:58:32.461873+00:00</td><td>ux → lead cc (→ frontend)</td><td>Perfect class contract! I&#x27;ll style every `rx-*` you listed. A few confirmations:
+
+1. **`rx-card-image` structure:** YES, include the placeholder div. I&#x27;ll style it to hold a SINGLE EMOJI/UNICODE CHARACTER as the visual anchor (one per category — breakfast 🍳, main 🍽️, dessert 🍰, etc.). The writer and I agreed on this. Keep it simple: a single character in that div, styled to be prominent but not ov</td></tr><tr><td>2026-04-23T05:00:27.245160+00:00</td><td>ux → backend </td><td>Perfect — that&#x27;s locked into my proposal. I&#x27;m designing visual treatment for:
+- `.rx-search-input` (search field)
+- `.rx-filter-button` (category buttons: breakfast, main, dessert)
+- Both above the `.rx-recipe-list` grid
+
+I&#x27;ll style the search input for readability + touch-friendly hit target. Filter buttons will be small, accent-colored badges that change state on selection. No conflict with fron</td></tr><tr><td>2026-04-23T05:00:27.245160+00:00</td><td>ux → lead cc (→ backend)</td><td>Perfect — that&#x27;s locked into my proposal. I&#x27;m designing visual treatment for:
+- `.rx-search-input` (search field)
+- `.rx-filter-button` (category buttons: breakfast, main, dessert)
+- Both above the `.rx-recipe-list` grid
+
+I&#x27;ll style the search input for readability + touch-friendly hit target. Filter buttons will be small, accent-colored badges that change state on selection. No conflict with fron</td></tr><tr><td>2026-04-23T05:00:29.598480+00:00</td><td>frontend → lead cc (→ ux)</td><td>Perfect! Locked. I&#x27;m emitting all the `rx-*` classes you listed. 
+
+On `rx-card-image`: Confirmed. Single emoji character per category in that div — I&#x27;ll put it there empty/placeholder, and you style it prominent. No background images, no complex markup needed.
+
+I&#x27;m good to build index.html with this contract. See you in Phase 3!</td></tr><tr><td>2026-04-23T05:00:29.598480+00:00</td><td>frontend → ux </td><td>Perfect! Locked. I&#x27;m emitting all the `rx-*` classes you listed. 
+
+On `rx-card-image`: Confirmed. Single emoji character per category in that div — I&#x27;ll put it there empty/placeholder, and you style it prominent. No background images, no complex markup needed.
+
+I&#x27;m good to build index.html with this contract. See you in Phase 3!</td></tr><tr><td>2026-04-23T05:00:29.761614+00:00</td><td>writer → backend </td><td>Excellent. Your schema covers everything. The `image_emoji` field is a nice touch — I won&#x27;t populate it myself, but it&#x27;s there if frontend needs to inject category icons separately.
+
+I&#x27;m ready to write the 8 recipes. Waiting for you to publish SPEC.md with final decisions and the file path where you want the recipe data (presumably `data/recipes.json` or embedded in the HTML?). Once that&#x27;s locked,</td></tr><tr><td>2026-04-23T05:00:29.761614+00:00</td><td>writer → lead cc (→ backend)</td><td>Excellent. Your schema covers everything. The `image_emoji` field is a nice touch — I won&#x27;t populate it myself, but it&#x27;s there if frontend needs to inject category icons separately.
+
+I&#x27;m ready to write the 8 recipes. Waiting for you to publish SPEC.md with final decisions and the file path where you want the recipe data (presumably `data/recipes.json` or embedded in the HTML?). Once that&#x27;s locked,</td></tr><tr><td>2026-04-23T05:00:29.849612+00:00</td><td>writer → lead cc (→ ux)</td><td>YES — that vibe is exactly right. Roomy, warm, cookbook aesthetic. Your card dimensions (280–320px wide, 200–240px tall) are perfect for the descriptions I&#x27;m writing. Generous padding and breathing room will make it feel intentional, not cramped.
+
+I&#x27;ll keep emoji out of the description text. Frontend handles the glyph placement via `rx-card-category` — I&#x27;ll just make sure my descriptions fit nicel</td></tr><tr><td>2026-04-23T05:00:29.849612+00:00</td><td>writer → ux </td><td>YES — that vibe is exactly right. Roomy, warm, cookbook aesthetic. Your card dimensions (280–320px wide, 200–240px tall) are perfect for the descriptions I&#x27;m writing. Generous padding and breathing room will make it feel intentional, not cramped.
+
+I&#x27;ll keep emoji out of the description text. Frontend handles the glyph placement via `rx-card-category` — I&#x27;ll just make sure my descriptions fit nicel</td></tr><tr><td>2026-04-23T05:00:31.152353+00:00</td><td>frontend → backend </td><td>Locked on both fronts:
+
+1. **Data loading:** YES, I&#x27;ll embed `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;...&lt;/script&gt;` in index.html. You read it in app.js via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parse. Perfect for file:// and keeps concerns clean.
+
+2. **DOM hooks &amp; interactivity:** Confirmed. You&#x27;ll wire search input + category filter buttons, card click → modal open,</td></tr><tr><td>2026-04-23T05:00:31.152353+00:00</td><td>frontend → lead cc (→ backend)</td><td>Locked on both fronts:
+
+1. **Data loading:** YES, I&#x27;ll embed `&lt;script type=&quot;application/json&quot; id=&quot;recipes-data&quot;&gt;...&lt;/script&gt;` in index.html. You read it in app.js via `document.getElementById(&#x27;recipes-data&#x27;).textContent` and parse. Perfect for file:// and keeps concerns clean.
+
+2. **DOM hooks &amp; interactivity:** Confirmed. You&#x27;ll wire search input + category filter buttons, card click → modal open,</td></tr></tbody></table></section>
+<section><details><summary>Raw event counts
+(492 events total)</summary>
+<table class="events"><thead><tr><th>event</th><th>count</th></tr></thead>
+<tbody><tr><td>dispatch_end</td><td>9</td></tr><tr><td>dispatch_round</td><td>3</td></tr><tr><td>dispatch_start</td><td>9</td></tr><tr><td>lead_block</td><td>76</td></tr><tr><td>lead_prompt</td><td>4</td></tr><tr><td>lead_result</td><td>4</td></tr><tr><td>lead_turn_end</td><td>4</td></tr><tr><td>lead_turn_start</td><td>4</td></tr><tr><td>loop_exit</td><td>1</td></tr><tr><td>output_written</td><td>1</td></tr><tr><td>reply_dispatch_end</td><td>3</td></tr><tr><td>reply_dispatch_start</td><td>3</td></tr><tr><td>run_start</td><td>1</td></tr><tr><td>run_summary_written</td><td>1</td></tr><tr><td>teammate_block</td><td>216</td></tr><tr><td>teammate_prompt</td><td>12</td></tr><tr><td>teammate_result</td><td>12</td></tr><tr><td>tool_use</td><td>129</td></tr></tbody></table></details></section>
+</div>
+</body>
+</html>

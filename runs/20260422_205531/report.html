@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MAT run 20260422_205531</title>
+<style>
+
+body { font: 14px/1.5 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+       color: #0f172a; background: #f8fafc; margin: 0; }
+.wrap { max-width: 1300px; margin: 24px auto; padding: 0 16px; }
+h1 { font-size: 22px; margin: 0 0 8px; }
+h2 { font-size: 17px; margin: 28px 0 10px; padding-bottom: 4px;
+     border-bottom: 1px solid #e2e8f0; }
+section { margin-bottom: 28px; }
+.meta { display: grid; grid-template-columns: max-content 1fr; column-gap: 16px;
+        row-gap: 4px; font-size: 13px; margin-bottom: 8px; }
+.meta dt { color: #64748b; }
+.meta dd { margin: 0; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+        font-size: 12px; font-weight: 600; }
+.pill.finalized { background: #dcfce7; color: #166534; }
+.pill.interrupted { background: #fef3c7; color: #92400e; }
+.pill.incomplete { background: #fee2e2; color: #991b1b; }
+.legend { display: flex; gap: 14px; font-size: 12px; margin-bottom: 6px; color: #475569; }
+.legend .sw { display: inline-block; width: 14px; height: 10px; border-radius: 2px;
+              margin-right: 4px; vertical-align: middle; }
+.timeline svg { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; }
+.timeline .grid line { stroke: #e2e8f0; }
+.timeline .lane-label { font: 12px/1 Consolas, monospace; fill: #334155; }
+.timeline .axis text { font: 11px/1 Consolas, monospace; fill: #64748b; }
+.timeline .round-boundary { stroke: #cbd5e1; stroke-dasharray: 3 3; }
+.dag { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+.dag .node rect { stroke: #1e293b; stroke-width: 1; }
+.dag .node text { font: 12px/1 Consolas, monospace; }
+.dag .edge { stroke: #94a3b8; fill: none; marker-end: url(#arrow); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+         gap: 12px; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; }
+.card h3 { margin: 0 0 8px; font-size: 15px; }
+.card table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.card td { padding: 3px 6px; border-bottom: 1px dashed #f1f5f9; }
+.card td:last-child { text-align: right; font-family: Consolas, monospace; }
+table.messages, table.events, table.tasks { width: 100%; border-collapse: collapse;
+         font-size: 12px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; }
+table.messages td, table.messages th,
+table.events td, table.events th,
+table.tasks td, table.tasks th {
+    padding: 6px 8px; border-bottom: 1px solid #f1f5f9; text-align: left;
+    vertical-align: top;
+}
+table.messages th, table.events th, table.tasks th { background: #f8fafc; font-weight: 600; }
+details.artifact { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px;
+                   padding: 8px 12px; margin-bottom: 6px; }
+details.artifact summary { cursor: pointer; font-family: Consolas, monospace;
+                           font-size: 13px; }
+details.artifact pre { background: #f1f5f9; padding: 10px; overflow-x: auto;
+                       font-size: 12px; border-radius: 4px; max-height: 420px; }
+.folder-header { margin: 14px 0 4px; font-size: 13px; color: #475569;
+                 font-family: Consolas, monospace; }
+.empty { color: #64748b; font-style: italic; }
+.status-completed { background: #dcfce7; }
+.status-failed { background: #fee2e2; }
+.status-in_progress { background: #fef3c7; }
+.status-assigned, .status-created, .status-claimed { background: #e0e7ff; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Run <code>20260422_205531</code></h1>
+<dl class="meta">
+<dt>Goal</dt><dd>Run the incident postmortem. Pool evidence from all four investigators, force cross-domain triangulation on contradictions and gaps, converge on a root-cause hypothesis supported by a specific join of evidence, and deliver remediation with named owners.</dd>
+<dt>Team</dt><dd><code>incident-postmortem</code></dd>
+<dt>Started</dt><dd>2026-04-22T20:55:31.319946+00:00</dd>
+<dt>Duration</dt><dd>244.6 s</dd>
+<dt>Status</dt><dd><span class="pill finalized">finalized</span></dd>
+<dt>Total cost</dt><dd>$0.8664
+  (11 turns, 564 in / 37991 out,
+  cache_r=1366917)</dd>
+<dt>Sibling</dt><dd><a href="report.md">report.md</a></dd>
+</dl>
+</header>
+<section><h2>Timeline</h2><div class="legend"><span><span class="sw" style="background:#94a3b8"></span>lead turn</span><span><span class="sw" style="background:#2563eb"></span>task dispatch</span><span><span class="sw" style="background:#16a34a"></span>reply dispatch</span><span><span class="sw" style="background:#ea580c"></span>nudge</span><span><span class="sw" style="background:#dc2626"></span>failed / timeout</span></div><div class="timeline"><svg viewBox="0 0 1200 260" width="100%" preserveAspectRatio="xMinYMin meet"><g class="axis"><line x1="140.0" y1="24" x2="140.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="140.0" y="20" text-anchor="middle">0.0s</text><line x1="352.0" y1="24" x2="352.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="352.0" y="20" text-anchor="middle">48.9s</text><line x1="564.0" y1="24" x2="564.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="564.0" y="20" text-anchor="middle">97.8s</text><line x1="776.0" y1="24" x2="776.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="776.0" y="20" text-anchor="middle">146.8s</text><line x1="988.0" y1="24" x2="988.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="988.0" y="20" text-anchor="middle">195.7s</text><line x1="1200.0" y1="24" x2="1200.0" y2="258" class="grid" stroke="#e2e8f0" /><text x="1200.0" y="20" text-anchor="middle">244.6s</text></g><text class="lane-label" x="132" y="66.0" text-anchor="end">lead</text><line x1="140" y1="40" x2="1200" y2="40" stroke="#f1f5f9" /><text class="lane-label" x="132" y="110.0" text-anchor="end">sre</text><line x1="140" y1="84" x2="1200" y2="84" stroke="#f1f5f9" /><text class="lane-label" x="132" y="154.0" text-anchor="end">observability</text><line x1="140" y1="128" x2="1200" y2="128" stroke="#f1f5f9" /><text class="lane-label" x="132" y="198.0" text-anchor="end">releng</text><line x1="140" y1="172" x2="1200" y2="172" stroke="#f1f5f9" /><text class="lane-label" x="132" y="242.0" text-anchor="end">support</text><line x1="140" y1="216" x2="1200" y2="216" stroke="#f1f5f9" /><line x1="140" y1="260" x2="1200" y2="260" stroke="#e2e8f0" /><line class="round-boundary" x1="297.6" y1="40" x2="297.6" y2="260" /><line class="round-boundary" x1="716.6" y1="40" x2="716.6" y2="260" /><rect x="154.5" y="46" width="143.1" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 33.02s · 17 tool calls</title></rect><line x1="167.5" y1="46" x2="167.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:37.666584+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/project_context.md&quot;}</title></line><line x1="171.5" y1="46" x2="171.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:38.593114+00:00
+Glob
+{&quot;pattern&quot;: &quot;*&quot;}</title></line><line x1="176.3" y1="46" x2="176.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:39.701720+00:00
+Read
+{&quot;file_path&quot;: &quot;project_context.md&quot;}</title></line><line x1="181.4" y1="46" x2="181.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:40.882921+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/sre.md&quot;}</title></line><line x1="181.5" y1="46" x2="181.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:40.885377+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/observability.md&quot;}</title></line><line x1="182.4" y1="46" x2="182.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:41.093979+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/releng.md&quot;}</title></line><line x1="182.6" y1="46" x2="182.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:41.147969+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/support.md&quot;}</title></line><line x1="249.9" y1="46" x2="249.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:56.689665+00:00
+mcp__coord__write_scratchpad
+{&quot;filename&quot;: &quot;DONE_CRITERIA.md&quot;, &quot;content&quot;: &quot;# Incident Postmortem Scope \u2014 Checkout degradation, 2026-04-20\n\n## Incident Summary\nCheckout success rate dropped from 99.8% to 92% between 14:02 a</title></line><line x1="261.5" y1="46" x2="261.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:59.359273+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Investigation \u2014 SRE&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md, then read your brief at briefs/sre.md. Write findings/sre.md in the required format. Send peer messages for any c</title></line><line x1="263.4" y1="46" x2="263.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:55:59.785164+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Investigation \u2014 Observability&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md, then read your brief at briefs/observability.md. Write findings/observability.md in the required format</title></line><line x1="265.2" y1="46" x2="265.2" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:00.203470+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Investigation \u2014 Release Engineering&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md, then read your brief at briefs/releng.md. Write findings/releng.md in the required format. Send p</title></line><line x1="266.3" y1="46" x2="266.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:00.473381+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Investigation \u2014 Support&quot;, &quot;description&quot;: &quot;Read workspace/DONE_CRITERIA.md, then read your brief at briefs/support.md. Write findings/support.md in the required format. Send peer messag</title></line><line x1="272.6" y1="46" x2="272.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:01.908070+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_001&quot;, &quot;agent&quot;: &quot;sre&quot;}</title></line><line x1="273.6" y1="46" x2="273.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:02.149377+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_002&quot;, &quot;agent&quot;: &quot;observability&quot;}</title></line><line x1="274.3" y1="46" x2="274.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:02.320455+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_003&quot;, &quot;agent&quot;: &quot;releng&quot;}</title></line><line x1="274.7" y1="46" x2="274.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:02.395479+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_004&quot;, &quot;agent&quot;: &quot;support&quot;}</title></line><line x1="280.3" y1="46" x2="280.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:03.697287+00:00
+mcp__coord__list_tasks
+{}</title></line><rect x="297.6" y="90" width="188.1" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>sre · task · t_001 · 43.39s · 10 tool calls</title></rect><line x1="309.1" y1="90" x2="309.1" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:10.340644+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="309.4" y1="90" x2="309.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:10.412645+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/sre.md&quot;}</title></line><line x1="313.2" y1="90" x2="313.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:11.281476+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;}</title></line><line x1="318.4" y1="90" x2="318.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:12.477411+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260422_205531\\workspace\\DONE_CRITERIA.md&quot;}</title></line><line x1="319.2" y1="90" x2="319.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:12.664472+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260422_205531\\workspace\\briefs\\sre.md&quot;}</title></line><line x1="379.9" y1="90" x2="379.9" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:26.678081+00:00
+Write
+{&quot;file_path&quot;: &quot;findings/sre.md&quot;, &quot;content&quot;: &quot;# SRE findings \u2014 incident 2026-04-20\n\n## Evidence\n\n- HTTP 401 spike on `/session/validate` starting 14:02:14 UTC (baseline ~3 req/min \u2192 peak </title></line><line x1="398.5" y1="90" x2="398.5" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:30.961924+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;releng&quot;, &quot;content&quot;: &quot;SRE: The 401 spike begins 14:02:14 UTC, only 71 seconds after your 14:01 deploy completion. The pattern shows sessions becoming valid \u2192 invalid \u2192 valid \u2192 in</title></line><line x1="402.6" y1="90" x2="402.6" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:31.916327+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;observability&quot;, &quot;content&quot;: &quot;SRE: 401 spike starts 14:02:14 (post-deploy), peaks at 310 req/min by 14:18, recovers 14:36 onward post-rollback. Questions: (1) Did the 14:05 scheduled DB failover</title></line><line x1="406.7" y1="90" x2="406.7" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:32.870030+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;support&quot;, &quot;content&quot;: &quot;SRE: Logs show session invalidation pattern where same users are re-authenticating every 2\u20133 minutes (not normal session lifetime). During 14:02\u201314:35 UTC, do c</title></line><line x1="473.7" y1="90" x2="473.7" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:48.319953+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_001&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;findings/sre.md&quot;}</title></line><rect x="297.6" y="134" width="230.1" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>observability · task · t_002 · 53.09s · 6 tool calls</title></rect><line x1="310.0" y1="134" x2="310.0" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:10.554172+00:00
+Read
+{&quot;file_path&quot;: &quot;DONE_CRITERIA.md&quot;}</title></line><line x1="400.5" y1="134" x2="400.5" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:31.424338+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/observability.md&quot;}</title></line><line x1="432.2" y1="134" x2="432.2" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:38.742851+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;releng&quot;, &quot;content&quot;: &quot;Observability perspective on 14:01 deploy: checkout success rate dropped 99.8% \u2192 92.1% at 14:02 UTC, with `/session/validate` errors spiking from 0.2% \u2192 14.8% in</title></line><line x1="437.7" y1="134" x2="437.7" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:40.020853+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;sre&quot;, &quot;content&quot;: &quot;Observability data shows `/session/validate` error rate: 0.2% \u2192 14.8% at 14:02, peaking ~18% around 14:20. Session Redis cache-hit-rate dropped 94.1% \u2192 61.3% concur</title></line><line x1="502.5" y1="134" x2="502.5" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:54.964190+00:00
+Write
+{&quot;file_path&quot;: &quot;findings/observability.md&quot;, &quot;content&quot;: &quot;# Observability Findings \u2014 Checkout Degradation 2026-04-20\n\n## Evidence\n\n- Checkout success rate: 99.8% \u2192 92.1% at 14:02 UTC (stepp</title></line><line x1="509.8" y1="134" x2="509.8" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:56.656661+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_002&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;findings/observability.md&quot;}</title></line><rect x="297.6" y="178" width="194.5" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>releng · task · t_003 · 44.87s · 7 tool calls</title></rect><line x1="306.1" y1="178" x2="306.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:09.643896+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="354.6" y1="178" x2="354.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:20.834466+00:00
+Read
+{&quot;file_path&quot;: &quot;DONE_CRITERIA.md&quot;}</title></line><line x1="362.8" y1="178" x2="362.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:22.733927+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/releng.md&quot;}</title></line><line x1="406.3" y1="178" x2="406.3" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:32.773399+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;sre&quot;, &quot;content&quot;: &quot;Releng here. The 14:01 deploy included a minor version bump to user-session: 2.0.4 \u2192 2.1.0. The PR author incorrectly labeled it as patch-level. This library handles ses</title></line><line x1="417.1" y1="178" x2="417.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:35.269995+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;support&quot;, &quot;content&quot;: &quot;Releng here. The 14:01 deploy introduced a minor version bump to the user-session library (2.0.4 \u2192 2.1.0). Minor versions can carry behavior changes. Are you seeing </title></line><line x1="456.4" y1="178" x2="456.4" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:44.334561+00:00
+Write
+{&quot;file_path&quot;: &quot;findings/releng.md&quot;, &quot;content&quot;: &quot;## Evidence\n- Deploy CHK-2417 at 14:01:12 UTC to checkout-service fleet; rolling completion 14:01:12 \u2192 14:03:45 across all pods.\n- Release manife</title></line><line x1="464.8" y1="178" x2="464.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:46.260515+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_003&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;findings/releng.md&quot;}</title></line><rect x="297.6" y="222" width="246.5" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>support · task · t_004 · 56.88s · 11 tool calls</title></rect><line x1="310.1" y1="222" x2="310.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:10.571173+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/DONE_CRITERIA.md&quot;}</title></line><line x1="310.5" y1="222" x2="310.5" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:10.651960+00:00
+Read
+{&quot;file_path&quot;: &quot;/workspace/briefs/support.md&quot;}</title></line><line x1="394.4" y1="222" x2="394.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:30.024828+00:00
+Glob
+{&quot;pattern&quot;: &quot;*&quot;}</title></line><line x1="400.0" y1="222" x2="400.0" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:31.314337+00:00
+Read
+{&quot;file_path&quot;: &quot;DONE_CRITERIA.md&quot;}</title></line><line x1="400.0" y1="222" x2="400.0" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:31.321338+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/support.md&quot;}</title></line><line x1="419.5" y1="222" x2="419.5" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:35.818310+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/sre.md&quot;}</title></line><line x1="484.0" y1="222" x2="484.0" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:50.691574+00:00
+Write
+{&quot;file_path&quot;: &quot;findings/support.md&quot;, &quot;content&quot;: &quot;# Support findings \u2014 incident 2026-04-20\n\n## Evidence\n\n- 38 of 47 tickets (81%) report users successfully logging in, then being forcibly logg</title></line><line x1="504.7" y1="222" x2="504.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:55.483281+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;sre&quot;, &quot;content&quot;: &quot;Support confirms your session cycling hypothesis with ticket data. 38 of 47 tickets explicitly report users logging in successfully, then being kicked out 2\u20135 minutes la</title></line><line x1="511.4" y1="222" x2="511.4" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:57.016079+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;releng&quot;, &quot;content&quot;: &quot;Support data implicates session behavior change in the 14:01 deploy. 81% of incident tickets report the same pattern: successful login, then session expiration every 2\u20</title></line><line x1="516.8" y1="222" x2="516.8" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:58.254868+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;observability&quot;, &quot;content&quot;: &quot;Session behavior anomaly correlates with the 14:01 deploy. Support tickets show customers experiencing session expiration every 2\u20135 minutes (abnormal vs normal</title></line><line x1="524.1" y1="222" x2="524.1" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:56:59.946994+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_004&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;findings/support.md&quot;}</title></line><rect x="544.3" y="46" width="172.3" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 39.76s · 12 tool calls</title></rect><line x1="555.4" y1="46" x2="555.4" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:07.168688+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="556.3" y1="46" x2="556.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:07.382863+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/sre.md&quot;}</title></line><line x1="556.3" y1="46" x2="556.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:07.385862+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/observability.md&quot;}</title></line><line x1="557.2" y1="46" x2="557.2" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:07.592028+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/releng.md&quot;}</title></line><line x1="557.3" y1="46" x2="557.3" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:07.607309+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/support.md&quot;}</title></line><line x1="662.9" y1="46" x2="662.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:31.973644+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Follow-up \u2014 Releng: user-session 2.1.0 release notes &amp; code change&quot;, &quot;description&quot;: &quot;The 14:01 deploy included user-session 2.0.4 \u2192 2.1.0, a MINOR version bump (not patch). SRE, o</title></line><line x1="673.8" y1="46" x2="673.8" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:34.489783+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Follow-up \u2014 Observability: Was 14:05 DB failover pre-scheduled?&quot;, &quot;description&quot;: &quot;Your findings state: \&quot;Primary DB failover: 14:05:12 UTC initiated, 14:05:39 UTC completed. Routine we</title></line><line x1="684.1" y1="46" x2="684.1" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:36.864824+00:00
+mcp__coord__create_task
+{&quot;title&quot;: &quot;Follow-up \u2014 SRE: Session invalidation patterns &amp; cache bypass&quot;, &quot;description&quot;: &quot;Your logs show sessions cycling valid \u2192 401 \u2192 valid \u2192 401 every 2\u20133 minutes. Observa</title></line><line x1="693.1" y1="46" x2="693.1" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:38.947389+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_005&quot;, &quot;agent&quot;: &quot;releng&quot;}</title></line><line x1="694.2" y1="46" x2="694.2" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:39.193021+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_006&quot;, &quot;agent&quot;: &quot;observability&quot;}</title></line><line x1="694.9" y1="46" x2="694.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:39.371429+00:00
+mcp__coord__assign_task
+{&quot;task_id&quot;: &quot;t_007&quot;, &quot;agent&quot;: &quot;sre&quot;}</title></line><line x1="701.0" y1="46" x2="701.0" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:40.765419+00:00
+mcp__coord__list_tasks
+{}</title></line><rect x="716.6" y="178" width="251.5" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>releng · task · t_005 · 58.02s · 19 tool calls</title></rect><line x1="726.7" y1="178" x2="726.7" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:46.695379+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="746.9" y1="178" x2="746.9" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:51.354056+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*user-session*&quot;}</title></line><line x1="746.9" y1="178" x2="746.9" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:51.366557+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*release*&quot;}</title></line><line x1="747.4" y1="178" x2="747.4" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:51.477589+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*CHANGELOG*&quot;}</title></line><line x1="752.5" y1="178" x2="752.5" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:52.654775+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*.md&quot;}</title></line><line x1="757.7" y1="178" x2="757.7" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:53.841183+00:00
+Read
+{&quot;file_path&quot;: &quot;project_context.md&quot;}</title></line><line x1="763.8" y1="178" x2="763.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:55.260665+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*package.json*&quot;}</title></line><line x1="764.5" y1="178" x2="764.5" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:55.423152+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/vendor/**&quot;}</title></line><line x1="764.6" y1="178" x2="764.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:55.445626+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/node_modules/**&quot;}</title></line><line x1="773.3" y1="178" x2="773.3" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:57.456958+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/sre.md&quot;}</title></line><line x1="779.1" y1="178" x2="779.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:58.778001+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/observability.md&quot;}</title></line><line x1="783.6" y1="178" x2="783.6" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:59.830300+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/support.md&quot;}</title></line><line x1="802.7" y1="178" x2="802.7" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:04.244380+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/releng.md&quot;}</title></line><line x1="808.5" y1="178" x2="808.5" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:05.565430+00:00
+Glob
+{&quot;pattern&quot;: &quot;**/*&quot;}</title></line><line x1="813.2" y1="178" x2="813.2" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:06.659766+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/sre.md&quot;}</title></line><line x1="818.1" y1="178" x2="818.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:07.777173+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/observability.md&quot;}</title></line><line x1="818.5" y1="178" x2="818.5" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:07.879580+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/support.md&quot;}</title></line><line x1="930.8" y1="178" x2="930.8" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:33.789150+00:00
+Write
+{&quot;file_path&quot;: &quot;findings/releng_followup_user_session.md&quot;, &quot;content&quot;: &quot;# Releng Follow-up: user-session 2.1.0 Root Cause Analysis\n\n## Critical Finding: Misclassified Bump &amp; Missing Release Notes Revi</title></line><line x1="939.1" y1="178" x2="939.1" y2="210" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:35.713756+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_005&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;findings/releng_followup_user_session.md&quot;}</title></line><rect x="716.6" y="134" width="133.6" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>observability · task · t_006 · 30.84s · 4 tool calls</title></rect><line x1="723.2" y1="134" x2="723.2" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:45.880965+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="749.6" y1="134" x2="749.6" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:51.982852+00:00
+Read
+{&quot;file_path&quot;: &quot;briefs/observability.md&quot;}</title></line><line x1="816.4" y1="134" x2="816.4" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:07.396833+00:00
+Write
+{&quot;file_path&quot;: &quot;observability_followup.md&quot;, &quot;content&quot;: &quot;# Observability Follow-up: DB Failover Pre-scheduled vs. Alert-triggered\n\n## Confirmation: 14:05:12 Failover Was Pre-scheduled, Not Alert-trigg</title></line><line x1="832.0" y1="134" x2="832.0" y2="166" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:10.999745+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_006&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;observability_followup.md&quot;}</title></line><rect x="716.6" y="222" width="61.5" height="32" fill="#16a34a" fill-opacity="0.85" rx="2" ry="2"><title>support · reply · 14.18s · 3 tool calls</title></rect><line x1="721.0" y1="222" x2="721.0" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:45.389008+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="756.7" y1="222" x2="756.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:53.623741+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;sre&quot;, &quot;content&quot;: &quot;Support data on re-auth cycles: Ticket #18431 explicitly states \&quot;Got logged out mid-checkout THREE times before it let me pay\&quot; \u2014 so at least one user persisted through</title></line><line x1="765.7" y1="222" x2="765.7" y2="254" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:55.686576+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;releng&quot;, &quot;content&quot;: &quot;Session library change (2.0.4 \u2192 2.1.0) strongly correlates with support data. All 38 of the primary incident tickets show the exact patterns you asked about: \&quot;had to</title></line><rect x="716.6" y="90" width="191.3" height="32" fill="#2563eb" fill-opacity="0.85" rx="2" ry="2"><title>sre · task · t_007 · 44.14s · 6 tool calls</title></rect><line x1="726.2" y1="90" x2="726.2" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:46.583634+00:00
+mcp__coord__read_messages
+{}</title></line><line x1="758.8" y1="90" x2="758.8" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:57:54.106930+00:00
+Read
+{&quot;file_path&quot;: &quot;D:\\Claude Code Projects\\Agent Team\\runs\\20260422_205531\\workspace\\briefs\\sre.md&quot;}</title></line><line x1="849.5" y1="90" x2="849.5" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:15.024663+00:00
+Write
+{&quot;file_path&quot;: &quot;follow_up_session_analysis.md&quot;, &quot;content&quot;: &quot;# SRE follow-up: Session invalidation patterns &amp; cache behavior\n\n## What I can answer from application logs\n\n### Question 1: Cache miss v</title></line><line x1="867.3" y1="90" x2="867.3" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:19.144415+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;observability&quot;, &quot;content&quot;: &quot;SRE follow-up: My logs show session IDs cycling (sid=a7f2 failed, then sid=b3e9 succeeded, then failed again), but I cannot correlate individual sessions to Redis c</title></line><line x1="874.4" y1="90" x2="874.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:20.767892+00:00
+mcp__coord__send_message
+{&quot;to&quot;: &quot;releng&quot;, &quot;content&quot;: &quot;SRE follow-up: Customer support confirms session cycling every 2\u20135 minutes during the incident, matching my logs exactly. This pattern screams \&quot;TTL changed downward\</title></line><line x1="889.4" y1="90" x2="889.4" y2="122" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:24.240786+00:00
+mcp__coord__update_task
+{&quot;task_id&quot;: &quot;t_007&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;result_ref&quot;: &quot;follow_up_session_analysis.md&quot;}</title></line><rect x="968.1" y="46" width="225.2" height="32" fill="#94a3b8" fill-opacity="0.85" rx="2" ry="2"><title>lead · turn · 51.97s · 4 tool calls</title></rect><line x1="982.7" y1="46" x2="982.7" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:45.773712+00:00
+Read
+{&quot;file_path&quot;: &quot;findings/releng_followup_user_session.md&quot;}</title></line><line x1="983.5" y1="46" x2="983.5" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:45.962714+00:00
+Read
+{&quot;file_path&quot;: &quot;observability_followup.md&quot;}</title></line><line x1="983.6" y1="46" x2="983.6" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:58:45.983211+00:00
+Read
+{&quot;file_path&quot;: &quot;follow_up_session_analysis.md&quot;}</title></line><line x1="1149.9" y1="46" x2="1149.9" y2="78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.5"><title>2026-04-22T20:59:24.354141+00:00
+mcp__coord__finalize
+{&quot;synthesis&quot;: &quot;# Incident Postmortem \u2014 Checkout Degradation, 2026-04-20\n\n## Timeline (consolidated)\n\n- 14:01:12 UTC \u2014 Deploy CHK-2417 begins rolling out to checkout-service fleet (user-s</title></line></svg></div></section>
+<section><h2>Task graph</h2><div class="dag"><svg viewBox="0 0 480 296" width="100%" preserveAspectRatio="xMinYMin meet"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/></marker></defs><path class="edge" d="M 210 168 C 250 168, 215 40, 255 40" /><path class="edge" d="M 210 104 C 250 104, 215 104, 255 104" /><path class="edge" d="M 210 40 C 250 40, 215 168, 255 168" /><g class="node"><title>t_001 [completed]
+Investigation — SRE
+assigned: sre
+ref: findings/sre.md
+deps: (none)</title><rect x="30" y="20" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="36"><tspan font-weight="700">t_001</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="52">Investigation — SRE</text></g><g class="node"><title>t_002 [completed]
+Investigation — Observability
+assigned: observability
+ref: findings/observability.md
+deps: (none)</title><rect x="30" y="84" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="100"><tspan font-weight="700">t_002</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="116">Investigation — Observabil…</text></g><g class="node"><title>t_003 [completed]
+Investigation — Release Engineering
+assigned: releng
+ref: findings/releng.md
+deps: (none)</title><rect x="30" y="148" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="164"><tspan font-weight="700">t_003</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="180">Investigation — Release En…</text></g><g class="node"><title>t_004 [completed]
+Investigation — Support
+assigned: support
+ref: findings/support.md
+deps: (none)</title><rect x="30" y="212" width="180" height="40" rx="4" fill="#dcfce7" /><text x="38" y="228"><tspan font-weight="700">t_004</tspan> <tspan fill="#64748b">completed</tspan></text><text x="38" y="244">Investigation — Support</text></g><g class="node"><title>t_005 [completed]
+Follow-up — Releng: user-session 2.1.0 release notes &amp; code change
+assigned: releng
+ref: findings/releng_followup_user_session.md
+deps: t_003</title><rect x="250" y="20" width="180" height="40" rx="4" fill="#dcfce7" /><text x="258" y="36"><tspan font-weight="700">t_005</tspan> <tspan fill="#64748b">completed</tspan></text><text x="258" y="52">Follow-up — Releng: user-s…</text></g><g class="node"><title>t_006 [completed]
+Follow-up — Observability: Was 14:05 DB failover pre-scheduled?
+assigned: observability
+ref: observability_followup.md
+deps: t_002</title><rect x="250" y="84" width="180" height="40" rx="4" fill="#dcfce7" /><text x="258" y="100"><tspan font-weight="700">t_006</tspan> <tspan fill="#64748b">completed</tspan></text><text x="258" y="116">Follow-up — Observability:…</text></g><g class="node"><title>t_007 [completed]
+Follow-up — SRE: Session invalidation patterns &amp; cache bypass
+assigned: sre
+ref: follow_up_session_analysis.md
+deps: t_001</title><rect x="250" y="148" width="180" height="40" rx="4" fill="#dcfce7" /><text x="258" y="164"><tspan font-weight="700">t_007</tspan> <tspan fill="#64748b">completed</tspan></text><text x="258" y="180">Follow-up — SRE: Session i…</text></g></svg></div></section>
+<section><h2>Per-agent breakdown</h2><div class="cards"><div class="card">
+<h3>lead</h3>
+<table>
+<tr><td>turns</td><td>3</td></tr>
+<tr><td>cost</td><td>$0.3099</td></tr>
+<tr><td>input tok</td><td>142</td></tr>
+<tr><td>output tok</td><td>11376</td></tr>
+<tr><td>cache read</td><td>385632</td></tr>
+<tr><td>cache write</td><td>41978</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>13</td></tr><tr><td>mcp__coord__create_task</td><td>7</td></tr><tr><td>mcp__coord__assign_task</td><td>7</td></tr><tr><td>mcp__coord__list_tasks</td><td>2</td></tr><tr><td>Glob</td><td>1</td></tr><tr><td>mcp__coord__write_scratchpad</td><td>1</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr><tr><td>mcp__coord__finalize</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>sre</h3>
+<table>
+<tr><td>turns</td><td>2</td></tr>
+<tr><td>cost</td><td>$0.1296</td></tr>
+<tr><td>input tok</td><td>95</td></tr>
+<tr><td>output tok</td><td>6658</td></tr>
+<tr><td>cache read</td><td>203708</td></tr>
+<tr><td>cache write</td><td>23199</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>5</td></tr><tr><td>mcp__coord__send_message</td><td>5</td></tr><tr><td>Write</td><td>2</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>Glob</td><td>1</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>observability</h3>
+<table>
+<tr><td>turns</td><td>2</td></tr>
+<tr><td>cost</td><td>$0.1285</td></tr>
+<tr><td>input tok</td><td>81</td></tr>
+<tr><td>output tok</td><td>6796</td></tr>
+<tr><td>cache read</td><td>172010</td></tr>
+<tr><td>cache write</td><td>21797</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>3</td></tr><tr><td>mcp__coord__send_message</td><td>2</td></tr><tr><td>Write</td><td>2</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>releng</h3>
+<table>
+<tr><td>turns</td><td>2</td></tr>
+<tr><td>cost</td><td>$0.1789</td></tr>
+<tr><td>input tok</td><td>165</td></tr>
+<tr><td>output tok</td><td>8503</td></tr>
+<tr><td>cache read</td><td>440374</td></tr>
+<tr><td>cache write</td><td>33655</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>11</td></tr><tr><td>Glob</td><td>8</td></tr><tr><td>mcp__coord__send_message</td><td>2</td></tr><tr><td>Write</td><td>2</td></tr><tr><td>mcp__coord__update_task</td><td>2</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr></table>
+</div><div class="card">
+<h3>support</h3>
+<table>
+<tr><td>turns</td><td>2</td></tr>
+<tr><td>cost</td><td>$0.1194</td></tr>
+<tr><td>input tok</td><td>81</td></tr>
+<tr><td>output tok</td><td>4658</td></tr>
+<tr><td>cache read</td><td>165193</td></tr>
+<tr><td>cache write</td><td>21016</td></tr>
+<tr><td>cache-hit %</td><td>100.0%</td></tr>
+</table>
+<h3 style="margin-top:8px;font-size:13px;">top tools</h3>
+<table><tr><td>Read</td><td>5</td></tr><tr><td>mcp__coord__send_message</td><td>5</td></tr><tr><td>Glob</td><td>1</td></tr><tr><td>Write</td><td>1</td></tr><tr><td>mcp__coord__update_task</td><td>1</td></tr><tr><td>mcp__coord__read_messages</td><td>1</td></tr></table>
+</div></div></section>
+<section><h2>Artifacts</h2><div class="folder-header">briefs/</div><details class="artifact"><summary>briefs/observability.md <span class="empty">· 2,230 B</span></summary><pre># Observability brief — incident 2026-04-20
+
+## What I have
+
+Time-series metrics for the checkout service, session service, and
+shared infrastructure (Redis cluster, primary DB, load balancers),
+plus the infra event log.
+
+## Key metric shifts
+
+- **Checkout success rate:** 99.8% → 92.1% at 14:02; recovery at
+  14:42. Not a cliff — a stepped degradation over ~4 minutes before
+  stabilizing near 92%.
+- **`/session/validate` error rate:** 0.2% → 14.8% at 14:02; peak
+  ~18% around 14:20; recovery at 14:42.
+- **Session Redis cluster — cache hit rate:** 94.1% → 61.3% during
+  the window. Back to 93.7% by 14:45. **This is the most unusual
+  thing in my data.** Normally it barely moves during a deploy or
+  failover.
+- **Session Redis cluster — memory pressure:** stable throughout.
+  No evictions logged. No CPU spike. No network saturation.
+- **Primary DB:** automated failover at 14:05:12 UTC, completed
+  14:05:39. This is a routine weekly failover (Monday 14:05 is the
+  scheduled slot). Applications tolerate it without data loss.
+- **App-server CPU / memory:** flat.
+- **Latency:** slightly elevated on `/session/validate` (p99 went
+  from ~40ms to ~120ms) but within tolerances.
+
+## Infra events in the window
+
+- 14:01:12 — deploy webhook fired (release-bot, target: checkout
+  service fleet, all regions)
+- 14:05:12 — primary DB failover (scheduled, weekly)
+- 14:35:07 — deploy webhook fired (rollback to prior version)
+
+## My initial read
+
+The Redis cache-hit-rate drop is the strangest signal. The cluster
+itself was healthy (no evictions, no memory issues) — so **the cache
+wasn&#x27;t failing, it was being bypassed or invalidated**. The pattern
+does not match a Redis outage; it matches code asking for a key that
+the cache believes no longer exists.
+
+The DB failover at 14:05 is routine and started AFTER the symptoms
+began (14:02). Unlikely to be causal.
+
+The deploy at 14:01 timing-aligns with incident onset.
+
+## What I don&#x27;t know
+
+- What code path changed that would invalidate cached session
+  entries or ask for keys the cache doesn&#x27;t hold.
+- Whether the cache-hit drop is a consequence of the 401s (users
+  re-authenticating churns the cache) or the cause.
+- What actually shipped at 14:01.
+</pre></details><details class="artifact"><summary>briefs/releng.md <span class="empty">· 2,054 B</span></summary><pre># Release engineering brief — incident 2026-04-20
+
+## What I have
+
+The deploy log for the checkout-service fleet, the release manifest
+for the 14:01 deploy, and the change ticket.
+
+## Deploy at 14:01:12 UTC
+
+**Change ticket:** CHK-2417 — &quot;Weekly dependency refresh + node
+upgrade.&quot;
+
+**Target:** checkout-service fleet, all regions, rolling deploy
+(completed 14:01:12 → 14:03:45 across all pods).
+
+**Release manifest (excerpt from `package.json` diff):**
+```
+- &quot;express&quot;: &quot;4.18.1&quot;,
++ &quot;express&quot;: &quot;4.18.3&quot;,
+- &quot;pg&quot;: &quot;8.11.3&quot;,
++ &quot;pg&quot;: &quot;8.11.5&quot;,
+- &quot;user-session&quot;: &quot;2.0.4&quot;,
++ &quot;user-session&quot;: &quot;2.1.0&quot;,
+```
+
+**Node runtime bump (in Dockerfile):** 18.17.1 → 18.18.2.
+
+**Author&#x27;s PR description (verbatim):** &quot;Routine dependency refresh.
+All patch-level updates; CI green. Node patch upgrade in base image.
+Risk: low.&quot;
+
+**My read of the manifest:** Three updates. Express and pg are
+indeed patch-level (x.y.z→x.y.w). The node bump is a patch-level
+(18.17.1→18.18.2 — 18.18 is actually a minor inside node&#x27;s
+convention, but commonly treated as a security patch).
+
+The PR was reviewed and approved by one reviewer. CI passed. No
+canary stage — the fleet gets rolled uniformly.
+
+## My initial read
+
+The deploy correlates with incident onset but it&#x27;s all dependency
+updates. The PR description calls it routine. Nothing stood out in
+CI. The rollback worked, so whatever shipped is the issue, but the
+manifest looks innocuous.
+
+**I don&#x27;t have release notes in-hand for the bumped libraries.** We
+don&#x27;t mandate reviewing upstream release notes for patch-level
+bumps. If one of these was a behavior-breaking change masquerading
+as a patch, I wouldn&#x27;t have caught it.
+
+## 14:35 rollback
+
+Triggered manually at 14:35:07 UTC, completed at 14:37:50. Reverts
+all three dependency bumps + node runtime. Recovery followed.
+
+## What I don&#x27;t know
+
+- Whether any of the three dependency bumps carried a behavior
+  change. Neither the PR description nor our CI checks for that.
+- Whether any of these libraries are in hot paths that would
+  explain session symptoms.
+</pre></details><details class="artifact"><summary>briefs/sre.md <span class="empty">· 2,018 B</span></summary><pre># SRE brief — incident 2026-04-20
+
+## What I have
+
+Application logs from the checkout service, session service, and API
+gateway, filtered to the incident window 14:00–14:45 UTC.
+
+## Observations
+
+**Error pattern:** Sharp spike in HTTP 401 responses on
+`/session/validate` starting 14:02:14 UTC. Baseline was ~3 req/min;
+peak was ~310 req/min at 14:18. Recovery curve begins 14:36, back to
+baseline 14:42.
+
+**401 response bodies (sampled, all identical):**
+```
+{&quot;error&quot;:&quot;session_expired&quot;,&quot;code&quot;:&quot;SES_EXP&quot;,&quot;trace_id&quot;:&quot;...&quot;}
+```
+
+**Curious pattern in the logs:** The same session_id appears in
+`/session/validate` several times in a row — succeeding, then
+failing, then (after re-auth) succeeding again, then failing again
+within a few minutes.
+
+Example trace (redacted):
+```
+14:08:22  sid=a7f2… validate OK   user_id=u_184
+14:08:44  sid=a7f2… validate 401  SES_EXP
+14:09:01  sid=b3e9… (new sid) validate OK  user_id=u_184
+14:11:53  sid=b3e9… validate 401  SES_EXP
+```
+
+Same user, re-authenticated twice in ~3 minutes, each new session
+dying within minutes.
+
+**What this is NOT:**
+- Not a gateway issue. `/healthz` and non-session endpoints were
+  clean throughout.
+- Not a database connectivity event. Query logs to the primary
+  session store are continuous through the window.
+- No process crashes or OOM kills in the incident window.
+
+## My initial read
+
+The session system produced the 401s — that much is clear. The
+pattern (valid → expired → valid → expired) looks more like
+*unexpected session invalidation* than like normal expiry or an auth
+outage. If sessions were being invalidated prematurely, I&#x27;d expect
+this exact pattern.
+
+## What I don&#x27;t know
+
+- Why sessions are being invalidated early. The code path that
+  emits SES_EXP is the TTL check; either TTLs are wrong or
+  session records are being evicted before their TTL.
+- Whether this is the whole story. 92% of checkouts succeeded —
+  some subset of users never hit this.
+- Whether a deploy changed anything in the session path.
+</pre></details><details class="artifact"><summary>briefs/support.md <span class="empty">· 2,512 B</span></summary><pre># Support brief — incident 2026-04-20
+
+## What I have
+
+Ticket queue for the incident window (14:00–15:00 UTC). 47 tickets
+opened, 2 closed in-window, rest still open.
+
+## Dominant pattern (38 of 47 tickets)
+
+Users report being **logged in successfully, then getting kicked
+out partway through checkout**. Many describe having to re-login
+multiple times to complete a purchase.
+
+Representative quotes (verbatim):
+
+&gt; &quot;I logged in fine, added items to my cart, clicked checkout, and
+&gt; it told me my session expired. I logged back in and tried again.
+&gt; It worked for a couple of minutes and then kicked me out again.&quot;
+&gt; — ticket #18422
+
+&gt; &quot;Got logged out mid-checkout THREE times before it let me pay.&quot;
+&gt; — ticket #18431
+
+&gt; &quot;I was logged in, went to add a coupon, got an error saying I
+&gt; was signed out. Signed in, tried again, was fine for about 5
+&gt; minutes, then got signed out again.&quot;
+&gt; — ticket #18444
+
+&gt; &quot;This has never happened to me before. I don&#x27;t think it&#x27;s my
+&gt; wifi. I was on my phone too and had the same thing happen.&quot;
+&gt; — ticket #18409
+
+&gt; &quot;Kept getting &#x27;session expired&#x27; even though I hadn&#x27;t even closed
+&gt; the tab. I was still in the middle of typing my card number.&quot;
+&gt; — ticket #18461
+
+**Pattern timing cue:** Multiple tickets mention sessions lasting
+&quot;a few minutes&quot; after re-login before dying again. This is specific
+and unusual — normal session-expired errors happen after hours of
+idle, not minutes.
+
+## Secondary patterns
+
+- 6 tickets about the site &quot;being slow today&quot; — no specific error.
+  These do not cite session or checkout issues. Likely unrelated
+  background noise or incidental.
+- 3 tickets about coupon codes not applying. These are ambiguous —
+  might be incident-related (failed mid-checkout), might be normal
+  coupon gripes.
+
+## My initial read
+
+The dominant pattern is unambiguous: **session lifetime shortened
+from what users expect to ~minutes**. Users were not just getting
+random errors — their sessions were being cut short in a way that
+felt &quot;wrong&quot; to the people experiencing it. Several users
+explicitly noticed the short lifetime and said so.
+
+This doesn&#x27;t look like auth system failure (which would deny login).
+Users successfully log in. Something about established sessions is
+going wrong shortly after.
+
+## What I don&#x27;t know
+
+- Why established sessions are dying so quickly.
+- Whether anything specific about the affected users (platform,
+  region, session age) would narrow this down — the ticket set is
+  too small to segment meaningfully.
+</pre></details><div class="folder-header">findings/</div><details class="artifact"><summary>findings/observability.md <span class="empty">· 3,243 B</span></summary><pre># Observability Findings — Checkout Degradation 2026-04-20
+
+## Evidence
+
+- Checkout success rate: 99.8% → 92.1% at 14:02 UTC (stepped degradation over ~4 minutes, not a cliff)
+- `/session/validate` error rate: 0.2% → 14.8% at 14:02 UTC; peak ~18% at 14:20 UTC; recovery to 0.2% at 14:42 UTC
+- Session Redis cache-hit-rate: 94.1% → 61.3% during incident window; recovery to 93.7% by 14:45 UTC. **33 percentage point drop is anomalous.**
+- Session Redis cluster health: stable throughout. No evictions logged, no CPU spike, no memory pressure, no network saturation. Cluster infrastructure was operational.
+- `/session/validate` latency: p99 elevated from ~40ms to ~120ms, within tolerances
+- App-server CPU and memory: flat, no anomalies
+- Primary DB failover: 14:05:12 UTC initiated, 14:05:39 UTC completed. Routine weekly failover (scheduled Monday 14:05 slot). Applications tolerate without data loss.
+- Deploy webhook: 14:01:12 UTC (checkout service fleet, all regions)
+- Rollback webhook: 14:35:07 UTC
+
+## Timeline (my view)
+
+- 14:01:12 UTC — deploy webhook fired for checkout service fleet, all regions
+- 14:02 UTC — checkout success rate drops to 92.1%, `/session/validate` error rate spikes to 14.8%
+- 14:02–14:06 UTC — Session Redis cache-hit-rate collapses from 94.1% to 61.3%
+- 14:05:12 UTC — primary DB failover initiated (routine, scheduled); completed 14:05:39 UTC
+- 14:20 UTC — `/session/validate` error rate peaks at ~18%
+- 14:35:07 UTC — rollback webhook fired
+- 14:42 UTC — checkout success rate recovers to 99.8%, `/session/validate` errors drop to 0.2%, Session Redis cache-hit-rate recovers to 93.7%
+
+## Initial hypothesis
+
+The 14:01 deploy introduced a code change affecting session validation behavior. The symptom pattern — healthy Redis infrastructure but 33pp cache-hit-rate drop coinciding with error rate spike — indicates the application code path changed to either invalidate cached session entries at higher frequency, or bypass the Redis cache entirely for validation. This is not a Redis outage scenario; the cluster metrics show normal operation. The mechanism is application-level: changed code that alters how session cache is queried or invalidated. Recovery timing (14:42, minutes after rollback at 14:35) confirms the deploy was causal. The DB failover at 14:05 started after symptom onset (14:02) and is routine weekly maintenance, so timing correlation is coincidental.
+
+## Gaps / questions for others
+
+- releng: What specifically changed in the 14:01 checkout service deploy? Any modifications to session validation codepath, session cache key generation, or session invalidation logic?
+- sre: Are the `/session/validate` errors 401 (auth failure) or another status code? And do your logs show cache misses followed by validation failures, or validation failures without a cache lookup attempt?
+- sre: Can you cross-reference the Redis cache-hit-rate drop (14:02–14:06) with user authentication events or session object creations? A surge in session invalidation or re-authentication would churn the cache and partially explain the hit-rate drop.
+- support: Are there customer reports of needing to re-login repeatedly or unexpectedly during the 14:02–14:42 UTC window?
+</pre></details><details class="artifact"><summary>findings/releng.md <span class="empty">· 2,500 B</span></summary><pre>## Evidence
+- Deploy CHK-2417 at 14:01:12 UTC to checkout-service fleet; rolling completion 14:01:12 → 14:03:45 across all pods.
+- Release manifest included three dependency bumps and one runtime bump.
+- **user-session**: 2.0.4 → 2.1.0 — **MINOR version bump** (not patch as PR author claimed).
+- **express**: 4.18.1 → 4.18.3 — patch-level (x.y.Z).
+- **pg**: 8.11.3 → 8.11.5 — patch-level (x.y.Z).
+- **Node runtime**: 18.17.1 → 18.18.2 — minor version in Node&#x27;s convention (18.17 → 18.18).
+- Release notes for these three libraries were NOT reviewed before deployment. Standard practice does not mandate review of patch-level changes, but minor versions require review.
+- Rollback manually triggered at 14:35:07 UTC, completed 14:37:50. Reverted all four bumps. Recovery followed.
+
+## Timeline (my view)
+- 14:01:12 UTC — Deploy CHK-2417 begins rolling out (user-session 2.1.0, express 4.18.3, pg 8.11.5, Node 18.18.2).
+- 14:03:45 UTC — Rolling deploy completes across all checkout-service pods.
+- 14:35:07 UTC — Rollback manually triggered.
+- 14:37:50 UTC — Rollback completes.
+
+## Initial hypothesis
+The user-session minor version bump (2.0.4 → 2.1.0) introduced a behavior change that affects session validity, token handling, or session state integrity. Because this library is directly in the authentication and session path for checkout flows, a behavioral regression would explain:
+- Partial success rate (92% vs. 0%) — sessions valid for some users/patterns, invalid for others depending on session creation time, refresh timing, or cache state.
+- Correlation with deploy completion at 14:03:45.
+- Immediate recovery on rollback at 14:37:50.
+
+The express and pg bumps are patch-level and less likely to carry behavioral changes, but cannot be ruled out without examining their release notes. The Node runtime bump (18.17.1 → 18.18.2) is a minor version and could interact with the user-session library changes.
+
+## Gaps / questions for others
+- **sre**: What error patterns do you observe in checkout-service logs during 14:03:45 → 14:35 UTC? Specifically: session invalidation errors, 401/403 spikes, token verification failures, or session state mismatches?
+- **observability**: Does cache behavior (Redis session cache, token cache) show anomalies at 14:03 UTC that match the success rate drop at 14:02–14:05?
+- **support**: Are customer reports clustering around session loss, re-authentication demands, or first-try failures with subsequent success?
+</pre></details><details class="artifact"><summary>findings/releng_followup_user_session.md <span class="empty">· 6,449 B</span></summary><pre># Releng Follow-up: user-session 2.1.0 Root Cause Analysis
+
+## Critical Finding: Misclassified Bump &amp; Missing Release Notes Review
+
+**The PR author called the user-session bump &quot;patch-level.&quot; It is NOT. user-session 2.0.4 → 2.1.0 is a MINOR version bump.** Minor versions routinely introduce behavior changes. Release notes were not reviewed before deploy, which is a process failure for minor bumps.
+
+## Evidence of What Changed in user-session 2.1.0
+
+Based on convergent evidence from all four domains, I can infer the behavior change without direct access to release notes:
+
+### SRE Evidence:
+- Sessions expire in precise 2–3 minute windows, not randomly
+- Error signature is `session_expired` (TTL check failure)
+- Same session_id cycling: valid → 401 → re-auth → valid → 401 again
+- Starts at 14:02:14 UTC (71 seconds after deploy completes at 14:01)
+
+### Observability Evidence:
+- Session Redis cache-hit-rate drops from 94.1% → 61.3% (33 percentage point drop)
+- Redis cluster infrastructure was healthy (no evictions, no memory pressure)
+- The cache hit-rate didn&#x27;t drop because sessions were evicted; **it dropped because the application changed how it validates sessions**
+- This indicates the validation code path was modified to bypass or invalidate cached entries
+
+### Support Evidence:
+- 81% of tickets report users successfully logging in, then sessions dying ~2–5 minutes later
+- The timing window is too precise to be random — it points to a hardcoded value
+- Users are not locked out of login; they can re-authenticate, but new sessions die on the same schedule
+- This is not an auth service outage; it&#x27;s session state handling
+
+### Synthesis: What Changed in user-session 2.1.0
+
+The evidence converges on **a change to session TTL configuration or session expiry validation logic** in the user-session 2.1.0 release:
+
+**Most likely scenario:**
+- **TTL was hardcoded or recalculated incorrectly** in 2.1.0, causing sessions to expire after ~2–3 minutes instead of the normal ~8–24 hour window
+- OR: **Session validation logic was changed** to aggressively re-check expiry against a shorter window
+- OR: **Cache invalidation logic was introduced or modified**, causing the application to bypass Redis cache for session validation, forcing a database lookup on every `/session/validate` call
+
+All three mechanisms would explain:
+1. Precise 2–3 minute cycling (hardcoded or calculated value)
+2. Cache-hit-rate drop (bypassing cache or invalidating entries)
+3. Partial success rate (see below)
+
+## Why 92% Failed but 8% Succeeded
+
+Sessions expire on a timer, not on every request. The 8% success likely includes:
+
+1. **Users who completed checkout before hitting the second expiry cycle** — they logged in at 14:02, their session was valid immediately, and they finished checkout within ~2 minutes before the first expiry.
+
+2. **Users whose sessions were in a different cache/replication state** — if the checkout service uses session affinity or caching layers, some requests might hit an older cached version that didn&#x27;t have the broken TTL applied yet (first few minutes of rolling deploy rollout).
+
+3. **Session requests that were satisfied from browser local storage or cookies** before the validation endpoint was called (unlikely for security-sensitive checkouts, but possible for certain flows).
+
+The majority of users (92%) failed because after logging in, their session was marked expired on the next `/session/validate` call within 2–3 minutes, forcing re-authentication. Most users had to attempt checkout multiple times, hitting the cycling behavior 2–3 times per user, which compounds the 92% failure rate.
+
+## Why Rolling Deployment Didn&#x27;t Catch This
+
+The rolling deploy completed at 14:03:45 (over ~2 minutes and 45 seconds). The 401 spike started at 14:02:14. This means the bug manifested immediately on the first pod, before the rollout was halfway complete. Rolling deployment did not help because:
+
+1. **The change was behavioral (TTL timing), not capacity-related** — the first pod to receive it was immediately broken
+2. **No canary validation** — the fleet was configured for uniform rolling, not canary staging
+3. **CI did not check session TTL behavior** — automated tests likely check &quot;can I create a session&quot; and &quot;can I validate a session,&quot; not &quot;what is the TTL of the session&quot;
+
+## Missing Piece: Actual Release Notes
+
+**I do not have direct access to the user-session 2.1.0 release notes or source code diff.** The npm package and its changelog are not available in the workspace. To definitively confirm which specific change (TTL hardcode, validation logic rewrite, cache invalidation) caused this, we would need to:
+
+1. Pull the user-session 2.1.0 package from npm
+2. Review the CHANGELOG or release notes
+3. Compare 2.0.4 source with 2.1.0 source, looking for:
+   - Session TTL constant changes
+   - Session validation codepath modifications
+   - Session cache key generation or invalidation logic changes
+   - Token verification timing or refresh logic changes
+
+**Process failure:** The releng review process accepted this bump as &quot;patch-level&quot; without examining the actual changes. For minor version bumps, release notes and code diff review should be mandatory before deploy.
+
+## Recommended Actions
+
+1. **Immediate:** Retrieve and review user-session 2.1.0 release notes and source diff to confirm the exact change
+2. **Short-term:** Audit the user-session 2.0.4 package to verify the actual session TTL was restored on rollback
+3. **Process:** Mandate release notes review and code diff examination for all minor (x.Y.z) and major (X.y.z) version bumps before deploy
+4. **Testing:** Add integration tests that verify session TTL and validate the session lifecycle (create → validate → expire at expected time)
+5. **Deployment:** Implement canary staging for dependency bump deploys (5% of fleet for 5 minutes, validate error rate, then proceed)
+
+## Summary
+
+user-session 2.1.0 introduced a behavior change affecting session lifecycle. The change was incorrectly characterized as patch-level by the PR author. The symptom (2–3 minute session expiry cycling) and evidence convergence (cache-hit-rate drop, 401 spike, customer re-auth cycles) all point to a change in session TTL, validation logic, or cache handling. The minor version bump was not reviewed for behavioral changes before deploy, which allowed the regression to reach production unchecked.
+</pre></details><details class="artifact"><summary>findings/sre.md <span class="empty">· 3,190 B</span></summary><pre># SRE findings — incident 2026-04-20
+
+## Evidence
+
+- HTTP 401 spike on `/session/validate` starting 14:02:14 UTC (baseline ~3 req/min → peak ~310 req/min at 14:18 UTC)
+- All 401 responses carry identical error signature: `{&quot;error&quot;:&quot;session_expired&quot;,&quot;code&quot;:&quot;SES_EXP&quot;}`
+- Session invalidation pattern shows same session_id cycling: valid → 401 → new session issued → valid → 401 again, within 2–3 minute windows
+- Example: `sid=a7f2…` succeeded at 14:08:22, failed at 14:08:44 (22 seconds later); new `sid=b3e9…` succeeded at 14:09:01, failed at 14:11:53 (168 seconds later)
+- Non-session endpoints and `/healthz` remained clean throughout; no gateway errors
+- No process crashes, OOM kills, or database connectivity drops in incident window
+- Recovery curve begins 14:36 UTC, returns to baseline 14:42 UTC (correlates with rollback triggered at 14:35)
+
+## Timeline (my view)
+
+- 14:00 UTC — baseline session validation rate ~3 req/min
+- 14:01 UTC — deploy executed (deploy details unknown to SRE)
+- 14:02:14 UTC — 401 spike begins on `/session/validate`
+- 14:05 UTC — scheduled DB failover occurs (failover details unknown to SRE)
+- 14:18 UTC — peak error rate reached (~310 req/min 401s)
+- 14:35 UTC — rollback triggered
+- 14:36 UTC — recovery begins (error rate starts declining)
+- 14:42 UTC — error rate returns to baseline
+
+## Initial hypothesis
+
+The session system is prematurely invalidating valid sessions. The timing (14:02:14 start, only 71 seconds after deploy completion at 14:01) and the pattern (same user re-authenticating every 2–3 minutes instead of normal session lifetime) suggest either:
+
+1. The 14:01 deploy modified session TTL values downward, or introduced a bug that marks sessions expired incorrectly
+2. The 14:05 DB failover caused session records to be evicted from the session store ahead of their TTL, triggering the validation failures
+
+The fact that 8% of checkouts succeeded suggests either a caching layer absorbed some validation calls, or certain traffic patterns (e.g., cached user flows) bypassed the session validation entirely.
+
+Recovery correlated with rollback implies the root cause was in the deployed code, not in infrastructure state that persisted.
+
+## Gaps / questions for others
+
+- **releng**: What changed in the 14:01 deploy relative to the previous production version? Specifically: (a) any changes to session TTL configuration, (b) any changes to the session validation code path, (c) any dependency version bumps that could affect session lifecycle?
+- **observability**: Can you confirm the exact moment the DB failover completed at 14:05? Did you observe any immediate spike in session cache evictions, memory pressure, or connection pool exhaustion on the session store during or immediately after the failover?
+- **observability**: Did the cache hit rate on session lookups drop during the 14:02–14:35 window? If sessions were being evicted prematurely, cache-miss rate should spike.
+- **support**: Can you confirm from customer tickets whether users reported being forced to re-login multiple times during 14:02–14:35, and roughly how many re-auth cycles each user experienced before giving up?
+</pre></details><details class="artifact"><summary>findings/support.md <span class="empty">· 3,238 B</span></summary><pre># Support findings — incident 2026-04-20
+
+## Evidence
+
+- 38 of 47 tickets (81%) report users successfully logging in, then being forcibly logged out during checkout, with multiple re-login cycles required to complete purchase
+- Pattern timing cue: users consistently report sessions expiring ~2–5 minutes after re-login, then requiring another login
+- Representative quote from ticket #18422: &quot;I logged in fine, added items to my cart, clicked checkout, and it told me my session expired. I logged back in and tried again. It worked for a couple of minutes and then kicked me out again.&quot;
+- Ticket #18431: &quot;Got logged out mid-checkout THREE times before it let me pay.&quot;
+- Ticket #18444: &quot;I was logged in, went to add a coupon, got an error saying I was signed out. Signed in, tried again, was fine for about 5 minutes, then got signed out again.&quot;
+- Ticket #18461: &quot;Kept getting &#x27;session expired&#x27; even though I hadn&#x27;t even closed the tab. I was still in the middle of typing my card number.&quot;
+- Ticket #18409: &quot;This has never happened to me before. I don&#x27;t think it&#x27;s my wifi. I was on my phone too and had the same thing happen.&quot; (indicates platform-independent behavior)
+- Secondary noise: 6 tickets about general site slowness (no session component), 3 about coupon codes (ambiguous relevance)
+- All complaints are about session behavior, not login failure — users successfully authenticated but established sessions were killed prematurely
+
+## Timeline (my view)
+
+- 14:00–14:02 UTC — no reported session issues in queue
+- 14:02 UTC onward — session expiration complaints begin arriving
+- 14:02–14:35 UTC — 38 tickets accumulate with consistent re-login pattern
+- 14:35 UTC — rollback triggered
+- 14:42 UTC onward — new tickets stop reporting session cycling (last problematic ticket logged ~14:38 UTC)
+
+## Initial hypothesis
+
+The session TTL or session validation logic was changed in the 14:01 deploy, causing all established user sessions to be invalidated or expired every 2–5 minutes instead of persisting for the normal session lifetime. This forced users to re-authenticate mid-transaction, resulting in checkout abandonment and frustration.
+
+This aligns precisely with SRE&#x27;s observation of `/session/validate` returning 401s with `session_expired` error codes in a 2–3 minute cycling pattern. The customer-visible symptom is &quot;get logged out, re-login, works briefly, get logged out again&quot; — exactly what the session cycling data shows.
+
+The fact that some checkouts succeeded (8% success rate vs 92% failure) suggests either:
+1. A small fraction of users&#x27; sessions avoided the invalidation bug (caching or specific request patterns)
+2. Some users completed checkout before hitting the second re-login cycle
+
+## Gaps / questions for others
+
+- **releng**: SRE is already asking this, but from support&#x27;s angle — did the 14:01 deploy modify session TTL configuration, session validation code, or session storage interaction? The precision of the 2–3 minute window suggests a hardcoded value, not a random failure.
+- **observability**: Were there any metrics changes (session cache hit rate, session store latency) between 14:01 and 14:02 that would correlate with the sudden session invalidation spike?
+
+</pre></details><div class="folder-header">root/</div><details class="artifact"><summary>DONE_CRITERIA.md <span class="empty">· 3,390 B</span></summary><pre># Incident Postmortem Scope — Checkout degradation, 2026-04-20
+
+## Incident Summary
+Checkout success rate dropped from 99.8% to 92% between 14:02 and 14:42 UTC on Monday 2026-04-20. ~40 minutes. Recovery correlated with the release engineer triggering a rollback at 14:35. Severity: SEV-2. Revenue impact estimated ~$180k in lost/abandoned transactions.
+
+**Core facts:**
+- Something changed around 14:00–14:02 (deploy at 14:01 UTC)
+- Rolling back at 14:35 recovered the system by 14:42
+- The outage was NOT total — success rate dropped to 92%, not 0%
+- Users who succeeded did so on their first try; users who failed did so with varying patterns
+
+**Open questions entering postmortem:**
+1. Is it auth/session system malfunction?
+2. Did the 14:05 scheduled DB failover cause side effects?
+3. Was the 14:01 deploy truly innocuous as claimed?
+4. Is there more than one cause compounding?
+5. Will this recur if we redeploy the rolled-back version?
+
+## Investigators &amp; Roles
+
+- **sre**: Owns application logs. Focus on checkout service, session service, API gateway logs for 14:00–14:45 UTC.
+- **observability**: Owns metrics and infrastructure events. Focus on time-series data, dashboards, cache behavior, failover events.
+- **releng**: Owns deploy pipelines and release manifest. Focus on the 14:01 deploy contents, dependency changes, the rollback.
+- **support**: Owns customer tickets and user-reported behavior. Focus on ticket patterns, customer descriptions of symptom behavior.
+
+## Required Investigation Output Format
+
+Each investigator must write `findings/&lt;role&gt;.md` with this exact structure:
+
+```
+## Evidence
+- &lt;specific observation from my data source&gt;
+- &lt;another specific observation&gt;
+- ...
+
+## Timeline (my view)
+- HH:MM UTC — &lt;event I observe&gt;
+- HH:MM UTC — &lt;event I observe&gt;
+- ...
+
+## Initial hypothesis
+- &lt;what I think happened based on my evidence&gt;
+- &lt;why this fits the data I see&gt;
+
+## Gaps / questions for others
+- &lt;teammate name&gt;: &lt;specific question directed at them&gt;
+- &lt;teammate name&gt;: &lt;specific question directed at them&gt;
+```
+
+**Critical rule:** If your evidence implicates another domain, **send_message that teammate BEFORE marking your task complete**. Example: if you see a deploy-correlated change, message releng with your specific observation. The lead is CC&#x27;d automatically on all peer-to-peer messages.
+
+## Triangulation Goal
+
+The answer is NEVER in one domain&#x27;s findings alone. Root cause emerges from JOINS between evidence streams:
+- Does observability&#x27;s cache-hit-rate drop match SRE&#x27;s session invalidation spike?
+- Does releng&#x27;s package diff explain support&#x27;s &quot;re-login every few minutes&quot; pattern?
+- Can we date the start of SRE&#x27;s 401 spike to the exact moment of the deploy completion?
+
+## Postmortem Deliverable
+
+Final `OUTPUT.md` must contain:
+- **Timeline (consolidated):** HH:MM UTC events from all four domains
+- **Root cause hypothesis:** One paragraph. Which agents&#x27; evidence supports it. What specifically happened, in causal order.
+- **Counter-evidence considered:** What evidence would have pointed elsewhere and why it was ruled out, or remaining uncertainty.
+- **Contributing factors:** Process, tooling, or organizational factors that let this happen.
+- **Remediation:** Named owners + actions + deadlines.
+- **Unknowns:** What we still can&#x27;t explain, or &quot;none&quot;.
+</pre></details><details class="artifact"><summary>follow_up_session_analysis.md <span class="empty">· 5,190 B</span></summary><pre># SRE follow-up: Session invalidation patterns &amp; cache behavior
+
+## What I can answer from application logs
+
+### Question 1: Cache miss vs. cache hit in session invalidations
+
+**No log coverage.** My application logs show the `/session/validate` HTTP endpoint and its 401 responses, but do not include cache-layer indicators (cache hit/miss flags, key lookups, eviction records). To answer this, I would need:
+- Session service logs that show whether each validate request served from cache or required a database lookup
+- Redis access logs or cache hit/miss metrics correlated to individual session_ids
+
+**What I can infer:** Observability reports cache-hit-rate dropped 94.1% → 61.3%. This 33-percentage-point drop happened concurrently with the 401 spike. If these two events are directly causal, then either:
+- The new code is generating different cache keys, causing legitimate cache misses
+- The new code is invalidating cache entries prematurely
+- But I cannot prove which from my logs alone.
+
+### Question 2: Differences between invalidated and newly-issued sessions
+
+**No log coverage.** My logs show session_ids cycling (`sid=a7f2…` → `sid=b3e9…`), but do not include:
+- TTL values in the logs
+- Session encoding/format differences
+- Cache key generation patterns
+- Session record sizes or structure changes
+
+**Example I do have:**
+```
+14:08:22  sid=a7f2… validate OK   user_id=u_184
+14:08:44  sid=a7f2… validate 401  SES_EXP
+14:09:01  sid=b3e9… (new sid) validate OK  user_id=u_184
+14:11:53  sid=b3e9… validate 401  SES_EXP
+```
+
+Both sessions failed within minutes of creation. If the 14:01 deploy changed session TTL downward (e.g., 30 min → 5 min), both old and new sessions would fail equally — which matches the data. But this is consistent with what releng found (user-session 2.1.0 bump), not derived from my logs.
+
+To differentiate whether TTL *values* changed vs. *logic* changed, I would need:
+- Session creation logs with explicit TTL recorded
+- Timestamp and TTL-expiry timestamps in session records
+- Or, session service debug logs showing the TTL calculation path taken in 2.0.4 vs. 2.1.0
+
+### Question 3: Commonality among successful 8% of checkouts
+
+**No log coverage.** My logs do not contain checkout-flow data or information about which requests succeeded. I have:
+- `/session/validate` error rates
+- Counts of 401s vs. successful validations
+
+But I do not have:
+- Checkout request logs (POST /checkout, success/failure per request)
+- User identifiers or sessions associated with successful checkouts
+- Request paths or flow patterns of the 8% that succeeded
+
+To answer this, I would need checkout service logs showing:
+- Which users/sessions successfully completed checkout 14:02–14:35 UTC
+- Whether they were cached requests, or used fresh session validation
+- Whether they bypassed `/session/validate` entirely, or succeeded on their first call
+
+---
+
+## What the pattern DOES tell me (and aligns with releng + support findings)
+
+1. **Timing:** Deploy completed 14:03:45 (releng report), 401 spike began 14:02:14 (my logs). This 1.5-minute gap is consistent with a rolling deploy where the first affected pod came online at 14:02:14.
+
+2. **Pattern matches support tickets:** The valid → 401 → valid → 401 cycling every 2–5 minutes exactly matches customer complaints (#18422, #18444). This strongly suggests session TTL was modified downward, not that validation logic broke entirely.
+
+3. **Cache-hit drop is real but not fully explained:** Observability&#x27;s 94.1% → 61.3% drop could indicate the new version is generating cache misses on otherwise-cacheable sessions. But without session-layer logs showing cache keys, I cannot confirm whether this is due to:
+   - Key format change (different hashing or encoding in 2.1.0)
+   - Increased validation-logic cache-bypass (e.g., added a check that forces re-validation)
+   - Shorter TTL causing entries to age out of the cache
+
+---
+
+## Gaps / questions for others
+
+- **releng**: Does the user-session 2.1.0 PR change session TTL configuration, cache key generation logic, or the session validation code path? Specifically, can you diff 2.0.4 → 2.1.0 for: (a) any hardcoded TTL constants, (b) any changes to how cache keys are constructed, (c) any new validation checks that might force re-validation?
+
+- **observability**: Can you correlate individual session_ids from my logs with Redis cache keys during the 14:02–14:35 window? If `sid=a7f2…` generates a cache key `session:a7f2:…`, did that key exist in Redis before the 401, or was it already missing (cache miss)? This would show whether 2.1.0 changed cache key format.
+
+- **observability**: Among the 8% of successful checkouts, can you identify which ones used `/session/validate` (and succeeded on first call), vs. which ones bypassed session validation or used cached sessions? This would explain why 8% succeeded despite the 401 spike.
+
+- **releng**: Given the customer pattern of &quot;works for 2–5 minutes then kicked out,&quot; does user-session 2.1.0 include a session TTL change? If TTL was reduced (e.g., from 30 min default to 5 min), that would directly cause this pattern without any cache or validation bugs.
+
+</pre></details><details class="artifact"><summary>observability_followup.md <span class="empty">· 3,812 B</span></summary><pre># Observability Follow-up: DB Failover Pre-scheduled vs. Alert-triggered
+
+## Confirmation: 14:05:12 Failover Was Pre-scheduled, Not Alert-triggered
+
+**Finding:** The 14:05:12 UTC primary DB failover was routine weekly maintenance (scheduled Monday 14:05 slot), not triggered by the 14:02 session error spike. Evidence:
+
+- Failover is documented as routine weekly maintenance, not reactive
+- Session validation errors began at 14:02:14 UTC
+- DB failover initiated at 14:05:12 UTC — **3 minutes after error spike onset**
+- If the failover had been alert-triggered by the 14:02 errors, it would have initiated immediately (~14:02–14:03), not waited 3 minutes
+
+**Temporal causality ruled out:** The primary DB failover could not have caused the session errors beginning at 14:02:14, since the failover had not yet started.
+
+## Session Redis Cluster: Isolated from Primary DB Failover
+
+**Finding:** The primary DB failover at 14:05:12 did NOT cascade to the session Redis cluster. Evidence:
+
+- Session Redis cluster remained healthy throughout 14:02–14:42 window
+  - No evictions logged (evictions would appear in cluster metrics if triggered by failover-related connection storms)
+  - No memory pressure (heap usage stable)
+  - No CPU spike (would appear during failover-triggered reconnection storms)
+  - No network saturation
+  
+- The session Redis cluster is a separate infrastructure layer from the primary DB. Database failover involves replication switchover on the DB only, not direct impact to session storage
+
+**Cascading effect ruled out:** The session Redis cluster operates independently of the primary DB. Failover on primary DB does not evict Redis entries or cause cache-hit-rate drops directly.
+
+## Session Cache Hit Rate: Causality Attribution
+
+**Timeline detail:**
+- 14:02:00 — deploy completes
+- 14:02:14 — session validation errors spike to 14.8%; cache hit rate begins collapse
+- 14:02–14:06 — cache hit rate drops from 94.1% to 61.3% (33pp drop)
+- 14:05:12 — DB failover initiates (after cache hit rate already dropped)
+- 14:05:39 — DB failover completes
+- 14:42 — rollback, recovery
+
+**Causality:** The 33pp cache-hit-rate drop occurred primarily during 14:02–14:06, with the steepest decline in the first 4 minutes (14:02–14:06). The DB failover at 14:05:12 falls in the middle of this window but does not explain it:
+
+- Cache hit rate was already down 20pp+ by 14:05
+- No memory or eviction signals on Redis during failover window
+- No spike in cache hits post-failover (14:05:39–14:42) — rate remained depressed at ~61%
+- Recovery only occurred post-rollback (14:35–14:42)
+
+**Root cause:** The cache-hit-rate drop is explained by the 14:01 deploy changing application behavior, not by the 14:05 DB failover. The deploy introduced code that either invalidates session cache entries or bypasses cache entirely. This behavior persisted until rollback.
+
+## Answer to SRE Questions
+
+**Q: Did the 14:05 scheduled DB failover trigger any immediate spike in session cache evictions or memory pressure?**
+A: No. Session Redis cluster showed zero evictions logged and stable memory throughout. The DB failover operated on a separate infrastructure layer and did not trigger Redis-level events.
+
+**Q: Can you show cache hit rate on session lookups during 14:02–14:35 vs. baseline?**
+A: Baseline (pre-incident): 94.1%. During 14:02–14:35 incident window: 61.3%. The drop was not caused by failover (which occurred at 14:05 after the drop was underway) but by the 14:01 deploy.
+
+## Conclusion
+
+The 14:05:12 primary DB failover is definitively **not a contributing cause** to the session error spike or cache-hit-rate drop. It was pre-scheduled routine maintenance that coincidentally overlapped with an already-degraded system. The root cause remains the 14:01 deploy.
+</pre></details><details class="artifact"><summary>OUTPUT.md <span class="empty">· 8,847 B</span></summary><pre># Incident Postmortem — Checkout Degradation, 2026-04-20
+
+## Timeline (consolidated)
+
+- 14:01:12 UTC — Deploy CHK-2417 begins rolling out to checkout-service fleet (user-session 2.0.4 → 2.1.0, express 4.18.1 → 4.18.3, pg 8.11.3 → 8.11.5, Node 18.17.1 → 18.18.2)
+- 14:02:14 UTC — HTTP 401 spike begins on `/session/validate` endpoint (baseline ~3 req/min → ~310 req/min by 14:18)
+- 14:02 UTC — Checkout success rate drops from 99.8% to 92.1%; Session Redis cache-hit-rate falls from 94.1% to 61.3%
+- 14:03:45 UTC — Rolling deploy completes across all checkout-service pods
+- 14:05:12 UTC — Scheduled primary DB failover initiates (routine weekly maintenance, pre-scheduled; not triggered by errors)
+- 14:05:39 UTC — DB failover completes; session Redis cluster shows zero cascade effects, no evictions, health metrics stable
+- 14:20 UTC — `/session/validate` error rate peaks at ~18%; errors continue at sustained elevated rate
+- 14:35:07 UTC — Rollback manually triggered, reverting all four dependency/runtime bumps
+- 14:37:50 UTC — Rollback completes
+- 14:42 UTC — Checkout success rate recovers to 99.8%, `/session/validate` errors drop to baseline 0.2%, Session Redis cache-hit-rate recovers to 93.7%
+
+## Root Cause (hypothesis)
+
+The 14:01 deploy introduced **user-session 2.1.0** (minor version bump, mislabeled as patch-level by PR author), which modified session TTL handling. **Sessions now expire after ~2–3 minutes instead of the normal multi-hour lifetime.** When users log in, their session is valid briefly, then marked expired (`SES_EXP`) on the next `/session/validate` call (occurring within 2–5 minutes). Users must re-authenticate, but newly-issued sessions follow the same 2–3 minute expiry cycle. This forced users to re-login multiple times during checkout, resulting in 92% checkout failure rate and ~$180k revenue impact.
+
+The session expiry pattern is precise (not random), indicating a hardcoded or miscalculated TTL constant in user-session 2.1.0. The library is directly on the session validation code path (`/session/validate` 401 errors, support tickets reporting &quot;had to re-login 3 times,&quot; SRE logs showing session_id cycling valid → 401 → valid → 401 every 2–3 minutes). The 8% of checkouts that succeeded either completed before their first session expiry, or benefited from caching layers that served older session data.
+
+**Evidence supporting this hypothesis:**
+- **SRE logs:** Session IDs cycling valid → 401 (SES_EXP) → new session → 401 again, all within 2–3 minute windows. Spike begins 14:02:14, only 71 seconds after deploy completes.
+- **Support tickets:** 38 of 47 tickets (81%) report identical pattern: &quot;logged in fine... worked for a couple minutes then kicked me out again.&quot; Ticket #18431: &quot;Got logged out mid-checkout THREE times.&quot;
+- **Observability metrics:** `/session/validate` error rate 0.2% → 14.8% exactly correlates with deploy completion. Session Redis cache-hit-rate drops 33 percentage points but cluster infrastructure is healthy (no evictions, no memory pressure, no connection storms) — indicating application code changed session validation behavior, not infrastructure failure.
+- **Releng evidence:** user-session 2.1.0 is documented as a MINOR version bump (behavior-change risk), not patch-level. Convergent evidence from all four domains points to TTL or session validation logic change.
+- **Temporal causality:** Deploy at 14:01, errors at 14:02:14 (71-second lag for rolling deploy + pod startup). Rollback at 14:35 → recovery by 14:42 (5-minute lag for new pods to stabilize). No other infrastructure change correlates.
+
+## Counter-evidence considered
+
+**DB Failover (14:05:12–14:05:39):** Was this a contributing cause?
+- **Ruled out.** The failover was pre-scheduled routine weekly maintenance (Monday 14:05 UTC slot), not alert-triggered by the 14:02 error spike.
+- Session validation errors began at 14:02:14 UTC, 3 minutes BEFORE the failover initiated. If failover had triggered the errors, it would have started immediately, not waited 3 minutes.
+- Session Redis cluster showed zero cascade effects: no evictions logged, memory and CPU stable, no network saturation during the failover window.
+- Cache-hit-rate drop (94.1% → 61.3%) occurred primarily during 14:02–14:06 UTC, before the failover. The drop was already 20 percentage points down by the time failover started at 14:05.
+- Recovery only occurred post-rollback (14:35–14:42), not post-failover (14:05–14:42). This definitively attributes the cache-hit-rate collapse to the deploy, not the failover.
+
+**Remaining uncertainty:** The exact mechanism (hardcoded TTL constant vs. changed validation logic vs. cache key generation change) cannot be confirmed without direct access to user-session 2.1.0 release notes and source code diff. The evidence converges on session TTL modification, but the specific code change is unknown.
+
+## Contributing factors
+
+1. **Process failure — minor version bump incorrectly reviewed as patch-level.** The PR author labeled user-session 2.0.4 → 2.1.0 as &quot;routine patch-level update,&quot; when it is a MINOR version bump that routinely carries behavior changes. Releng reviewed and approved without examining the actual changes. Standard practice does not mandate release notes review for patch-level bumps, but minor versions require review. This allowed a behavioral regression to reach production.
+
+2. **No canary validation for dependency bumps.** The rolling deploy had no canary hold: the fleet was configured for uniform rollout, not 5% canary for 5 minutes. The first pod to receive user-session 2.1.0 was immediately broken. The bug manifested within 71 seconds of first pod completion and should have been detected within the first 2 minutes of the rolling deploy.
+
+3. **No session TTL or session lifecycle testing in CI.** Automated tests likely verify &quot;can I create a session&quot; and &quot;can I validate a session,&quot; but not &quot;does the session TTL match expectations&quot; or &quot;does the session expire at the expected time.&quot; This behavioral regression passed CI.
+
+4. **Insufficient logging in session service.** SRE application logs do not include session-layer cache hit/miss indicators, TTL values, or session state metadata. While observability correctly identified the cache-hit-rate drop via metrics, SRE could not trace the specific mechanism from logs alone.
+
+## Remediation
+
+- **releng (immediate, by 2026-04-23):** Retrieve user-session 2.1.0 release notes and source code diff from npm. Confirm whether TTL was hardcoded, validation logic changed, or cache key generation modified. Document exact change in postmortem appendix. Owner: release engineering lead.
+
+- **releng (short-term, by 2026-04-29):** Implement mandatory code review for all minor (x.Y.z) and major (X.y.z) version bumps: reviewer must examine release notes and source diff, document risk assessment, approve or reject explicitly. No minor/major bump deploy without documented review. Owner: release engineering lead.
+
+- **releng (short-term, by 2026-04-29):** Implement canary deployment for all dependency-bump and runtime-bump deploys: deploy to 5% of fleet, measure error rate for 5 minutes, require error rate to remain &lt;0.5% above baseline, only then proceed to 100%. Owner: release engineering lead.
+
+- **platform/SRE (short-term, by 2026-04-30):** Add integration tests to session service that verify session TTL behavior and session lifecycle (create session → validate immediately (expect OK) → wait T+expected_TTL → validate again (expect SES_EXP)). Add tests for all session creation patterns (new user, returning user, token refresh). Owner: platform/SRE engineering lead.
+
+- **releng (medium-term, by 2026-05-06):** Audit all currently-deployed dependency versions in checkout service and related services against their upstream release notes. Identify any other minor or major bumps that were incorrectly treated as patch-level in recent reviews (last 30 days). Document findings and remediate any discovered regressions. Owner: release engineering lead.
+
+## Unknowns
+
+- **Exact mechanism in user-session 2.1.0:** Whether the session TTL was hardcoded to a shorter value, validation logic was rewritten, or cache key generation changed. Pending retrieval and review of 2.1.0 release notes and source diff from npm.
+- **Why exactly 8% of checkouts succeeded:** Whether the 8% was due to users completing checkout within the first session-validity window, caching layers serving stale session data, or a third pattern. Application logs insufficient to determine; would require checkout flow tracing and cache-layer instrumentation.
+
+---
+
+**Incident declared RESOLVED at 14:42 UTC.** Rollback deployed, system recovered, remediation owners assigned.</pre></details><details class="artifact"><summary>project_context.md <span class="empty">· 1,613 B</span></summary><pre># Incident context — Checkout degradation, 2026-04-20
+
+**Incident:** Checkout success rate dropped from 99.8% to 92% between
+14:02 and 14:42 UTC on Monday 2026-04-20. ~40 minutes. Recovery
+correlated with the release engineer triggering a rollback at 14:35.
+
+**Severity:** SEV-2. Revenue impact estimated ~$180k in lost/abandoned
+transactions. Compliance team notified (audit-log continuity was not
+affected).
+
+**What we know going in:**
+- Something changed around 14:00–14:02.
+- Rolling back at 14:35 recovered the system by 14:42.
+- The outage was NOT total — success rate dropped to 92%, not 0%.
+  Users who succeeded did so on their first try. Users who failed did
+  so with varying patterns.
+
+**What we don&#x27;t know:**
+- The root cause. Multiple possible stories are live:
+  1. Auth/session system malfunctioned.
+  2. A scheduled DB failover at 14:05 caused side effects.
+  3. The deploy at 14:01 was not as innocuous as its manifest claimed.
+- Whether there&#x27;s more than one cause compounding.
+- Whether this will recur if we redeploy the rolled-back version.
+
+**The postmortem&#x27;s job:**
+Converge on a root-cause hypothesis supported by cross-referenced
+evidence from four domains (logs, metrics, deploys, customer reports),
+list contributing factors, and assign remediation owners. The correct
+answer is NOT in any single domain&#x27;s findings — it requires a join.
+
+**Team:** sre, observability, releng, support. IC is running the
+postmortem.
+
+**Output:** `OUTPUT.md` should contain timeline, root-cause hypothesis
+with evidence + counter-evidence, contributing factors, remediation
+owners, and unknowns.
+</pre></details></section>
+<section><h2>Messages</h2><table class="messages">
+<thead><tr><th>ts</th><th>from → to</th><th>content</th></tr></thead>
+<tbody><tr><td>2026-04-22T20:56:30.964922+00:00</td><td>sre → lead cc (→ releng)</td><td>SRE: The 401 spike begins 14:02:14 UTC, only 71 seconds after your 14:01 deploy completion. The pattern shows sessions becoming valid → invalid → valid → invalid within 2–3 minute cycles, suggesting premature expiry rather than normal TTL exhaustion. Did the 14:01 deploy modify session TTL configuration, or change the session validation code path? Any dependency version changes that could affect s</td></tr><tr><td>2026-04-22T20:56:30.964922+00:00</td><td>sre → releng </td><td>SRE: The 401 spike begins 14:02:14 UTC, only 71 seconds after your 14:01 deploy completion. The pattern shows sessions becoming valid → invalid → valid → invalid within 2–3 minute cycles, suggesting premature expiry rather than normal TTL exhaustion. Did the 14:01 deploy modify session TTL configuration, or change the session validation code path? Any dependency version changes that could affect s</td></tr><tr><td>2026-04-22T20:56:31.917854+00:00</td><td>sre → lead cc (→ observability)</td><td>SRE: 401 spike starts 14:02:14 (post-deploy), peaks at 310 req/min by 14:18, recovers 14:36 onward post-rollback. Questions: (1) Did the 14:05 scheduled DB failover trigger any immediate spike in session cache evictions or memory pressure on the session store? (2) Can you show cache hit rate on session lookups during 14:02–14:35 vs. baseline? If sessions were being evicted prematurely, cache-miss </td></tr><tr><td>2026-04-22T20:56:31.917854+00:00</td><td>sre → observability </td><td>SRE: 401 spike starts 14:02:14 (post-deploy), peaks at 310 req/min by 14:18, recovers 14:36 onward post-rollback. Questions: (1) Did the 14:05 scheduled DB failover trigger any immediate spike in session cache evictions or memory pressure on the session store? (2) Can you show cache hit rate on session lookups during 14:02–14:35 vs. baseline? If sessions were being evicted prematurely, cache-miss </td></tr><tr><td>2026-04-22T20:56:32.775399+00:00</td><td>releng → lead cc (→ sre)</td><td>Releng here. The 14:01 deploy included a minor version bump to user-session: 2.0.4 → 2.1.0. The PR author incorrectly labeled it as patch-level. This library handles session management and could be directly implicated in checkout failures. Did you observe session invalidation spikes, 401/403 errors, or session state anomalies in your logs around 14:00–14:03 that correlate with deploy completion at</td></tr><tr><td>2026-04-22T20:56:32.775399+00:00</td><td>releng → sre </td><td>Releng here. The 14:01 deploy included a minor version bump to user-session: 2.0.4 → 2.1.0. The PR author incorrectly labeled it as patch-level. This library handles session management and could be directly implicated in checkout failures. Did you observe session invalidation spikes, 401/403 errors, or session state anomalies in your logs around 14:00–14:03 that correlate with deploy completion at</td></tr><tr><td>2026-04-22T20:56:32.872030+00:00</td><td>sre → lead cc (→ support)</td><td>SRE: Logs show session invalidation pattern where same users are re-authenticating every 2–3 minutes (not normal session lifetime). During 14:02–14:35 UTC, do customer tickets show users complaining about being forced to re-login repeatedly? If so, roughly how many re-auth cycles per user before they abandoned checkout?</td></tr><tr><td>2026-04-22T20:56:32.872030+00:00</td><td>sre → support </td><td>SRE: Logs show session invalidation pattern where same users are re-authenticating every 2–3 minutes (not normal session lifetime). During 14:02–14:35 UTC, do customer tickets show users complaining about being forced to re-login repeatedly? If so, roughly how many re-auth cycles per user before they abandoned checkout?</td></tr><tr><td>2026-04-22T20:56:35.271495+00:00</td><td>releng → lead cc (→ support)</td><td>Releng here. The 14:01 deploy introduced a minor version bump to the user-session library (2.0.4 → 2.1.0). Minor versions can carry behavior changes. Are you seeing customer reports of session-related issues in the incident window (14:00–14:45)? Patterns like: &quot;had to re-login&quot;, &quot;session expired unexpectedly&quot;, &quot;authentication failed on first try but worked on retry&quot;? These would correlate directly</td></tr><tr><td>2026-04-22T20:56:35.271495+00:00</td><td>releng → support </td><td>Releng here. The 14:01 deploy introduced a minor version bump to the user-session library (2.0.4 → 2.1.0). Minor versions can carry behavior changes. Are you seeing customer reports of session-related issues in the incident window (14:00–14:45)? Patterns like: &quot;had to re-login&quot;, &quot;session expired unexpectedly&quot;, &quot;authentication failed on first try but worked on retry&quot;? These would correlate directly</td></tr><tr><td>2026-04-22T20:56:38.744876+00:00</td><td>observability → lead cc (→ releng)</td><td>Observability perspective on 14:01 deploy: checkout success rate dropped 99.8% → 92.1% at 14:02 UTC, with `/session/validate` errors spiking from 0.2% → 14.8% in same window. Session Redis cache-hit-rate fell 94.1% → 61.3% during incident but cluster was healthy (no evictions, no resource pressure). Pattern suggests code change that bypassed or invalidated session cache, not infrastructure failure</td></tr><tr><td>2026-04-22T20:56:38.744876+00:00</td><td>observability → releng </td><td>Observability perspective on 14:01 deploy: checkout success rate dropped 99.8% → 92.1% at 14:02 UTC, with `/session/validate` errors spiking from 0.2% → 14.8% in same window. Session Redis cache-hit-rate fell 94.1% → 61.3% during incident but cluster was healthy (no evictions, no resource pressure). Pattern suggests code change that bypassed or invalidated session cache, not infrastructure failure</td></tr><tr><td>2026-04-22T20:56:40.022353+00:00</td><td>observability → lead cc (→ sre)</td><td>Observability data shows `/session/validate` error rate: 0.2% → 14.8% at 14:02, peaking ~18% around 14:20. Session Redis cache-hit-rate dropped 94.1% → 61.3% concurrently; Redis cluster itself healthy. Error spike timing aligns with 14:01 deploy. Two questions: (1) Are these errors 401s or another status code? (2) Do your logs show whether errors came from cache misses or from validation logic its</td></tr><tr><td>2026-04-22T20:56:40.022353+00:00</td><td>observability → sre </td><td>Observability data shows `/session/validate` error rate: 0.2% → 14.8% at 14:02, peaking ~18% around 14:20. Session Redis cache-hit-rate dropped 94.1% → 61.3% concurrently; Redis cluster itself healthy. Error spike timing aligns with 14:01 deploy. Two questions: (1) Are these errors 401s or another status code? (2) Do your logs show whether errors came from cache misses or from validation logic its</td></tr><tr><td>2026-04-22T20:56:55.486751+00:00</td><td>support → lead cc (→ sre)</td><td>Support confirms your session cycling hypothesis with ticket data. 38 of 47 tickets explicitly report users logging in successfully, then being kicked out 2–5 minutes later, requiring re-login. Ticket #18422: &quot;logged in fine, added items, got session expired error, logged back in, worked for a couple minutes then kicked out again.&quot; Ticket #18444: &quot;signed in, was fine for about 5 minutes, then got </td></tr><tr><td>2026-04-22T20:56:55.486751+00:00</td><td>support → sre </td><td>Support confirms your session cycling hypothesis with ticket data. 38 of 47 tickets explicitly report users logging in successfully, then being kicked out 2–5 minutes later, requiring re-login. Ticket #18422: &quot;logged in fine, added items, got session expired error, logged back in, worked for a couple minutes then kicked out again.&quot; Ticket #18444: &quot;signed in, was fine for about 5 minutes, then got </td></tr><tr><td>2026-04-22T20:56:57.018080+00:00</td><td>support → lead cc (→ releng)</td><td>Support data implicates session behavior change in the 14:01 deploy. 81% of incident tickets report the same pattern: successful login, then session expiration every 2–5 minutes, requiring multiple re-authentications to complete checkout. This is not auth failure (users can login), but premature session invalidation. Critical question: did the 14:01 deploy modify session TTL configuration, session</td></tr><tr><td>2026-04-22T20:56:57.018080+00:00</td><td>support → releng </td><td>Support data implicates session behavior change in the 14:01 deploy. 81% of incident tickets report the same pattern: successful login, then session expiration every 2–5 minutes, requiring multiple re-authentications to complete checkout. This is not auth failure (users can login), but premature session invalidation. Critical question: did the 14:01 deploy modify session TTL configuration, session</td></tr><tr><td>2026-04-22T20:56:58.256370+00:00</td><td>support → lead cc (→ observability)</td><td>Session behavior anomaly correlates with the 14:01 deploy. Support tickets show customers experiencing session expiration every 2–5 minutes (abnormal vs normal multi-hour session lifetime). SRE observed 401 spike on `/session/validate` at 14:02:14 UTC with same 2–3 minute cycling. Can you provide metrics on session cache hit rate, session store latency, or connection pool behavior between 14:01 an</td></tr><tr><td>2026-04-22T20:56:58.256370+00:00</td><td>support → observability </td><td>Session behavior anomaly correlates with the 14:01 deploy. Support tickets show customers experiencing session expiration every 2–5 minutes (abnormal vs normal multi-hour session lifetime). SRE observed 401 spike on `/session/validate` at 14:02:14 UTC with same 2–3 minute cycling. Can you provide metrics on session cache hit rate, session store latency, or connection pool behavior between 14:01 an</td></tr><tr><td>2026-04-22T20:57:53.625736+00:00</td><td>support → lead cc (→ sre)</td><td>Support data on re-auth cycles: Ticket #18431 explicitly states &quot;Got logged out mid-checkout THREE times before it let me pay&quot; — so at least one user persisted through 3 cycles. Ticket #18422 and #18444 both report being kicked out, re-logging in, and getting kicked out again (2+ cycles visible). Most tickets don&#x27;t quantify exact cycle count, but the pattern across 38 tickets is consistent: users </td></tr><tr><td>2026-04-22T20:57:53.625736+00:00</td><td>support → sre </td><td>Support data on re-auth cycles: Ticket #18431 explicitly states &quot;Got logged out mid-checkout THREE times before it let me pay&quot; — so at least one user persisted through 3 cycles. Ticket #18422 and #18444 both report being kicked out, re-logging in, and getting kicked out again (2+ cycles visible). Most tickets don&#x27;t quantify exact cycle count, but the pattern across 38 tickets is consistent: users </td></tr><tr><td>2026-04-22T20:57:55.688081+00:00</td><td>support → lead cc (→ releng)</td><td>Session library change (2.0.4 → 2.1.0) strongly correlates with support data. All 38 of the primary incident tickets show the exact patterns you asked about: &quot;had to re-login&quot; (repeatedly), &quot;session expired unexpectedly&quot; (multiple users cite &quot;session expired&quot; error specifically), but NOT &quot;authentication failed on first try&quot; — users successfully logged in every time, then established sessions expir</td></tr><tr><td>2026-04-22T20:57:55.688081+00:00</td><td>support → releng </td><td>Session library change (2.0.4 → 2.1.0) strongly correlates with support data. All 38 of the primary incident tickets show the exact patterns you asked about: &quot;had to re-login&quot; (repeatedly), &quot;session expired unexpectedly&quot; (multiple users cite &quot;session expired&quot; error specifically), but NOT &quot;authentication failed on first try&quot; — users successfully logged in every time, then established sessions expir</td></tr><tr><td>2026-04-22T20:58:19.145936+00:00</td><td>sre → lead cc (→ observability)</td><td>SRE follow-up: My logs show session IDs cycling (sid=a7f2 failed, then sid=b3e9 succeeded, then failed again), but I cannot correlate individual sessions to Redis cache keys or determine if the failures were cache misses or validation-logic errors. Can you: (1) Show which session_ids from my logs had corresponding Redis cache keys present/absent during their 401 failures? (2) Identify the ~8% of s</td></tr><tr><td>2026-04-22T20:58:19.145936+00:00</td><td>sre → observability </td><td>SRE follow-up: My logs show session IDs cycling (sid=a7f2 failed, then sid=b3e9 succeeded, then failed again), but I cannot correlate individual sessions to Redis cache keys or determine if the failures were cache misses or validation-logic errors. Can you: (1) Show which session_ids from my logs had corresponding Redis cache keys present/absent during their 401 failures? (2) Identify the ~8% of s</td></tr><tr><td>2026-04-22T20:58:20.768890+00:00</td><td>sre → lead cc (→ releng)</td><td>SRE follow-up: Customer support confirms session cycling every 2–5 minutes during the incident, matching my logs exactly. This pattern screams &quot;TTL changed downward&quot; rather than validation logic broken. In user-session 2.1.0: (1) Was session TTL modified? If so, from what to what? (2) Did cache key generation change between 2.0.4 and 2.1.0? (3) Did any validation checks change that would force re-</td></tr><tr><td>2026-04-22T20:58:20.768890+00:00</td><td>sre → releng </td><td>SRE follow-up: Customer support confirms session cycling every 2–5 minutes during the incident, matching my logs exactly. This pattern screams &quot;TTL changed downward&quot; rather than validation logic broken. In user-session 2.1.0: (1) Was session TTL modified? If so, from what to what? (2) Did cache key generation change between 2.0.4 and 2.1.0? (3) Did any validation checks change that would force re-</td></tr></tbody></table></section>
+<section><details><summary>Raw event counts
+(377 events total)</summary>
+<table class="events"><thead><tr><th>event</th><th>count</th></tr></thead>
+<tbody><tr><td>dispatch_end</td><td>7</td></tr><tr><td>dispatch_round</td><td>2</td></tr><tr><td>dispatch_start</td><td>7</td></tr><tr><td>lead_block</td><td>59</td></tr><tr><td>lead_prompt</td><td>3</td></tr><tr><td>lead_result</td><td>3</td></tr><tr><td>lead_turn_end</td><td>3</td></tr><tr><td>lead_turn_start</td><td>3</td></tr><tr><td>loop_exit</td><td>1</td></tr><tr><td>output_written</td><td>1</td></tr><tr><td>reply_dispatch_end</td><td>1</td></tr><tr><td>reply_dispatch_start</td><td>1</td></tr><tr><td>reports_written</td><td>1</td></tr><tr><td>run_end</td><td>1</td></tr><tr><td>run_start</td><td>1</td></tr><tr><td>run_summary_written</td><td>1</td></tr><tr><td>teammate_block</td><td>167</td></tr><tr><td>teammate_prompt</td><td>8</td></tr><tr><td>teammate_result</td><td>8</td></tr><tr><td>tool_use</td><td>99</td></tr></tbody></table></details></section>
+</div>
+</body>
+</html>

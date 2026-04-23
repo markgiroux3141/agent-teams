@@ -1,0 +1,61 @@
+{
+  "goal": "Zero regulation on A.I. so we can get to ASI as soon as possible.",
+  "team": "steelman-debate",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 2
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "advocate_for",
+      "result_ref": "debate/turn_01_for.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "advocate_against",
+      "result_ref": "debate/turn_02_against.md",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "advocate_against": {
+        "cost_usd": 0.0661036,
+        "input_tokens": 58,
+        "output_tokens": 7769,
+        "cache_read": 126441,
+        "cache_write": 11134,
+        "turns": 1
+      },
+      "advocate_for": {
+        "cost_usd": 0.030255300000000002,
+        "input_tokens": 30,
+        "output_tokens": 1322,
+        "cache_read": 42493,
+        "cache_write": 15000,
+        "turns": 1
+      },
+      "lead": {
+        "cost_usd": 0.32543795,
+        "input_tokens": 200,
+        "output_tokens": 8196,
+        "cache_read": 415034,
+        "cache_write": 24592,
+        "turns": 4
+      }
+    },
+    "total": {
+      "cost_usd": 0.42179684999999995,
+      "input_tokens": 288,
+      "output_tokens": 17287,
+      "cache_read": 583968,
+      "cache_write": 50726,
+      "turns": 6
+    }
+  }
+}

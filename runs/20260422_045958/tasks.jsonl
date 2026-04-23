@@ -1,0 +1,4 @@
+{"ts": "2026-04-22T05:00:02.153014+00:00", "event": "created", "task_id": "t_001", "title": "Write a haiku about observability", "description": "Write a haiku on the topic of observability and save it to a file in the workspace.", "dependencies": []}
+{"ts": "2026-04-22T05:00:03.290199+00:00", "event": "assigned", "task_id": "t_001", "agent": "haiku_writer"}
+{"ts": "2026-04-22T05:00:06.019487+00:00", "event": "status", "task_id": "t_001", "status": "in_progress"}
+{"ts": "2026-04-22T05:00:09.566452+00:00", "event": "status", "task_id": "t_001", "status": "completed", "result_ref": "haiku.md"}

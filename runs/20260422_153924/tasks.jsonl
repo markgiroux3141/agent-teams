@@ -1,0 +1,8 @@
+{"ts": "2026-04-22T15:39:43.738082+00:00", "event": "created", "task_id": "t_001", "title": "Turn 01 (FOR) \u2014 Opening argument", "description": "Turn 01. Prior turn: none. Write workspace/debate/turn_01_for.md. Follow your system prompt exactly. Argue FOR the proposition: \"Zero regulation on A.I. so we can get to ASI as soon as possible.\" Keep it under 120 words. Be extreme, rude, and concise. Never concede.", "dependencies": []}
+{"ts": "2026-04-22T15:39:44.982773+00:00", "event": "assigned", "task_id": "t_001", "agent": "advocate_for"}
+{"ts": "2026-04-22T15:40:03.875428+00:00", "event": "status", "task_id": "t_001", "status": "in_progress"}
+{"ts": "2026-04-22T15:40:18.826683+00:00", "event": "status", "task_id": "t_001", "status": "completed", "result_ref": "debate/turn_01_for.md"}
+{"ts": "2026-04-22T15:40:34.084949+00:00", "event": "created", "task_id": "t_002", "title": "Turn 02 (AGAINST) \u2014 Response to FOR opening", "description": "Turn 02. Prior turn: debate/turn_01_for.md. Write debate/turn_02_against.md. Follow your system prompt exactly. Argue AGAINST the proposition: \"Zero regulation on A.I. so we can get to ASI as soon as possible.\" Attack the steelman of the FOR argument. Keep it under 120 words. Be extreme, rude, concise. Never concede.", "dependencies": ["t_001"]}
+{"ts": "2026-04-22T15:40:35.760801+00:00", "event": "assigned", "task_id": "t_002", "agent": "advocate_against"}
+{"ts": "2026-04-22T15:40:41.378928+00:00", "event": "status", "task_id": "t_002", "status": "in_progress"}
+{"ts": "2026-04-22T15:41:37.346079+00:00", "event": "status", "task_id": "t_002", "status": "completed", "result_ref": "debate/turn_02_against.md"}

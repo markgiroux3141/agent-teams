@@ -1,0 +1,61 @@
+{
+  "goal": "Build a tiny Python CLI in workspace/src/stats.py that reads a CSV file (one number per line) and prints the count, mean, median, and population stddev. This is a weekend demo \u2014 no pip deps, no tests. Just runnable with `python stats.py <file>` and should handle an empty file gracefully.",
+  "team": "refactor-loop",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 2
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "poc_dev",
+      "result_ref": "src/stats.py",
+      "note": "stats.py v0 complete: reads CSV, outputs count/mean/median/stddev. Handles empty files, single values, even/odd counts. Tested on happy path: \u2713 multiple values \u2713 single value \u2713 empty file \u2713 file not found. No external deps."
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "critic",
+      "result_ref": "critiques/critique_v1.md",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "critic": {
+        "cost_usd": 0.0720208,
+        "input_tokens": 58,
+        "output_tokens": 5156,
+        "cache_read": 128393,
+        "cache_write": 26142,
+        "turns": 1
+      },
+      "lead": {
+        "cost_usd": 0.14006049999999998,
+        "input_tokens": 102,
+        "output_tokens": 3514,
+        "cache_read": 173192,
+        "cache_write": 18381,
+        "turns": 3
+      },
+      "poc_dev": {
+        "cost_usd": 0.11724195000000001,
+        "input_tokens": 177,
+        "output_tokens": 5769,
+        "cache_read": 529572,
+        "cache_write": 27687,
+        "turns": 1
+      }
+    },
+    "total": {
+      "cost_usd": 0.32932324999999996,
+      "input_tokens": 337,
+      "output_tokens": 14439,
+      "cache_read": 831157,
+      "cache_write": 72210,
+      "turns": 5
+    }
+  }
+}

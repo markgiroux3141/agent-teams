@@ -1,0 +1,8 @@
+{"ts": "2026-04-22T06:03:20.652747+00:00", "event": "created", "task_id": "t_001", "title": "Research row-level vs page-level locking", "description": "Produce findings.md on row-level vs page-level locking in relational databases. Include technical details, trade-offs, use cases, and importantly, specific performance and contention figures (e.g., throughput numbers, latency comparisons, lock conflict percentages, etc.) that can be referenced in the brief.", "dependencies": []}
+{"ts": "2026-04-22T06:03:21.465675+00:00", "event": "created", "task_id": "t_002", "title": "Write brief on row-level vs page-level locking", "description": "Write brief.md synthesizing findings.md into a concise brief on row-level vs page-level locking. The brief MUST include at least one specific performance or contention figure (numeric data). If findings.md lacks the required figure, pause and ask researcher for clarification or additional data before completing the brief.", "dependencies": ["t_001"]}
+{"ts": "2026-04-22T06:03:23.119694+00:00", "event": "assigned", "task_id": "t_001", "agent": "researcher"}
+{"ts": "2026-04-22T06:03:23.310184+00:00", "event": "assigned", "task_id": "t_002", "agent": "writer"}
+{"ts": "2026-04-22T06:03:26.641447+00:00", "event": "status", "task_id": "t_001", "status": "in_progress"}
+{"ts": "2026-04-22T06:03:51.400307+00:00", "event": "status", "task_id": "t_001", "status": "completed", "result_ref": "findings.md"}
+{"ts": "2026-04-22T06:04:05.305456+00:00", "event": "status", "task_id": "t_002", "status": "in_progress"}
+{"ts": "2026-04-22T06:04:18.811139+00:00", "event": "status", "task_id": "t_002", "status": "completed", "result_ref": "brief.md"}

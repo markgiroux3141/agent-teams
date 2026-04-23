@@ -1,0 +1,227 @@
+[
+  {
+    "id": "fluffy-pancakes",
+    "name": "Fluffy Pancakes",
+    "description": "Golden, tender pancakes with a crispy exterior. Perfect weekend breakfast in 20 minutes.",
+    "category": "breakfast",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "2 cups all-purpose flour",
+      "2 tablespoons sugar",
+      "2 teaspoons baking powder",
+      "1 teaspoon salt",
+      "2 eggs",
+      "1.5 cups whole milk",
+      "3 tablespoons butter, melted",
+      "1 teaspoon vanilla extract"
+    ],
+    "steps": [
+      "Whisk together flour, sugar, baking powder, and salt in a large bowl.",
+      "In another bowl, beat eggs and whisk in milk, melted butter, and vanilla.",
+      "Pour wet ingredients into dry and stir until just combined. Don't overmix; lumps are fine.",
+      "Heat a buttered skillet or griddle over medium heat until a drop of water dances on the surface.",
+      "Pour 1/4 cup batter per pancake and cook until edges look set and bubbles form on top, about 2–3 minutes.",
+      "Flip and cook the other side until golden brown, about 1–2 minutes."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "avocado-toast",
+    "name": "Avocado Toast",
+    "description": "Creamy, rich, and ready in minutes. A weekday breakfast that feels intentional.",
+    "category": "breakfast",
+    "time": 5,
+    "servings": 2,
+    "ingredients": [
+      "2 slices bread",
+      "1 ripe avocado",
+      "1/2 lemon",
+      "Salt to taste",
+      "Black pepper to taste",
+      "2 tablespoons olive oil",
+      "Red pepper flakes, optional"
+    ],
+    "steps": [
+      "Toast bread to your liking—golden and crisp but not burnt.",
+      "While bread toasts, cut avocado in half, remove the pit, and scoop into a small bowl.",
+      "Mash avocado lightly with a fork. Squeeze in lemon juice and season with salt and pepper.",
+      "Spread avocado mixture generously on toast.",
+      "Drizzle with olive oil, add a pinch of red pepper flakes if you like heat, and serve immediately."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian", "vegan"]
+  },
+  {
+    "id": "shakshuka",
+    "name": "Shakshuka",
+    "description": "Eggs poached in a spiced tomato sauce with Middle Eastern warmth. Scoopable, satisfying, and deeply savory.",
+    "category": "breakfast",
+    "time": 25,
+    "servings": 4,
+    "ingredients": [
+      "3 tablespoons olive oil",
+      "1 large onion, diced",
+      "4 garlic cloves, minced",
+      "1 can (28 oz) crushed tomatoes",
+      "1 teaspoon ground cumin",
+      "1/2 teaspoon paprika",
+      "Salt and pepper to taste",
+      "4 eggs",
+      "Fresh cilantro or parsley, optional"
+    ],
+    "steps": [
+      "Heat olive oil in a large skillet over medium heat. Add diced onion and cook until softened, about 5 minutes.",
+      "Add minced garlic and cook for 1 minute until fragrant.",
+      "Pour in crushed tomatoes, cumin, and paprika. Stir well and simmer for 8–10 minutes, breaking up tomatoes. Season with salt and pepper.",
+      "Make 4 small wells in the sauce with the back of a spoon.",
+      "Crack an egg into each well. Reduce heat to low, cover, and cook for 6–8 minutes until eggs are set to your liking.",
+      "Garnish with fresh herbs and serve hot with crusty bread for scooping."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "grilled-salmon",
+    "name": "Grilled Salmon",
+    "description": "Flaky, buttery salmon with a crispy skin and subtle char. Simple, elegant, and ready in 20 minutes.",
+    "category": "main",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "4 salmon fillets, 6 oz each",
+      "3 tablespoons olive oil",
+      "1 lemon",
+      "Salt and black pepper to taste",
+      "2 teaspoons fresh dill, or 1 teaspoon dried",
+      "2 garlic cloves, minced"
+    ],
+    "steps": [
+      "Preheat your grill to medium-high heat and oil the grates to prevent sticking.",
+      "Pat salmon dry and brush lightly with olive oil. Season generously with salt and pepper.",
+      "Place salmon skin-side down on the grill. Cook for 5–6 minutes without moving.",
+      "Flip carefully and cook for another 3–4 minutes until the flesh is opaque and flakes easily.",
+      "Transfer to a plate, squeeze fresh lemon over top, and sprinkle with dill."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": ["gluten_free"]
+  },
+  {
+    "id": "pasta-carbonara",
+    "name": "Pasta Carbonara",
+    "description": "Creamy, peppery, pure Italian simplicity. Just eggs, cheese, and pasta—done right, it's magic.",
+    "category": "main",
+    "time": 20,
+    "servings": 4,
+    "ingredients": [
+      "1 pound spaghetti or linguine",
+      "6 ounces pancetta or guanciale, diced",
+      "4 large eggs, separated yolks from whites",
+      "1 cup grated Pecorino Romano cheese",
+      "Black pepper, freshly ground",
+      "Salt for pasta water"
+    ],
+    "steps": [
+      "Bring a large pot of salted water to a boil and cook pasta until just al dente.",
+      "While pasta cooks, render pancetta in a large skillet over medium heat until crispy. Remove from heat.",
+      "Whisk egg yolks with grated cheese and a generous amount of black pepper in a bowl.",
+      "Reserve 1 cup pasta water, then drain pasta.",
+      "Add hot pasta to the skillet with pancetta. Toss off heat for 30 seconds.",
+      "Pour egg-cheese mixture over pasta and toss constantly, adding pasta water a splash at a time until creamy and silky. Serve immediately."
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "chicken-stir-fry",
+    "name": "Chicken Stir-Fry",
+    "description": "Tender chicken with crisp vegetables in a savory sauce. Ready in 30 minutes and tastes way better than takeout.",
+    "category": "main",
+    "time": 30,
+    "servings": 4,
+    "ingredients": [
+      "1.5 pounds boneless, skinless chicken breast, sliced into strips",
+      "3 tablespoons vegetable oil, divided",
+      "1 large bell pepper, sliced",
+      "2 cups snap peas",
+      "2 medium carrots, julienned",
+      "4 garlic cloves, minced",
+      "1 tablespoon grated fresh ginger",
+      "1/4 cup soy sauce",
+      "2 tablespoons rice wine or rice vinegar",
+      "1 tablespoon sesame oil",
+      "1 teaspoon cornstarch"
+    ],
+    "steps": [
+      "Mix together soy sauce, rice wine, sesame oil, and cornstarch in a small bowl. Set aside.",
+      "Heat 1 tablespoon oil in a large skillet or wok over high heat. Working in batches, cook chicken until golden and cooked through, about 3–4 minutes per batch. Remove to a plate.",
+      "Add remaining 2 tablespoons oil to the pan. Add bell pepper, snap peas, and carrots. Stir-fry for 4–5 minutes until crisp-tender.",
+      "Add garlic and ginger, cook for 1 minute until fragrant.",
+      "Return chicken to the pan. Pour in sauce and toss constantly for 1–2 minutes until everything is coated and glossy.",
+      "Serve over rice."
+    ],
+    "difficulty": "medium",
+    "dietary_tags": ["gluten_free"]
+  },
+  {
+    "id": "chocolate-lava-cake",
+    "name": "Chocolate Lava Cake",
+    "description": "Warm, molten chocolate center with a tender cake exterior. Fancy enough for dinner guests, easy enough for a weeknight.",
+    "category": "dessert",
+    "time": 15,
+    "servings": 2,
+    "ingredients": [
+      "4 ounces dark chocolate, chopped",
+      "6 tablespoons butter",
+      "2 large eggs",
+      "2 tablespoons sugar",
+      "1/4 teaspoon salt",
+      "1 teaspoon vanilla extract",
+      "2 tablespoons all-purpose flour",
+      "Butter and cocoa powder for ramekins"
+    ],
+    "steps": [
+      "Preheat your oven to 425°F. Butter two 6-ounce ramekins and dust lightly with cocoa powder.",
+      "Melt chocolate and butter together in a heat-proof bowl over simmering water, or in 30-second microwave bursts, stirring between each.",
+      "In another bowl, whisk eggs, sugar, salt, and vanilla until thick and pale, about 2 minutes.",
+      "Fold the warm chocolate mixture into the eggs gently, then fold in flour until just combined.",
+      "Divide batter between ramekins and place on a baking sheet.",
+      "Bake for 10–12 minutes until the edges are firm but the center jiggles slightly when you gently shake the ramekin.",
+      "Run a knife around the edges and invert onto dessert plates. Serve immediately, optionally with vanilla ice cream."
+    ],
+    "difficulty": "hard",
+    "dietary_tags": ["vegetarian"]
+  },
+  {
+    "id": "lemon-bars",
+    "name": "Lemon Bars",
+    "description": "Buttery shortbread base topped with bright, tart-sweet lemon custard. One of the few desserts that tastes like sunshine.",
+    "category": "dessert",
+    "time": 45,
+    "servings": 12,
+    "ingredients": [
+      "1 cup butter, softened",
+      "2 cups all-purpose flour",
+      "1/2 cup powdered sugar",
+      "4 large eggs",
+      "1.5 cups granulated sugar",
+      "1/4 cup all-purpose flour",
+      "1/4 teaspoon baking powder",
+      "1/2 teaspoon salt",
+      "1/2 cup fresh lemon juice",
+      "2 tablespoons lemon zest",
+      "Powdered sugar for dusting"
+    ],
+    "steps": [
+      "Preheat oven to 350°F. Line a 9x13-inch baking pan with parchment paper.",
+      "Mix softened butter, 2 cups flour, and 1/2 cup powdered sugar. Press firmly into the prepared pan.",
+      "Bake the base for 12–15 minutes until golden and set.",
+      "While base bakes, whisk together eggs, granulated sugar, 1/4 cup flour, baking powder, and salt.",
+      "Stir in lemon juice and zest until combined.",
+      "Pour lemon filling over the hot base and bake for 20–25 minutes until the top is set but still slightly jiggly in the very center.",
+      "Cool completely, then dust generously with powdered sugar. Cut into squares and serve."
+    ],
+    "difficulty": "easy",
+    "dietary_tags": ["vegetarian"]
+  }
+]

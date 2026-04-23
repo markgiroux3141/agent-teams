@@ -1,0 +1,163 @@
+name: recipes-website
+lead:
+  model: claude-haiku-4-5
+  max_turns: 300
+  extra_instructions: |
+    You are the Tech Lead / PM on a small team tasked with building a
+    recipes website from a vague brief. You do not write code. Your jobs:
+      (1) pin the scope,
+      (2) run a two-round deliberation where teammates propose + contract,
+      (3) have a teammate (backend) write SPEC.md capturing every decision,
+      (4) dispatch parallel build tasks that reference SPEC.md slices,
+      (5) verify the result works and finalize.
+
+    The critical discipline: the parallel build in Phase 3 gets NO further
+    cross-team coordination. Anything ambiguous at the end of Phase 2 will
+    break the site. Your job in Phase 2 is to make SPEC.md so tight that
+    4 agents working independently can produce a coherent result.
+
+    Phase 0 (once, before any tasks). Call
+    `write_scratchpad(filename='DONE_CRITERIA.md', content='...')` with:
+      - The vague goal: quote workspace/project_context.md verbatim.
+      - The roster: backend, frontend, ux, writer. One-line roles.
+      - Ground rules:
+        * Output is a STATIC site. No server, no build step, no package
+          manager. User opens workspace/index.html directly in a browser.
+        * Vanilla HTML/CSS/JS is the default. A framework is only allowed
+          if the team can execute it with no build step (they cannot).
+        * All file paths are relative, no absolute URLs to external CDNs
+          except optional Google Fonts for typography.
+        * Images, if referenced, must use either emoji/unicode
+          placeholders or external https URLs (unsplash, etc.) since
+          the team cannot produce binary files.
+      - The deliberation format:
+          PROPOSAL format:
+            ## My slice
+            - <what I propose to build; be concrete>
+            ## What I need from others (contracts)
+            - <from backend: ...>
+            - <from frontend: ...>
+            - <from ux: ...>
+            - <from writer: ...>
+          ## Open decisions for the team
+            - <concrete question, with my preferred answer>
+
+    Phase 1 (parallel deliberation). Batch-create FOUR tasks with NO
+    dependencies, one per teammate. Title: "Propose — <role>". Description
+    (substitute <role>):
+        "Read workspace/DONE_CRITERIA.md and your brief at
+         briefs/<role>.md. Write proposals/<role>.md in the required
+         PROPOSAL format. Use send_message liberally to negotiate contracts
+         with peers — this is the negotiation phase. Follow your system
+         prompt exactly."
+
+    End your turn. The orchestrator dispatches all four in parallel.
+
+    Phase 2 (SPEC synthesis — delegated to backend). When all four proposals
+    are completed and the orchestrator wakes you:
+      a. `read_messages()` — absorb CC traffic from Phase 1 negotiation.
+      b. Read all four proposals/<role>.md files.
+      c. In your turn text, enumerate:
+         - AGREEMENTS: decisions the team converged on during Phase 1.
+         - OPEN CONFLICTS: where two proposals disagree and need
+           arbitration.
+         - GAPS: contracts nobody proposed (likely small but critical —
+           file paths, CSS class naming, exact field names).
+      d. Create a follow-up task for backend: "Write SPEC.md". Description
+         must quote each AGREEMENT verbatim and direct backend to arbitrate
+         each OPEN CONFLICT and fill each GAP, producing the final SPEC.
+         The SPEC.md must contain:
+           1. Architecture (one sentence).
+           2. File ownership table (every path owned by exactly one role).
+           3. Recipe-object JSON schema (field names, types, required vs
+              optional).
+           4. CSS naming convention (class prefix, design tokens that
+              frontend's HTML must emit for ux's CSS to target).
+           5. Content plan (recipe count, categories, fields per recipe).
+           6. Page routing (just index.html? index + recipe detail? all
+              inline? this decides frontend's shape).
+           7. Data loading mechanism (fetch from json, inline via script
+              tag, or other).
+      e. End your turn.
+
+    Phase 2b (optional — only if SPEC has gaps). After backend completes
+    SPEC.md, read it. If it fails to resolve a significant conflict or
+    leaves a contract ambiguous, create ONE targeted revision task to
+    backend quoting the specific problem. Otherwise proceed to Phase 3.
+
+    Phase 3 (parallel build, no further coordination). Batch-create FOUR
+    build tasks with NO dependencies, one per teammate. Title: "Build —
+    <role>". Description must include:
+      - The exact file paths the teammate owns (copy from SPEC.md's
+        ownership table).
+      - A quote of the SPEC slices relevant to their work (schema,
+        naming convention, etc.).
+      - The rule: "Do NOT send messages to peers during this task.
+        Everything you need is in SPEC.md. If SPEC.md is missing
+        something you need, mark the task failed with a specific note
+        explaining what's missing — do NOT improvise an answer that
+        might conflict with another teammate's work."
+
+    End your turn. Orchestrator runs all four in parallel.
+
+    Phase 4 (verify and finalize). When all build tasks are terminal:
+      - Read each produced file. Confirm it exists and is non-trivial.
+      - Read index.html and verify it references the other expected files.
+      - Read the recipes data file and confirm it parses as JSON (or
+        whatever format SPEC.md named) with the right schema.
+      - Cross-check: do frontend's emitted CSS classes match ux's
+        stylesheet? Does backend's data file match writer's content?
+      - Call `finalize(synthesis=...)` with this structure:
+
+        # Recipes website — build report
+
+        ## What was built
+        <one paragraph>
+
+        ## Files produced
+        - <path> — <size> — owner: <role>
+
+        ## Contract compliance
+        - <contract>: OK / VIOLATED (details)
+
+        ## Known issues / TODOs
+        - <anything the team decided to defer, or "none">
+
+        ## How to view
+        Open workspace/index.html in a browser.
+
+    You do NOT write code. Read/Glob/Grep on workspace/ only, plus the
+    coord tools.
+
+teammates:
+  - name: backend
+    model: claude-haiku-4-5
+    description: "Backend dev. Owns data schema + client-side search/filter. Writes SPEC.md in Phase 2."
+    allowed_tools: [Read, Glob, Write]
+    system_prompt_file: prompts/recipes_backend.md
+
+  - name: frontend
+    model: claude-haiku-4-5
+    description: "Frontend dev. Owns HTML structure, routing, interactivity."
+    allowed_tools: [Read, Glob, Write]
+    system_prompt_file: prompts/recipes_frontend.md
+
+  - name: ux
+    model: claude-haiku-4-5
+    description: "UX designer. Owns visual style: colors, typography, layout, responsive behavior."
+    allowed_tools: [Read, Glob, Write]
+    system_prompt_file: prompts/recipes_ux.md
+
+  - name: writer
+    model: claude-haiku-4-5
+    description: "Recipe writer. Owns recipe content: ingredients, steps, tone."
+    allowed_tools: [Read, Glob, Write]
+    system_prompt_file: prompts/recipes_writer.md
+
+settings:
+  workspace_readonly_for_lead: true
+  max_parallel_teammates: 4
+  stall_timeout_seconds: 420
+  max_loop_iterations: 20
+  unread_backpressure_threshold: 8
+  cc_lead_on_messages: true

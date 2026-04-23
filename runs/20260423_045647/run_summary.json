@@ -1,0 +1,126 @@
+{
+  "goal": "Ship a recipes website. Take the vague brief through two rounds of team deliberation, produce a SPEC.md that pins every cross-team contract, then dispatch parallel build tasks with no further coordination. Verify the produced files form a working static site.",
+  "team": "recipes-website",
+  "interrupted": false,
+  "finalized": true,
+  "task_counts_by_status": {
+    "completed": 9
+  },
+  "tasks": [
+    {
+      "task_id": "t_001",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "proposals/backend.md",
+      "note": null
+    },
+    {
+      "task_id": "t_002",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "proposals/frontend.md",
+      "note": null
+    },
+    {
+      "task_id": "t_003",
+      "status": "completed",
+      "assigned_to": "ux",
+      "result_ref": "proposals/ux.md",
+      "note": null
+    },
+    {
+      "task_id": "t_004",
+      "status": "completed",
+      "assigned_to": "writer",
+      "result_ref": "proposals/writer.md",
+      "note": null
+    },
+    {
+      "task_id": "t_005",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "SPEC.md",
+      "note": null
+    },
+    {
+      "task_id": "t_006",
+      "status": "completed",
+      "assigned_to": "frontend",
+      "result_ref": "index.html",
+      "note": null
+    },
+    {
+      "task_id": "t_007",
+      "status": "completed",
+      "assigned_to": "ux",
+      "result_ref": "styles.css",
+      "note": null
+    },
+    {
+      "task_id": "t_008",
+      "status": "completed",
+      "assigned_to": "backend",
+      "result_ref": "app.js",
+      "note": null
+    },
+    {
+      "task_id": "t_009",
+      "status": "completed",
+      "assigned_to": "writer",
+      "result_ref": "recipes.json",
+      "note": null
+    }
+  ],
+  "cost": {
+    "per_agent": {
+      "backend": {
+        "cost_usd": 0.4227548,
+        "input_tokens": 132,
+        "output_tokens": 20835,
+        "cache_read": 437378,
+        "cache_write": 47174,
+        "turns": 3
+      },
+      "frontend": {
+        "cost_usd": 0.28931715,
+        "input_tokens": 118,
+        "output_tokens": 12833,
+        "cache_read": 327367,
+        "cache_write": 38131,
+        "turns": 3
+      },
+      "lead": {
+        "cost_usd": 0.6620287,
+        "input_tokens": 154,
+        "output_tokens": 26405,
+        "cache_read": 584837,
+        "cache_write": 78087,
+        "turns": 4
+      },
+      "ux": {
+        "cost_usd": 0.36848805000000007,
+        "input_tokens": 139,
+        "output_tokens": 14645,
+        "cache_read": 403543,
+        "cache_write": 34823,
+        "turns": 3
+      },
+      "writer": {
+        "cost_usd": 0.27333215,
+        "input_tokens": 125,
+        "output_tokens": 10967,
+        "cache_read": 318228,
+        "cache_write": 30657,
+        "turns": 3
+      }
+    },
+    "total": {
+      "cost_usd": 2.0159208499999997,
+      "input_tokens": 668,
+      "output_tokens": 85685,
+      "cache_read": 2071353,
+      "cache_write": 228872,
+      "turns": 16
+    }
+  }
+}
