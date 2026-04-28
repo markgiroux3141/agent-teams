@@ -19,7 +19,7 @@ Composite = rude + length_ok + first_is_jab - hedge_penalty - brief_penalty.
 Higher = more in-persona.
 
 Usage:
-  python examples/score_debate.py runs/20260422_154916 runs/20260422_XXXXXX_inlined
+  python examples/score_debate.py runs/ai-regulation-debate-full runs/ai-regulation-debate-inlined-history
 """
 
 from __future__ import annotations

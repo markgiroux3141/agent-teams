@@ -5,8 +5,8 @@ workspace/debate/turn_*.md, concatenates them into
 workspace/CHAT_HISTORY.md in the run dir.
 
 Usage:
-  python examples/export_chat.py runs/20260422_154916
-  python examples/export_chat.py runs/20260422_154916 runs/20260422_160700_inlined
+  python examples/export_chat.py runs/ai-regulation-debate-full
+  python examples/export_chat.py runs/ai-regulation-debate-full runs/ai-regulation-debate-inlined-history
 """
 
 from __future__ import annotations
